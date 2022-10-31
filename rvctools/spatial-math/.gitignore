@@ -1,0 +1,13 @@
+# ignore png, gimp and pdf files
+*.png
+*.xcf
+*.log
+*.aux
+*.idx
+*.toc
+*.out
+*.xml
+*anaconda.asv
+*.synctex.gz
+doc/mkdocs
+doc/test

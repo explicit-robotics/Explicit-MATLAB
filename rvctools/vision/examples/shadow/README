@@ -1,0 +1,74 @@
+QUICK START
+===========
+
+put the m-files in this folder into your MATLAB path
+you must have my Machine Vision Toolbox for MATLAB (MVTB) installed, get it from petercorke.com/vision
+
+>> im = iread('shadow_person.jpg');
+>> invariant(im, 2.3);
+
+which will display the original and invariant images in a new figure.
+
+invariant() has many options. To compute the sharpening matrix
+
+>> M = sharpen()
+
+M =
+
+    0.9988   -0.0669   -0.0001
+   -0.0497    0.9886   -0.0001
+   -0.0043   -0.1346    1.0000
+
+To compute the projection angle
+
+>> esttheta(im)
+
+click several points to enclose the head and shoulders of the person's shadow, then
+hit RETURN.  
+
+CITING IT
+=========
+
+If you like the code and use it in your own work please cite it as:
+
+[1] P. Corke, R. Paul, W. Churchill, and P. Newman, “Dealing with shadows: Capturing intrinsic scene appearanc for image-based outdoor localisation,” in Proc. Int. Conf. Intelligent Robots and Systems (IROS), pp. 2085–2092 2013.or
+
+\bibitem{corke13b}
+P.~Corke, R.~Paul, W.~Churchill, and P.~Newman, ``Dealing with shadows:
+  Capturing intrinsic scene appearance for image-based outdoor localisation,''
+  in {\em Proc. Int. Conf. Intelligent Robots and Systems (IROS)},
+  pp.~2085--2092, 2013.
+
+
+FUNCTIONS
+=========
+
+INVARIANT
+invariant.m compute invariant image
+
+TRAINING
+esttheta.m  estimate theta from an image
+pickregion.m  select image points based on perimeter polygon
+
+
+PLACE RECOGNITION
+confusion.m Compute confusion matrix between all images in color sequence
+prcurve.m  Turn confusion matrix into PR curve
+similarity.m  Similarity measures for confusion
+
+
+SHARPENING
+sharpen.m  return computed sharpening matrix for BB2 camera
+showsharpen.m  show effect of sharpening
+sharpenrgb.m  apply sharpening transform to image
+
+DATA
+bb2.dat spectral data for Point Grey BB2 camera
+macbeth.dat the spectral data for the Gretag-Macbeth colour checker chart
+
+IMAGES
+several images as used in the paper, see also:
+parks.jpg
+shadow1.jpg
+shadow2.jpg
+shadow_person.jpg

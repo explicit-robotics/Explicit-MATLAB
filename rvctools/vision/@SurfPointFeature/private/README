@@ -1,0 +1,14 @@
+This folder contains a MATLAB-only SURF implementation by Dirk-Jan Kroon
+which is obtained from
+
+http://www.mathworks.com/matlabcentral/fileexchange/28300-opensurf-including-image-warp
+
+This is OpenSURF_version1c
+
+There are couple of patches applied, provided here as .patch files, apply them to pristine
+downloaded files by
+
+patch OpenSurf.m OpenSurf.patch
+patch FastHessian_interpolateExtremum.m FastHessian_interpolateExtremum.patch
+
+the patches modify the default SURF settings, and return the SURF descriptor strength.

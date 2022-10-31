@@ -1,0 +1,12 @@
+This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=mex 2010.7.21)  30 JUN 2011 15:13
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**surfpoints.cpp
+(./surfpoints.cpp
+This is MeX  Version 1.05  18 XII 1993  (B. Jackowski & M. Ry\'cko)
+! You can't use `macro parameter character #' in vertical mode.
+l.1 #
+     include <cstdlib>
+? x
+No pages of output.

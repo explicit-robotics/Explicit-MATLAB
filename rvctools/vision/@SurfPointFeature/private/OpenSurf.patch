@@ -1,0 +1,22 @@
+--- OpenSURF_version1c/OpenSurf.m	2010-11-28 16:48:53.000000000 +1000
++++ OpenSurf.m	2010-12-05 12:10:13.000000000 +1000
+@@ -59,13 +59,14 @@
+ % Function is written by D.Kroon University of Twente (July 2010)
+ 
+ % Add subfunctions to Matlab Search path
+-functionname='OpenSurf.m';
+-functiondir=which(functionname);
+-functiondir=functiondir(1:end-length(functionname));
+-addpath([functiondir '/SubFunctions'])
++%functionname='OpenSurf.m';
++%functiondir=which(functionname);
++%functiondir=functiondir(1:end-length(functionname));
++%addpath([functiondir '/SubFunctions'])
++
+        
+ % Process inputs
+-defaultoptions=struct('tresh',0.0002,'octaves',5,'init_sample',2,'upright',false,'extended',false,'verbose',false);
++defaultoptions=struct('tresh',0.0008,'octaves',5,'init_sample',2,'upright',false,'extended',false,'verbose',false);
+ if(~exist('Options','var')), 
+     Options=defaultoptions; 
+ else

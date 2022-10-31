@@ -1,0 +1,1176 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"></meta>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible"></meta>
+    <title></title>
+    <style>/*<![CDATA[*/ 
+form.Hole {
+  font-size: x-small;
+  color: #3333ff;
+  font-family: "Courier New",Courier,monospace;
+  font-weight: bold;
+  padding-right: 2px;
+  padding-left: 4 px;
+}
+
+div.Hole {
+  font-size: x-small;
+  color: #3333ff;
+  font-family: "Courier New",Courier,monospace;
+  font-weight: bold;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-right: 2px;
+  padding-left: 8px;
+  border-radius: 5px;
+  background: #FFF482;
+  box-shadow: 0 0 0 2px #FFF482;
+}
+
+span.Hole {
+  font-size: x-small;
+  color: #3333ff;
+  font-family: "Courier New",Courier,monospace;
+  font-weight: bold;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-right: 2px;
+  padding-left: 8px;
+  border-radius: 5px;
+  background: #FFF482;
+  box-shadow: 0 0 0 2px #FFF482;
+}
+
+span.HoleId {
+  font-size: small;
+}
+
+span.HoleDesc {
+  margin-left: 5px;
+  padding-left: 5px;
+  border-style: dotted;
+  border-width: 1px;
+}
+
+hole::before {
+	content: " " attr(id) " ";
+	font-family: "Courier New",Courier,monospace;
+	font-size: 10pt;
+	font-weight: bold;
+}
+
+hole {
+  display:block;
+  font-size: x-small;
+  color: #3333ff;
+  font-family: "Courier New",Courier,monospace;
+  font-weight: bold;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-right: 2px;
+  padding-left: 8px;
+  border-radius: 5px;
+  background: #FFF482;
+  box-shadow: 0 0 0 2px #FFF482;
+}
+
+p hole {
+  display:inline;
+  font-size: x-small;
+  color: #3333ff;
+  font-family: "Courier New",Courier,monospace;
+  font-weight: bold;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-right: 2px;
+  padding-left: 8px;
+  border-radius: 5px;
+  background: #FFF482;
+  box-shadow: 0 0 0 2px #FFF482;
+}
+
+span hole {
+  display:inline;
+  font-size: x-small;
+  color: #3333ff;
+  font-family: "Courier New",Courier,monospace;
+  font-weight: bold;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-right: 2px;
+  padding-left: 8px;
+  border-radius: 5px;
+  background: #FFF482;
+  box-shadow: 0 0 0 2px #FFF482;
+}
+
+h1 hole {
+  display:inline;
+  font-size: x-small;
+  color: #3333ff;
+  font-family: "Courier New",Courier,monospace;
+  font-weight: bold;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-right: 2px;
+  padding-left: 8px;
+  border-radius: 5px;
+  background: #FFF482;
+  box-shadow: 0 0 0 2px #FFF482;
+}
+
+h2 hole {
+  display:inline;
+  font-size: x-small;
+  color: #3333ff;
+  font-family: "Courier New",Courier,monospace;
+  font-weight: bold;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-right: 2px;
+  padding-left: 8px;
+  border-radius: 5px;
+  background: #FFF482;
+  box-shadow: 0 0 0 2px #FFF482;
+}
+
+h3 hole {
+  display:inline;
+  font-size: x-small;
+  color: #3333ff;
+  font-family: "Courier New",Courier,monospace;
+  font-weight: bold;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-right: 2px;
+  padding-left: 8px;
+  border-radius: 5px;
+  background: #FFF482;
+  box-shadow: 0 0 0 2px #FFF482;
+}
+
+h4 hole {
+  display:inline;
+  font-size: x-small;
+  color: #3333ff;
+  font-family: "Courier New",Courier,monospace;
+  font-weight: bold;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-right: 2px;
+  padding-left: 8px;
+  border-radius: 5px;
+  background: #FFF482;
+  box-shadow: 0 0 0 2px #FFF482;
+}
+
+h5 hole {
+  display:inline;
+  font-size: x-small;
+  color: #3333ff;
+  font-family: "Courier New",Courier,monospace;
+  font-weight: bold;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-right: 2px;
+  padding-left: 8px;
+  border-radius: 5px;
+  background: #FFF482;
+  box-shadow: 0 0 0 2px #FFF482;
+}
+
+h6 hole {
+  display:inline;
+  font-size: x-small;
+  color: #3333ff;
+  font-family: "Courier New",Courier,monospace;
+  font-weight: bold;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-right: 2px;
+  padding-left: 8px;
+  border-radius: 5px;
+  background: #FFF482;
+  box-shadow: 0 0 0 2px #FFF482;
+}
+
+dptemplate::before{
+  content: "" attr(name) "";
+  font-family: "Courier New",Courier,monospace;
+  font-weight: bold;
+  color: #3333ff;
+}
+
+dptemplate {
+  margin-bottom: 4pt;
+  margin-top: 4pt;
+  border-style:dotted;
+  border-width:thin;
+  display:block;
+  background: #E6E6E6;
+}
+
+@import url(hole.css);
+@import url(docpart_templates.css);
+
+ol.toc > li {
+  list-style:none;
+}
+
+table {
+  border-collapse:collapse;
+  border-color:#000000;
+}
+
+ttable.ReportGrid {
+  color: rgb(0,0,0);
+  border: 1px solid black;
+  border-collapse:collapse;
+}
+
+thead.ReportGrid {
+  border: 1px solid black;
+  font-weight:bold;
+}
+
+
+th.ReportGrid {
+  border: 1px solid black;
+  font-weight:bold;
+  padding:5px;
+}
+
+tr.ReportGrid {
+  margin-left: 2%;
+}
+
+td.ReportGrid {
+  border: 1px solid black;
+  padding:5px;
+  text-align:center;
+}
+
+ol.toc {
+  /*counter-reset: numsection;*/
+  list-style-type: none;
+  padding-left: 32px;
+}
+
+ol.toc > li {
+  /*counter-increment: numsection;*/
+  text-indent: -12px;
+  padding-left: 12px;
+}
+
+ol.toc > li > * {
+  text-indent: 0;
+}
+
+a.toc_sec_title::before {
+  /*content: counters(numsection, ".") ". ";*/
+  font-weight: bold;
+}
+
+a.toc_no_title {
+  font-style: italic;
+}
+
+table.rgMATLABTable {
+    text-align: center;
+    border: none;
+}
+table.rgMATLABTable th p {
+    padding: 0 0 0.03in 0;
+    margin: 0 0 0 0;
+}
+table.rgMATLABTable th {
+    font-weight: bold;
+    padding: 0 0.04in 0.05in 0.04in;
+}
+table.rgMATLABTable td p {
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+}
+table.rgMATLABTable td {
+    padding: 0 0.04in 0 0.04in;
+}
+
+/* Styles for TOC sidebar */
+
+body {
+    margin: 0;
+}
+
+.toc-sidebar {
+    height: 100%;
+    width: 200px;
+    background-color: #fff;
+    position: fixed!important;
+    display: none;
+    z-index: 5;
+    overflow: auto;
+    word-break: break-all;
+}
+
+.toc-animate-left {
+    position: relative;
+    animation: animateleft 0.4s;
+}
+
+@keyframes animateleft {
+    from {
+        left: -300px;
+        opacity: 0;
+    }
+    to {
+        left: 0;
+        opacity: 1;
+    }
+}
+
+.overlay {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    z-index: 2;
+}
+
+.animate-opacity {
+    animation: opac 0.8s;
+}
+
+@keyframes opac {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.toc-button {
+    border: none;
+    display: inline-block;
+    padding: 8px 16px;
+    font-size: 24px!important;
+    vertical-align: middle;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    background-color: inherit;
+    text-align: center;
+    cursor: pointer;
+    white-space: nowrap;
+    position: fixed;
+}
+
+.toc-button:hover {
+    color: #000!important;
+    background-color: #ccc!important;
+}
+
+.container {
+    padding: 0.01em 16px 16px 60px;
+}
+
+.current-toc-item {
+    background-color: rgb(247, 175, 175);
+}
+
+/*]]>*/</style>
+    <script>
+        //<![CDATA[
+var cssrule;
+(function (cssrule) {
+
+    function createStyleSheet() {
+        var style = document.createElement("style");
+
+        // Add a media (and/or media query) here if you'd like!
+        // style.setAttribute("media", "screen")
+        // style.setAttribute("media", "@media only screen and (max-width : 1024px)")
+
+        // WebKit hack :(
+        style.appendChild(document.createTextNode(""));
+
+        // Add the <style> element to the page
+        document.head.appendChild(style);
+
+        return style.sheet;
+    }
+
+    function addCSSRule(selector, rules, index) {
+        if (document.styleSheets) {
+            var sheet = createStyleSheet();
+            if (sheet) {
+                if (sheet.insertRule) {
+                    return sheet.insertRule(selector + " {" + rules + "}", index);
+                }
+                else {
+                    return sheet.addRule(selector, rules, index);
+                }
+            }
+        }
+        return null;
+    }
+    cssrule.addCSSRule = addCSSRule;
+
+})(cssrule || (cssrule = {}));        
+        //]]>
+    </script>
+    <script>
+        //<![CDATA[
+var toc;
+(function (toc) {
+    var showDetails = false;
+
+    function createOutline(outline, levels, level) {
+        if (level <= levels) {
+            var ol = document.createElement("ol");
+            ol.className = "toc";
+            for (var i = 0; i < outline.length; i++) {
+                ol.appendChild(createSection(outline[i], levels, level));
+            }
+            return ol;
+        }
+        return null;
+    }
+    toc.createOutline = createOutline;
+
+    function createSection(section, levels, level) {
+        var li = document.createElement("li");
+
+        var title = document.createElement("a");
+        title.className = "toc_sec_title";
+        li.appendChild(title);
+
+        if (section.heading === null) {
+            switch (section.associatedNodes[0].nodeName.toLowerCase()) {
+                case "blockquote":
+                    title.textContent = "Quoted content";
+                    break;
+                case "body":
+                    title.textContent = "Document";
+                    break;
+                case "details":
+                    title.textContent = "Widget";
+                    break;
+                case "fieldset":
+                    title.textContent = "Form controls";
+                    break;
+                case "figure":
+                    title.textContent = "Figure";
+                    break;
+                case "td":
+                    title.textContent = "Data cell";
+                    break;
+                case "article":
+                    title.textContent = "Article";
+                    break;
+                case "aside":
+                    title.textContent = "Aside";
+                    break;
+                case "nav":
+                    title.textContent = "Navigation";
+                    break;
+                case "section":
+                    title.textContent = "Section";
+                    break;
+            }
+            title.className += "toc_no_title";
+        } else {
+            title.textContent = section.heading.text;
+        }
+
+        var node = section.associatedNodes[0];
+        if ((node.sectionType !== 1 && node.sectionType !== 2) ||
+            (node.nodeName.toLowerCase() === "body")) {
+            node = section.heading;
+        }
+        title.href = "#" + node.id;
+
+        title.addEventListener("click", function (event) {
+            event.preventDefault();
+            node.scrollIntoView();
+        }, false);
+
+        var nextlevel = createOutline(section.childSections, levels, level+1);
+        if (nextlevel) {
+            li.appendChild(nextlevel);
+        }
+        return li;
+    }
+
+    function Section() {
+        this.parentSection = null;
+        this.childSections = [];
+        this.firstChild = null;
+        this.lastChild = null;
+        this.appendChild = function (section) {
+            section.parentSection = this;
+            this.childSections.push(section);
+            if (this.firstChild === null) {
+                this.firstChild = section;
+            }
+            this.lastChild = section;
+        };
+
+        this.heading = null;
+
+        this.associatedNodes = [];
+    }
+    toc.Section = Section;
+
+    function HTMLOutline(root) {
+        var currentOutlinee = null;
+
+        var currentSection = null;
+
+        var stack = { "lastIndex": -1, "isEmpty": null, "push": null, "pop": null, "top": null };
+        stack.isEmpty = function () {
+            return stack.lastIndex === -1;
+        };
+        stack.push = function (e) {
+            stack[++stack.lastIndex] = e;
+            stack.top = e;
+        };
+        stack.pop = function () {
+            var e = stack.top;
+            delete stack[stack.lastIndex--];
+            stack.top = stack[stack.lastIndex];
+            return e;
+        };
+
+        function enter(node) {
+            if (isElement(node)) {
+                if (!stack.isEmpty() && (isHeadingElement(stack.top) || isHidden(stack.top))) {
+                } else if (isHidden(node)) {
+                    stack.push(node);
+                } else if (isSectioningContentElement(node) || isSectioningRootElement(node)) {
+                    if (currentOutlinee !== null) {
+                        stack.push(currentOutlinee);
+                    }
+                    currentOutlinee = node;
+                    currentSection = new Section();
+                    associateNodeWithSection(currentOutlinee, currentSection);
+                    currentOutlinee.appendSection(currentSection);
+                } else if (currentOutlinee === null) {
+                } else if (isHeadingElement(node)) {
+                    if (currentSection.heading === null)
+                        currentSection.heading = node;
+else if (currentOutlinee.lastSection.heading === null || node.rank >= currentOutlinee.lastSection.heading.rank) {
+                        currentSection = new Section();
+                        currentSection.heading = node;
+                        currentOutlinee.appendSection(currentSection);
+                    } else {
+                        var candidateSection = currentSection;
+                        do {
+                            if (node.rank < candidateSection.heading.rank) {
+                                currentSection = new Section();
+                                currentSection.heading = node;
+                                candidateSection.appendChild(currentSection);
+                                break;
+                            }
+                            var newCandidate = candidateSection.parentSection;
+                            candidateSection = newCandidate;
+                        } while(true);
+                    }
+                    stack.push(node);
+                }
+            }
+        }
+
+        function exit(node) {
+            if (isElement(node)) {
+                if (!stack.isEmpty() && node === stack.top) {
+                    stack.pop();
+                } else if (!stack.isEmpty() && (isHeadingElement(stack.top) || isHidden(stack.top))) {
+                } else if (!stack.isEmpty() && isSectioningContentElement(node)) {
+                    currentOutlinee = stack.pop();
+                    currentSection = currentOutlinee.lastSection;
+                    for (var i = 0; i < node.sectionList.length; i++) {
+                        currentSection.appendChild(node.sectionList[i]);
+                    }
+                } else if (!stack.isEmpty() && isSectioningRootElement(node)) {
+                    currentOutlinee = stack.pop();
+                    currentSection = currentOutlinee.lastSection;
+                    while (currentSection.childSections.length > 0) {
+                        currentSection = currentSection.lastChild;
+                    }
+                } else if (isSectioningContentElement(node) || isSectioningRootElement(node)) {
+                    currentOutlinee = null;
+                    currentSection = null;
+                }
+            }
+            if (node.associatedSection === null && currentSection !== null) {
+                associateNodeWithSection(node, currentSection);
+            }
+        }
+
+        function associateNodeWithSection(node, section) {
+            section.associatedNodes.push(node);
+            node.associatedSection = section;
+        }
+
+        function isElement(node) {
+            return node.nodeType === 1;
+        }
+
+        function isHidden(node) {
+            return node.hidden;
+        }
+
+        function isSectioningContentElement(node) {
+            return node.sectionType === 1;
+        }
+
+        function isSectioningRootElement(node) {
+            return node.sectionType === 2;
+        }
+
+        function isHeadingElement(node) {
+            return node.rank !== undefined;
+        }
+
+        function extend(node) {
+            if (node.nodeType === 1) {
+                switch (node.nodeName.toLowerCase()) {
+                    case "blockquote":
+                    case "body":
+                    case "details":
+                    case "dialog":
+                    case "fieldset":
+                    case "figure":
+                    case "td":
+                        extendSectioningRootElement(node);
+                        break;
+                    case "article":
+                    case "aside":
+                    case "nav":
+                    case "section":
+                        extendSectioningContentElement(node);
+                        break;
+                    case "h1":
+                    case "h2":
+                    case "h3":
+                    case "h4":
+                    case "h5":
+                    case "h6":
+                        extendHeadingElement(node);
+                        break;
+                    case "hgroup":
+                        extendHeadingGroupElement(node);
+                        break;
+                    default:
+                        extendNode(node);
+                }
+            } else
+                extendNode(node);
+        }
+
+        function extendNode(node) {
+            node.associatedSection = null;
+        }
+
+        function extendSectioningElement(node) {
+            extendNode(node);
+            node.sectionList = [];
+            node.firstSection = null;
+            node.lastSection = null;
+
+            node.appendSection = function (section) {
+                this.sectionList.push(section);
+                if (this.firstSection === null) {
+                    this.firstSection = section;
+                }
+                this.lastSection = section;
+            };
+        }
+
+        function extendSectioningContentElement(node) {
+            extendSectioningElement(node);
+            node.sectionType = 1;
+        }
+
+        function extendSectioningRootElement(node) {
+            extendSectioningElement(node);
+            node.sectionType = 2;
+        }
+
+        function extendHeadingContentElement(node) {
+            extendNode(node);
+            Object.defineProperty(node, "depth", {
+                "get": function () {
+                    var section = node.associatedSection;
+                    var depth = 1;
+                    if (section !== null) {
+                        while (section = section.parentSection)
+                            ++depth;
+                    }
+                    return depth;
+                },
+                "configurable": true,
+                "enumerable": true
+            });
+        }
+
+        function extendHeadingElement(node) {
+            extendHeadingContentElement(node);
+            node.rank = -parseInt(node.nodeName.charAt(1));
+            node.text = node.textContent;
+        }
+
+        function extendHeadingGroupElement(node) {
+            extendHeadingContentElement(node);
+
+            for (var i = 1; i <= 6; i++) {
+                var h = node.getElementsByTagName("h" + i);
+                if (h.length > 0) {
+                    node.rank = -i;
+                    node.text = h[0].textContent;
+                    break;
+                }
+            }
+
+            if (node.rank === undefined) {
+                node.rank = -1;
+                node.text = "";
+            }
+        }
+
+        var node = root;
+        start:
+        while (node) {
+            extend(node);
+            enter(node);
+            if (node.firstChild) {
+                node = node.firstChild;
+                continue start;
+            }
+            while (node) {
+                exit(node);
+                if (node === root) {
+                    break start;
+                }
+                if (node.nextSibling) {
+                    node = node.nextSibling;
+                    continue start;
+                }
+                node = node.parentNode;
+            }
+        }
+    }
+    toc.HTMLOutline = HTMLOutline;
+
+    function createSideBar() {
+        // If TOC is generated, this method will manipulate the DOM to create the sidebar overlay
+
+        // Get TOC element and remove it from the body
+        var toc_element = document.querySelector('div#toc, toc');
+        document.body.removeChild(toc_element);
+
+        // Get all the body content now, this will exclude TOC. Wrap them in container div
+        var contentWrapper = document.createElement('div');
+        contentWrapper.className = 'container';
+
+        // Move the body's children into this wrapper and then append wrapper to the body
+        while (document.body.firstChild) {
+            contentWrapper.appendChild(document.body.firstChild);
+        }
+        document.body.appendChild(contentWrapper);
+
+        // Add button to open TOC side bar
+        var tocButton = document.createElement('button');
+        tocButton.innerHTML = '&#9776';
+        tocButton.className = 'toc-button';
+
+        // Add mouse events to open and close TOC
+        tocButton.addEventListener("mouseover", function() {
+            openTOC();
+
+            highlightSelectedEntry();
+
+            var sideBar = document.getElementById("TOCSidebar");
+            sideBar.addEventListener("mouseleave", closeTOC);
+        });
+
+        // Add touch events to open and close TOC
+        tocButton.addEventListener("touchstart", function() {
+            openTOC();
+
+            highlightSelectedEntry();
+
+            var overlay = document.getElementById("TOCOverlay");
+            overlay.addEventListener("touchstart", closeTOC);
+        });
+
+        contentWrapper.parentNode.insertBefore(tocButton, contentWrapper);
+
+        // Add div for overlay
+        var overlayDiv = document.createElement('div');
+        overlayDiv.id = 'TOCOverlay';
+        overlayDiv.className = 'overlay animate-opacity';
+        tocButton.parentNode.insertBefore(overlayDiv, tocButton);
+
+        // Wrap toc in a div for sidebar and add it before overlay div
+        var tocWrapper = document.createElement('div');
+        tocWrapper.id = 'TOCSidebar';
+        tocWrapper.className = 'toc-sidebar toc-animate-left';
+        tocWrapper.appendChild(toc_element);
+        overlayDiv.parentNode.insertBefore(tocWrapper, overlayDiv);
+
+        // Function to open TOC sidebar
+        function openTOC() {
+            document.getElementById("TOCSidebar").style.display = "block";
+            document.getElementById("TOCOverlay").style.display = "block";
+        }
+
+        // Function to close TOC sidebar
+        function closeTOC() {
+            document.getElementById("TOCSidebar").style.display = "none";
+            document.getElementById("TOCOverlay").style.display = "none";
+	}
+
+        // Function to highlight the selected entry in the TOC
+        function highlightSelectedEntry() {
+            var tocItemList = document.getElementsByClassName('toc_sec_title');
+            for (var i = 0; i < tocItemList.length; i++) {
+                tocItemList[i].addEventListener('click', function (event) {
+                    for (var j = 0; j < tocItemList.length; j++) {
+                        tocItemList[j].classList.remove('current-toc-item');
+                    }
+                    event.target.classList.add('current-toc-item');
+                });
+            }
+        }
+    }
+    toc.createSideBar = createSideBar;
+})(toc || (toc = {}));
+        //]]>
+    </script>
+    <script>
+        //<![CDATA[
+        function outline() {
+            var toc_elements = document.querySelectorAll('div#toc, toc');
+            if (toc_elements.length != 0) {
+                var content = document.body;
+                toc.HTMLOutline(content);
+                if (content.sectionList) {
+                    for (var toc_index = 0; toc_index < toc_elements.length; ++toc_index) {
+                        var toc_element = toc_elements[toc_index];
+                        var toc_levels = 6;
+                        var toc_levels_attribute = toc_element.getAttribute('number-of-levels');
+                        if (toc_levels_attribute) {
+                            toc_levels = Number(toc_levels_attribute);
+                        }
+                        toc_element.appendChild(toc.createOutline(content.sectionList,toc_levels, 1));
+                    }
+                }
+                // Create the sidebar for the TOC
+                toc.createSideBar();
+            }
+        }
+        //]]>
+    </script>
+<style>
+/*<![CDATA[*//*CombinedCSS Placeholder*//*]]>*/
+</style></head>
+<body onload="outline()"><a name="home"></a><h1><span>Project Upgrade Report</span></h1><h2><span>Description</span></h2><table><tr><td style="border-right-style:solid;border-right-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Generated by:</span></p></td><td><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>corkep</span></p></td></tr><tr><td style="border-right-style:solid;border-right-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Project name:</span></p></td><td><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>SpatialMath</span></p></td></tr><tr><td style="border-right-style:solid;border-right-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Generated at:</span></p></td><td><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>30-Jun-2019 13:26:27</span></p></td></tr><tr><td style="border-right-style:solid;border-right-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Project Root:</span></p></td><td><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>/Users/corkep/code/spatial-math</span></p></td></tr><tr><td style="border-right-style:solid;border-right-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Repository Location:</span></p></td><td><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>https://github.com/petercorke/spatial-math.git</span></p></td></tr></table><h2><span>Summary</span></h2><table><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/unit_test/UtilityTest.m"><span>$/unit_test/UtilityTest.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/SO3.m"><span>$/SO3.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/arrow3.m"><span>$/arrow3.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Need Attention</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/vex.m"><span>$/vex.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/numcols.m"><span>$/numcols.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/plot_sphere.m"><span>$/plot_sphere.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/unit_test/UnitQuaternionTest.m"><span>$/unit_test/UnitQuaternionTest.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/trotz.m"><span>$/trotz.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/unit_test/SE2Test.m"><span>$/unit_test/SE2Test.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/skew.m"><span>$/skew.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/trprint.m"><span>$/trprint.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/unit_test/tboptparseTest.m"><span>$/unit_test/tboptparseTest.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/plotvol.m"><span>$/plotvol.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/trprint2.m"><span>$/trprint2.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/transl2.m"><span>$/transl2.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/stlRead.m"><span>$/stlRead.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Need Attention</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/Twist.m"><span>$/Twist.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/unit_test/RunAllTests.m"><span>$/unit_test/RunAllTests.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/plot_ellipse.m"><span>$/plot_ellipse.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/tr2rpy.m"><span>$/tr2rpy.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/SpatialM6.m"><span>$/SpatialM6.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/trchain.m"><span>$/trchain.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/Plucker.m"><span>$/Plucker.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/SpatialInertia.m"><span>$/SpatialInertia.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Need Attention</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/trplot.m"><span>$/trplot.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/trplot2.m"><span>$/trplot2.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/troty.m"><span>$/troty.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/trlog.m"><span>$/trlog.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/homline.m"><span>$/homline.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/tb_optparse.m"><span>$/tb_optparse.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Need Attention</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/eul2tr.m"><span>$/eul2tr.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/tr2rt.m"><span>$/tr2rt.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/xyzlabel.m"><span>$/xyzlabel.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/unit_test/DifferentialMotionTest.m"><span>$/unit_test/DifferentialMotionTest.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/plot_point.m"><span>$/plot_point.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/delta2tr.m"><span>$/delta2tr.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/SE3.m"><span>$/SE3.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/plot_circle.m"><span>$/plot_circle.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/e2h.m"><span>$/e2h.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/isunit.m"><span>$/isunit.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/vexa.m"><span>$/vexa.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/oa2tr.m"><span>$/oa2tr.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/unit.m"><span>$/unit.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/chi2inv_rtb.m"><span>$/chi2inv_rtb.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/trotx.m"><span>$/trotx.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/r2t.m"><span>$/r2t.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/trscale.m"><span>$/trscale.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/SpatialAcceleration.m"><span>$/SpatialAcceleration.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/transl.m"><span>$/transl.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/plot_ribbon.m"><span>$/plot_ribbon.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/SO2.m"><span>$/SO2.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/unit_test/featherstone_test/test_roy.m"><span>$/unit_test/featherstone_test/test_roy.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/ishomog.m"><span>$/ishomog.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/SE2.m"><span>$/SE2.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/angdiff.m"><span>$/angdiff.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/about.m"><span>$/about.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Need Attention</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/plot_arrow.m"><span>$/plot_arrow.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/unit_test/featherstone_test/idyn_roy.m"><span>$/unit_test/featherstone_test/idyn_roy.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/plot_homline.m"><span>$/plot_homline.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/rpy2jac.m"><span>$/rpy2jac.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/SpatialF6.m"><span>$/SpatialF6.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/circle.m"><span>$/circle.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/tr2jac.m"><span>$/tr2jac.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/plot2.m"><span>$/plot2.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/PGraph.m"><span>$/PGraph.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Need Attention</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/SpatialMomentum.m"><span>$/SpatialMomentum.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/tr2eul.m"><span>$/tr2eul.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/plot_poly.m"><span>$/plot_poly.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/eul2jac.m"><span>$/eul2jac.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/unit_test/failedtests.m"><span>$/unit_test/failedtests.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/trinterp2.m"><span>$/trinterp2.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/roty.m"><span>$/roty.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/isrot.m"><span>$/isrot.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/Apps/tripleangle.m"><span>$/Apps/tripleangle.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/doc/manual/frontcover.m"><span>$/doc/manual/frontcover.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/unit_test/QuaternionTest.m"><span>$/unit_test/QuaternionTest.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/RTBPose.m"><span>$/RTBPose.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Need Attention</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/unit_test/SO2Test.m"><span>$/unit_test/SO2Test.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/trnorm.m"><span>$/trnorm.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/unit_test/PlotTest.m"><span>$/unit_test/PlotTest.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/tr2delta.m"><span>$/tr2delta.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/angvec2r.m"><span>$/angvec2r.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/unit_test/Transformations2Test.m"><span>$/unit_test/Transformations2Test.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/unit_test/RTBPoseTest.m"><span>$/unit_test/RTBPoseTest.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/UnitQuaternion.m"><span>$/UnitQuaternion.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/Animate.m"><span>$/Animate.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/ishomog2.m"><span>$/ishomog2.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/eul2r.m"><span>$/eul2r.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/unit_test/TransformationsTest.m"><span>$/unit_test/TransformationsTest.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Need Attention</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/colnorm.m"><span>$/colnorm.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/rotx.m"><span>$/rotx.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/unit_test/featherstone_test/idyn_rtb.m"><span>$/unit_test/featherstone_test/idyn_rtb.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/unit_test/plotXTest.m"><span>$/unit_test/plotXTest.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/lift23.m"><span>$/lift23.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/rt2tr.m"><span>$/rt2tr.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/oa2r.m"><span>$/oa2r.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/plot_box.m"><span>$/plot_box.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/skewa.m"><span>$/skewa.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/angvec2tr.m"><span>$/angvec2tr.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/SpatialVec6.m"><span>$/SpatialVec6.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Need Attention</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/rpy2tr.m"><span>$/rpy2tr.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/unit_test/featherstone_test/compare.m"><span>$/unit_test/featherstone_test/compare.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/homtrans.m"><span>$/homtrans.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/h2e.m"><span>$/h2e.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/rot2.m"><span>$/rot2.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/trexp2.m"><span>$/trexp2.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/isvec.m"><span>$/isvec.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/trexp.m"><span>$/trexp.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/unit_test/PluckerTest.m"><span>$/unit_test/PluckerTest.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/unit_test/SE3Test.m"><span>$/unit_test/SE3Test.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/unit_test/TrajectoryTest.m"><span>$/unit_test/TrajectoryTest.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/isrot2.m"><span>$/isrot2.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/t2r.m"><span>$/t2r.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/SpatialVelocity.m"><span>$/SpatialVelocity.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/unit_test/SpatialTest.m"><span>$/unit_test/SpatialTest.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/trchain2.m"><span>$/trchain2.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/unit_test/TwistTest.m"><span>$/unit_test/TwistTest.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/rvccheck.m"><span>$/rvccheck.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Need Attention</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/rpy2r.m"><span>$/rpy2r.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/tranimate2.m"><span>$/tranimate2.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/SpatialForce.m"><span>$/SpatialForce.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/Quaternion.m"><span>$/Quaternion.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Need Attention</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/randinit.m"><span>$/randinit.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/numrows.m"><span>$/numrows.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/unit_test/SO3Test.m"><span>$/unit_test/SO3Test.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/unit_test/featherstone_test/ID.m"><span>$/unit_test/featherstone_test/ID.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/tr2angvec.m"><span>$/tr2angvec.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/unit_test/PGraphTest.m"><span>$/unit_test/PGraphTest.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/unit_test/featherstone_test/twist_test.m"><span>$/unit_test/featherstone_test/twist_test.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/rotz.m"><span>$/rotz.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/trinterp.m"><span>$/trinterp.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-bottom-style:solid;border-bottom-width:1px;border-right-style:solid;border-right-width:1px;"><a href="#$/tranimate.m"><span>$/tranimate.m</span></a></td><td style="border-bottom-style:solid;border-bottom-width:1px;"><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr><tr><td style="border-right-style:solid;border-right-width:1px;"><a href="#$/trot2.m"><span>$/trot2.m</span></a></td><td><p style="margin-left:1px;margin-right:1px;margin-top:1px;margin-bottom:1px;"><span>Passed</span></p></td></tr></table><h2><a name="$/unit_test/UtilityTest.m"></a><span>$/unit_test/UtilityTest.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/SO3.m"></a><span>$/SO3.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/arrow3.m"></a><span>$/arrow3.m</span></h2><h4><span>'findstr' is not recommended. Use 'strfind' instead.</span></h4><p style="color:orange"><b>Warning</b></p><p>Incompatible code found in the following lines:</p><table cellpadding="0"><tr><td><a href="matlab:opentoline('/Users/corkep/code/spatial-math/arrow3.m',761,6)">Line 761</a>:</td><td><pre>if <span style="background-color:yellow;color:black">findstr</span>(s,'--'), ls='--'; s=strrep(s,</pre></td></p><tr><td><a href="matlab:opentoline('/Users/corkep/code/spatial-math/arrow3.m',762,10)">Line 762</a>:</td><td><pre>elseif <span style="background-color:yellow;color:black">findstr</span>(s,'-.'), ls='-.'; s=strre</pre></td></p><tr><td><a href="matlab:opentoline('/Users/corkep/code/spatial-math/arrow3.m',763,10)">Line 763</a>:</td><td><pre>elseif <span style="background-color:yellow;color:black">findstr</span>(s,'-'), ls='-'; s=strrep(</pre></td></p><tr><td><a href="matlab:opentoline('/Users/corkep/code/spatial-math/arrow3.m',764,10)">Line 764</a>:</td><td><pre>elseif <span style="background-color:yellow;color:black">findstr</span>(s,':'), ls=':'; s=strrep(</pre></td></p><tr><td><a href="matlab:opentoline('/Users/corkep/code/spatial-math/arrow3.m',765,10)">Line 765</a>:</td><td><pre>elseif <span style="background-color:yellow;color:black">findstr</span>(s,'*'), ls='*'; s=strrep(</pre></td></p></table>
+     
+<a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/vex.m"></a><span>$/vex.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/numcols.m"></a><span>$/numcols.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/plot_sphere.m"></a><span>$/plot_sphere.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/unit_test/UnitQuaternionTest.m"></a><span>$/unit_test/UnitQuaternionTest.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/trotz.m"></a><span>$/trotz.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/unit_test/SE2Test.m"></a><span>$/unit_test/SE2Test.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/skew.m"></a><span>$/skew.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/trprint.m"></a><span>$/trprint.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/unit_test/tboptparseTest.m"></a><span>$/unit_test/tboptparseTest.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/plotvol.m"></a><span>$/plotvol.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/trprint2.m"></a><span>$/trprint2.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/transl2.m"></a><span>$/transl2.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/stlRead.m"></a><span>$/stlRead.m</span></h2><h4><span>'findstr' is not recommended. Use 'strfind' instead.</span></h4><p style="color:orange"><b>Warning</b></p><p>Incompatible code found in the following lines:</p><table cellpadding="0"><tr><td><a href="matlab:opentoline('/Users/corkep/code/spatial-math/stlRead.m',117,22)">Line 117</a>:</td><td><pre>isEndSolid = <span style="background-color:yellow;color:black">findstr</span>(tail,'endsolid');  </pre></td></p></table>
+     
+<a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/Twist.m"></a><span>$/Twist.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/unit_test/RunAllTests.m"></a><span>$/unit_test/RunAllTests.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/plot_ellipse.m"></a><span>$/plot_ellipse.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/tr2rpy.m"></a><span>$/tr2rpy.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/SpatialM6.m"></a><span>$/SpatialM6.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/trchain.m"></a><span>$/trchain.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/Plucker.m"></a><span>$/Plucker.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/SpatialInertia.m"></a><span>$/SpatialInertia.m</span></h2><h4><span>'strvcat' is not recommended. Use 'char' instead.</span></h4><p style="color:orange"><b>Warning</b></p><p>Incompatible code found in the following lines:</p><table cellpadding="0"><tr><td><a href="matlab:opentoline('/Users/corkep/code/spatial-math/SpatialInertia.m',127,26)">Line 127</a>:</td><td><pre>s = <span style="background-color:yellow;color:black">strvcat</span>(s, ['    ' line']);         </pre></td></p><tr><td><a href="matlab:opentoline('/Users/corkep/code/spatial-math/SpatialInertia.m',133,26)">Line 133</a>:</td><td><pre>s = <span style="background-color:yellow;color:black">strvcat</span>(s, ' ');                    </pre></td></p><tr><td><a href="matlab:opentoline('/Users/corkep/code/spatial-math/SpatialInertia.m',134,26)">Line 134</a>:</td><td><pre>s = <span style="background-color:yellow;color:black">strvcat</span>(s, char(obj(i), 0) );       </pre></td></p></table>
+     
+<a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/trplot.m"></a><span>$/trplot.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/trplot2.m"></a><span>$/trplot2.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/troty.m"></a><span>$/troty.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/trlog.m"></a><span>$/trlog.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/homline.m"></a><span>$/homline.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/tb_optparse.m"></a><span>$/tb_optparse.m</span></h2><h4><span>'isstr' is not recommended. Use 'ischar' instead.</span></h4><p style="color:orange"><b>Warning</b></p><p>Incompatible code found in the following lines:</p><table cellpadding="0"><tr><td><a href="matlab:opentoline('/Users/corkep/code/spatial-math/tb_optparse.m',304,20)">Line 304</a>:</td><td><pre>if <span style="background-color:yellow;color:black">isstr</span>(argv{argc})                    </pre></td></p></table>
+     
+<a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/eul2tr.m"></a><span>$/eul2tr.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/tr2rt.m"></a><span>$/tr2rt.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/xyzlabel.m"></a><span>$/xyzlabel.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/unit_test/DifferentialMotionTest.m"></a><span>$/unit_test/DifferentialMotionTest.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/plot_point.m"></a><span>$/plot_point.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/delta2tr.m"></a><span>$/delta2tr.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/SE3.m"></a><span>$/SE3.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/plot_circle.m"></a><span>$/plot_circle.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/e2h.m"></a><span>$/e2h.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/isunit.m"></a><span>$/isunit.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/vexa.m"></a><span>$/vexa.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/oa2tr.m"></a><span>$/oa2tr.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/unit.m"></a><span>$/unit.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/chi2inv_rtb.m"></a><span>$/chi2inv_rtb.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/trotx.m"></a><span>$/trotx.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/r2t.m"></a><span>$/r2t.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/trscale.m"></a><span>$/trscale.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/SpatialAcceleration.m"></a><span>$/SpatialAcceleration.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/transl.m"></a><span>$/transl.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/plot_ribbon.m"></a><span>$/plot_ribbon.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/SO2.m"></a><span>$/SO2.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/unit_test/featherstone_test/test_roy.m"></a><span>$/unit_test/featherstone_test/test_roy.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/ishomog.m"></a><span>$/ishomog.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/SE2.m"></a><span>$/SE2.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/angdiff.m"></a><span>$/angdiff.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/about.m"></a><span>$/about.m</span></h2><h4><span>'isstr' is not recommended. Use 'ischar' instead.</span></h4><p style="color:orange"><b>Warning</b></p><p>Incompatible code found in the following lines:</p><table cellpadding="0"><tr><td><a href="matlab:opentoline('/Users/corkep/code/spatial-math/about.m',44,8)">Line 44</a>:</td><td><pre>if <span style="background-color:yellow;color:black">isstr</span>(var)                           </pre></td></p></table>
+     
+<a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/plot_arrow.m"></a><span>$/plot_arrow.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/unit_test/featherstone_test/idyn_roy.m"></a><span>$/unit_test/featherstone_test/idyn_roy.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/plot_homline.m"></a><span>$/plot_homline.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/rpy2jac.m"></a><span>$/rpy2jac.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/SpatialF6.m"></a><span>$/SpatialF6.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/circle.m"></a><span>$/circle.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/tr2jac.m"></a><span>$/tr2jac.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/plot2.m"></a><span>$/plot2.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/PGraph.m"></a><span>$/PGraph.m</span></h2><h4><span>'strvcat' is not recommended. Use 'char' instead.</span></h4><p style="color:orange"><b>Warning</b></p><p>Incompatible code found in the following lines:</p><table cellpadding="0"><tr><td><a href="matlab:opentoline('/Users/corkep/code/spatial-math/PGraph.m',771,17)">Line 771</a>:</td><td><pre>s = <span style="background-color:yellow;color:black">strvcat</span>(s, sprintf('  %d dimensions'</pre></td></p><tr><td><a href="matlab:opentoline('/Users/corkep/code/spatial-math/PGraph.m',772,17)">Line 772</a>:</td><td><pre>s = <span style="background-color:yellow;color:black">strvcat</span>(s, sprintf('  %d vertices', </pre></td></p><tr><td><a href="matlab:opentoline('/Users/corkep/code/spatial-math/PGraph.m',773,17)">Line 773</a>:</td><td><pre>s = <span style="background-color:yellow;color:black">strvcat</span>(s, sprintf('  %d edges', num</pre></td></p><tr><td><a href="matlab:opentoline('/Users/corkep/code/spatial-math/PGraph.m',774,17)">Line 774</a>:</td><td><pre>s = <span style="background-color:yellow;color:black">strvcat</span>(s, sprintf('  %d components'</pre></td></p></table>
+     
+<a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/SpatialMomentum.m"></a><span>$/SpatialMomentum.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/tr2eul.m"></a><span>$/tr2eul.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/plot_poly.m"></a><span>$/plot_poly.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/eul2jac.m"></a><span>$/eul2jac.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/unit_test/failedtests.m"></a><span>$/unit_test/failedtests.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/trinterp2.m"></a><span>$/trinterp2.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/roty.m"></a><span>$/roty.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/isrot.m"></a><span>$/isrot.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/Apps/tripleangle.m"></a><span>$/Apps/tripleangle.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/doc/manual/frontcover.m"></a><span>$/doc/manual/frontcover.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/unit_test/QuaternionTest.m"></a><span>$/unit_test/QuaternionTest.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/RTBPose.m"></a><span>$/RTBPose.m</span></h2><h4><span>'strvcat' is not recommended. Use 'char' instead.</span></h4><p style="color:orange"><b>Warning</b></p><p>Incompatible code found in the following lines:</p><table cellpadding="0"><tr><td><a href="matlab:opentoline('/Users/corkep/code/spatial-math/RTBPose.m',774,27)">Line 774</a>:</td><td><pre>out = <span style="background-color:yellow;color:black">strvcat</span>(out, trprint(T.T, varargin</pre></td></p></table>
+     
+<a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/unit_test/SO2Test.m"></a><span>$/unit_test/SO2Test.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/trnorm.m"></a><span>$/trnorm.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/unit_test/PlotTest.m"></a><span>$/unit_test/PlotTest.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/tr2delta.m"></a><span>$/tr2delta.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/angvec2r.m"></a><span>$/angvec2r.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/unit_test/Transformations2Test.m"></a><span>$/unit_test/Transformations2Test.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/unit_test/RTBPoseTest.m"></a><span>$/unit_test/RTBPoseTest.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/UnitQuaternion.m"></a><span>$/UnitQuaternion.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/Animate.m"></a><span>$/Animate.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/ishomog2.m"></a><span>$/ishomog2.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/eul2r.m"></a><span>$/eul2r.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/unit_test/TransformationsTest.m"></a><span>$/unit_test/TransformationsTest.m</span></h2><h4><span>All matrix rows must be the same length.</span></h4><p style="color:orange"><b>Warning</b></p><p>Incompatible code found in the following lines:</p><table cellpadding="0"><tr><td><a href="matlab:opentoline('/Users/corkep/code/spatial-math/unit_test/TransformationsTest.m',241,38)">Line 241</a>:</td><td><pre>c, @()trotx([1 2 3; <span style="background-color:yellow;color:black"></span>0 0 0 1]),'MATLAB:ca</pre></td></p><tr><td><a href="matlab:opentoline('/Users/corkep/code/spatial-math/unit_test/TransformationsTest.m',252,38)">Line 252</a>:</td><td><pre>c, @()troty([1 2 3; <span style="background-color:yellow;color:black"></span>0 0 0 1]),'MATLAB:ca</pre></td></p><tr><td><a href="matlab:opentoline('/Users/corkep/code/spatial-math/unit_test/TransformationsTest.m',263,38)">Line 263</a>:</td><td><pre>c, @()trotz([1 2 3; <span style="background-color:yellow;color:black"></span>0 0 0 1]),'MATLAB:ca</pre></td></p></table>
+     
+<a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/colnorm.m"></a><span>$/colnorm.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/rotx.m"></a><span>$/rotx.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/unit_test/featherstone_test/idyn_rtb.m"></a><span>$/unit_test/featherstone_test/idyn_rtb.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/unit_test/plotXTest.m"></a><span>$/unit_test/plotXTest.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/lift23.m"></a><span>$/lift23.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/rt2tr.m"></a><span>$/rt2tr.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/oa2r.m"></a><span>$/oa2r.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/plot_box.m"></a><span>$/plot_box.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/skewa.m"></a><span>$/skewa.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/angvec2tr.m"></a><span>$/angvec2tr.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/SpatialVec6.m"></a><span>$/SpatialVec6.m</span></h2><h4><span>'strvcat' is not recommended. Use 'char' instead.</span></h4><p style="color:orange"><b>Warning</b></p><p>Incompatible code found in the following lines:</p><table cellpadding="0"><tr><td><a href="matlab:opentoline('/Users/corkep/code/spatial-math/SpatialVec6.m',134,25)">Line 134</a>:</td><td><pre>s = <span style="background-color:yellow;color:black">strvcat</span>(s, sprintf('%s  [ %g %g %g |</pre></td></p></table>
+     
+<a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/rpy2tr.m"></a><span>$/rpy2tr.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/unit_test/featherstone_test/compare.m"></a><span>$/unit_test/featherstone_test/compare.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/homtrans.m"></a><span>$/homtrans.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/h2e.m"></a><span>$/h2e.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/rot2.m"></a><span>$/rot2.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/trexp2.m"></a><span>$/trexp2.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/isvec.m"></a><span>$/isvec.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/trexp.m"></a><span>$/trexp.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/unit_test/PluckerTest.m"></a><span>$/unit_test/PluckerTest.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/unit_test/SE3Test.m"></a><span>$/unit_test/SE3Test.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/unit_test/TrajectoryTest.m"></a><span>$/unit_test/TrajectoryTest.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/isrot2.m"></a><span>$/isrot2.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/t2r.m"></a><span>$/t2r.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/SpatialVelocity.m"></a><span>$/SpatialVelocity.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/unit_test/SpatialTest.m"></a><span>$/unit_test/SpatialTest.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/trchain2.m"></a><span>$/trchain2.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/unit_test/TwistTest.m"></a><span>$/unit_test/TwistTest.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/rvccheck.m"></a><span>$/rvccheck.m</span></h2><h4><span>'findstr' is not recommended. Use 'strfind' instead.</span></h4><p style="color:orange"><b>Warning</b></p><p>Incompatible code found in the following lines:</p><table cellpadding="0"><tr><td><a href="matlab:opentoline('/Users/corkep/code/spatial-math/rvccheck.m',41,8)">Line 41</a>:</td><td><pre>if <span style="background-color:yellow;color:black">findstr</span>(p, 'Add-Ons')                </pre></td></p><tr><td><a href="matlab:opentoline('/Users/corkep/code/spatial-math/rvccheck.m',53,8)">Line 53</a>:</td><td><pre>if <span style="background-color:yellow;color:black">findstr</span>(p, 'Add-Ons')                </pre></td></p></table>
+     
+<a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/rpy2r.m"></a><span>$/rpy2r.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/tranimate2.m"></a><span>$/tranimate2.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/SpatialForce.m"></a><span>$/SpatialForce.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/Quaternion.m"></a><span>$/Quaternion.m</span></h2><h4><span>'strvcat' is not recommended. Use 'char' instead.</span></h4><p style="color:orange"><b>Warning</b></p><p>Incompatible code found in the following lines:</p><table cellpadding="0"><tr><td><a href="matlab:opentoline('/Users/corkep/code/spatial-math/Quaternion.m',686,25)">Line 686</a>:</td><td><pre>s = <span style="background-color:yellow;color:black">strvcat</span>(s, char(qq));               </pre></td></p></table>
+     
+<a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/randinit.m"></a><span>$/randinit.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/numrows.m"></a><span>$/numrows.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/unit_test/SO3Test.m"></a><span>$/unit_test/SO3Test.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/unit_test/featherstone_test/ID.m"></a><span>$/unit_test/featherstone_test/ID.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/tr2angvec.m"></a><span>$/tr2angvec.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/unit_test/PGraphTest.m"></a><span>$/unit_test/PGraphTest.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/unit_test/featherstone_test/twist_test.m"></a><span>$/unit_test/featherstone_test/twist_test.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/rotz.m"></a><span>$/rotz.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/trinterp.m"></a><span>$/trinterp.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/tranimate.m"></a><span>$/tranimate.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+<h2><a name="$/trot2.m"></a><span>$/trot2.m</span></h2><p><span>All checks passed.</span></p><a href="#home"><span>Go to Top</span></a>
+     
+
+     
+</body>
+</html>
