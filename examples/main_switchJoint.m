@@ -20,7 +20,7 @@ nq = 4;
 robot1 = SnakeBot( robotID, nq );
 robot1.init( )
 
-anim1 = Animation( 'Dimension', 2, 'xLim', [-2,6], 'yLim', [-2,2] );
+anim1 = Animation( 'Dimension', 2, 'xLim', [-6,6], 'yLim', [-6,6] );
 anim1.init( )
 anim1.attachRobot( robot1 )    
 
@@ -35,7 +35,7 @@ robot2.init( )
 
 robot2.switchJoint( 3, 2, [ 1; 0; 0] );
 
-anim2 = Animation( 'Dimension', 2, 'xLim', [-2,6], 'yLim', [-2,2] );
+anim2 = Animation( 'Dimension', 2, 'xLim', [-6,6], 'yLim', [-6,6] );
 anim2.init( )
 anim2.attachRobot( robot2 )    
 
@@ -45,20 +45,17 @@ set( anim2.hAxes, 'fontsize', 20, 'linewidth', 1 );
 %% Playing with the robots!
 
 % Initial Condition of the Robot
-% q_deg1 = [30,22,-45,0]';
-% q_deg2 = [10,10,0.3,0]';
-q_deg1 = zeros( nq, 1 );
-q_deg2 = zeros( nq, 1 );
-dq    = zeros( nq, 1 );
-ddq   = zeros( nq, 1 );
+q_deg1 = [30,22,-45,0]';
+q_deg2 = [10,10,0.3,0]';
+
+% Change the degree to radian for revolute joints
+q1 = func_deg2rad( q_deg1, robot1.JointTypes );
+q2 = func_deg2rad( q_deg2, robot2.JointTypes );
 
 % Update robot kinematics with q_deg array
 % Also get the end-effector's H matrix
-robot1.updateKinematics( q_deg1 );
-robot2.updateKinematics( q_deg2 );
+robot1.updateKinematics( q1 );
+robot2.updateKinematics( q2 );
 
 anim1.update( 0 );
 anim2.update( 0 );
-
-func_saveFigures( anim1.hFig, '4DOF_SnakeBot' )
-func_saveFigures( anim2.hFig, '4DOF_SnakeBot_w_p' )

@@ -33,6 +33,8 @@ for i = 1 : N
 
     if ( joint_type( i ) == 1 )
         q_new( i ) = q_old( i ) * pi/180;
+    else    
+        q_new( i ) = q_old( i );
     end
     
 end
