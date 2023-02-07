@@ -16,16 +16,15 @@ classdef CartPole < RobotPrimitive & handle
     end
     
     methods
-        function obj = CartPole( ID, mc, lp, mp )
+        function obj = CartPole( mc, lp, mp )
 
             % ======================================================= %
             % ============ BASIC PROPERTIES OF THE ROBOT ============ %
             % ======================================================= %
-            obj.ID     = ID;
             obj.Name   = 'CartPole';
             obj.nq     = 2;
 
-            obj.ParentID = [ 0, 1 ];
+            obj.ParentID = 0 : 1 : obj.nq;
             
             % Robot simulation in 2D
             obj.Dimension = 2;
@@ -88,9 +87,7 @@ classdef CartPole < RobotPrimitive & handle
             % The size of the cart and the revolute joint 
             % Attached to it
             obj.gMarkerSize = [ 24, 12 ];
-            
-            % Specifying the line width of the robot
-            obj.gLineWidth  = 3;            
+      
             
             % For all robots, we need to specify 
             % (1) the base graphic design

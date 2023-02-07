@@ -5,12 +5,11 @@ classdef DoublePendulum < RobotPrimitive & handle
     end
     
     methods
-        function obj = DoublePendulum( ID )
+        function obj = DoublePendulum( )
 
             % ======================================================= %
             % ============ BASIC PROPERTIES OF THE ROBOT ============ %
             % ======================================================= %
-            obj.ID     = ID;
             obj.Name   = 'DoublePendulum';
             obj.nq     = 2;
 
@@ -78,10 +77,7 @@ classdef DoublePendulum < RobotPrimitive & handle
             % =========== GRAPHIC PROPERTIES OF THE ROBOT =========== %
             % ======================================================= %
             % Specifying the joint marker size
-            obj.gMarkerSize = [ 12, 12 ];
-            
-            % Specifying the line width of the robot
-            obj.gLineWidth  = 3;
+            obj.gMarkerSize = [ 12, 12 ]; 
             
             % For all robots, we need to specify 
             % (1) the base graphic design

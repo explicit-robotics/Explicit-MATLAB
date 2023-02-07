@@ -19,7 +19,6 @@ classdef RobotPrimitive < handle
         % ================================ %
         % ======= Basic Properties ======= %
         % ================================ %
-        ID
         Name
         ParentID
 
@@ -40,7 +39,6 @@ classdef RobotPrimitive < handle
         % p is the point on the joint axis
 
         q                       % The current q arrays
-        q_init                  % The initial q values of the robot
         q_max                   % Upper limit of   q (position) values
         q_min                   % Lower limit of   q (position) values
         dq_max                  % Upper limit of  dq (velocity) values
@@ -73,15 +71,11 @@ classdef RobotPrimitive < handle
        
         % Graphic Objects for the Animation
         % prefix "g" is used to refer "g"raphic objects
-        gLinks
         gBase
         gEE
         
         % Marker size of the joint
         gMarkerSize
-        
-        % Line width of the links
-        gLineWidth        
 
         % Dimension of the animation
         Dimension
@@ -91,8 +85,6 @@ classdef RobotPrimitive < handle
         % =================================== %
         % Gravitational Acceleration
         Grav = 9.81             
-
-
     end
 
     methods
@@ -569,62 +561,71 @@ classdef RobotPrimitive < handle
             obj.init( )
         end
 
-        function addKinematics( obj, robot2, varargin )
+        function robot_new = addKinematics( obj, robot2add, varargin )
             % Extend the robot!
-            % Simply extending the AxisOrigin and AxisDirections
-            % Currently, we simply add the robot at the end-effector
+            % For the extension, we create a new robot
+            robot_new = RobotPrimitive( );
 
-            % Get the end-effector position
-            pEE = obj.H_init( 1 : 3 , 4, end );
-
-            % Extending the axis origins and directions
-            obj.AxisOrigins    = horzcat( obj.AxisOrigins   , pEE + robot2.AxisOrigins );
-            obj.AxisDirections = horzcat( obj.AxisDirections, robot2.AxisDirections );
-            
-            % Extending the joint types
-            obj.JointTypes = horzcat( obj.JointTypes , robot2.JointTypes  );
-
-            % Adding pEE for robot2's H_init
-            H_init_new = robot2.H_init;
-            H_init_new( 1 : 3, 4, : ) = pEE + H_init_new( 1 : 3, 4, : );
-
-            % Adding pEE for robot2's H_init_COM
-            H_COM_init_new = robot2.H_COM_init;
-            H_COM_init_new( 1 : 3, 4, : ) = pEE + H_COM_init_new( 1 : 3, 4, : );
-            
-            % Extending the H_init/H_COM_init
-            obj.H_init     = cat( 3, obj.H_init( :, :, 1:end - 1 ), H_init_new );
-            obj.H_COM_init = cat( 3, obj.H_COM_init, H_COM_init_new );
-            
-            % Extending the number of DOFs
-            obj.nq = obj.nq + robot2.nq;
+            % ================================ %
+            % ======= Basic Properties ======= %
+            % ================================ %
+            robot_new.nq = obj.nq + robot2add.nq;
 
             % Reproducing the parent ID
-            obj.ParentID = 0 : obj.nq;
-                
-            % Adapt the generalized mass matrix
-            obj.M_Mat = zeros( 6, 6, obj.nq );
-            for i = 1:obj.nq
-                obj.M_Mat( :, :, i ) = diag( [ obj.mc, obj.mc, obj.mc, 0, 0, 0 ] );
-            end
+            robot_new.ParentID = 0 : robot_new.nq;
+
+            % ================================ %
+            % ======= Joint Properties ======= %
+            % ================================ %
+            % Defining the joint properties of the new robot
+            % Extending the joint types
+            robot_new.JointTypes = horzcat( obj.JointTypes , robot2add.JointTypes  );
+
+            % Extending the axis origins and directions
+            % For that, we get the end-effector position
+            pEE = obj.H_init( 1 : 3 , 4, end );
+            
+            robot_new.AxisOrigins    = horzcat( obj.AxisOrigins   , pEE + robot2add.AxisOrigins    );
+            robot_new.AxisDirections = horzcat( obj.AxisDirections,       robot2add.AxisDirections );
             
             % =================================== %
-            % ========== GRAPHIC PARTS ========== %
+            % ======== The H Matrix (SE3) ======= %
+            % =================================== %            
+            % Setting the H_init of the COM and the robot's joints
+            % ----------------------------------------Excluding EE -----
+            robot_new.H_init     = cat( 3, obj.H_init( :, :, 1:end - 1 ), robot2add.H_init );
+            robot_new.H_COM_init = cat( 3, obj.H_COM_init               , robot2add.H_init );
+
+            % Adding pEE for robot2's H_init
+            robot_new.H_init(     1 : 3, 4, obj.nq + 1: end ) = pEE + robot_new.H_init(     1 : 3, 4, obj.nq + 1: end );
+            robot_new.H_COM_init( 1 : 3, 4, obj.nq + 1: end ) = pEE + robot_new.H_COM_init( 1 : 3, 4, obj.nq + 1: end );
+                
+            % ================================ %
+            % ===== Inertial Properties ====== %
+            % ================================ %
+            robot_new.Masses   = horzcat(  obj.Masses, robot2add.Masses   );
+            robot_new.Inertias = cat( 3, obj.Inertias, robot2add.Inertias );
+            robot_new.M_Mat    = cat( 3, obj.M_Mat   , robot2add.M_Mat    );
+            
+            % =================================== %
+            % ====== Animation Properties ======= %
             % =================================== %
             
             % Extending the MarkerSize
-            obj.gMarkerSize = horzcat( obj.gMarkerSize, robot2.gMarkerSize );
+            robot_new.gMarkerSize = horzcat( obj.gMarkerSize, robot2add.gMarkerSize );
 
             % Rewriting the end-effector as the provided one
             % Reset the x y positions of the end effector
-            robot2.gEE{ 2 } = obj.H_init( 1, 4, end );
-            robot2.gEE{ 3 } = obj.H_init( 2, 4, end );
-            obj.gEE = robot2.gEE;
+            gEE_new = robot2add.gEE;
 
+            % Change the x (2) and y (3) location 
+            gEE_new{ 2 } = robot_new.H_init( 1, 4, end );
+            gEE_new{ 3 } = robot_new.H_init( 2, 4, end );
+            robot_new.gEE = gEE_new;
             
             % Give a new name
             if isempty( varargin )
-                obj.Name = 'myNewRobot';
+                robot_new.Name = 'myNewRobot';
 
             else
                 % Parsing the robot name
@@ -634,7 +635,7 @@ classdef RobotPrimitive < handle
                 if ~isempty( idx )
                     name = varargin{ idx + 1 };
                 end
-                obj.Name = name;
+                robot_new.Name = name;
             end
 
 
