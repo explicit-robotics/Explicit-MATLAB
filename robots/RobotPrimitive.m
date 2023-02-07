@@ -71,8 +71,9 @@ classdef RobotPrimitive < handle
        
         % Graphic Objects for the Animation
         % prefix "g" is used to refer "g"raphic objects
-        gBase
-        gEE
+        gBase = {};
+        gEE   = {};
+        gObjs = {};
         
         % Marker size of the joint
         gMarkerSize

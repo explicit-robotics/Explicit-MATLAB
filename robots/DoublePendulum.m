@@ -83,7 +83,7 @@ classdef DoublePendulum < RobotPrimitive & handle
             % (1) the base graphic design
             % (2) the end-effector graphic design 
             % For this robot, there is no base object
-            obj.gBase = [ ];
+            obj.gBase = {};
             
             % The end-effector will be a marker with same size of others
             % Collect all the details as a cell
