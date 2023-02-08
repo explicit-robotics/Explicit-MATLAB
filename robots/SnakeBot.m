@@ -11,12 +11,11 @@ classdef SnakeBot < RobotPrimitive & handle
     end
     
     methods
-        function obj = SnakeBot( ID, nq )
+        function obj = SnakeBot( nq )
 
             % ======================================================= %
             % ============ BASIC PROPERTIES OF THE ROBOT ============ %
             % ======================================================= %
-            obj.ID     = ID;
             obj.Name   = 'SnakeBot';
             obj.nq     = nq;
 
@@ -87,8 +86,6 @@ classdef SnakeBot < RobotPrimitive & handle
             % Specifying the joint marker size
             obj.gMarkerSize = 12 * ones( 1, obj.nq );
             
-            % Specifying the line width of the robot
-            obj.gLineWidth  = 3;
             
             % For all robots, we need to specify 
             % (1) the base graphic design

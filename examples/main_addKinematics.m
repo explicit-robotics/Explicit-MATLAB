@@ -11,20 +11,19 @@
 %% Cleaning up + Environment Setup
 clear; close all; clc;
 
-
 %% Add robot 1 and 2
 
 % Our robot is the CartPole
-robot = CartPole( 1, 1, 1, 1 );
-
-% We want to add an Acrobot with two DOF
-kinematic = DoublePendulum( 1 );
-robot.addKinematics( kinematic )
+robot     = CartPole( 1, 1, 1 );
+kinematic = DoublePendulum( );
+new_robot = robot.addKinematics( kinematic );
 
 % Robot has to be initialized to adapt the joint twists for new robot
-robot.init( )
+robot.init( );
+kinematic.init( );
+new_robot.init( );
 
 % Set figure size and attach robot to simulation
 anim = Animation( 'Dimension', 2, 'xLim', [-4,4], 'yLim', [-4,4] );
-anim.init( 0 );
-anim.attachRobot( robot )  
+anim.init( );
+anim.attachRobot( new_robot )  

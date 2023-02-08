@@ -62,6 +62,7 @@ classdef Animation < handle
         % ======== GRAPHIC Properties ======= %
         % =================================== %
         gLinks = {};
+        gObjs  = {};        % Graphics from the object file.
 
     end
 
@@ -192,18 +193,12 @@ classdef Animation < handle
 
         end
 
-        function attachRobot( obj, robot )
+        function attachRobot( obj, robot, varargin )
+            % Attaching robot to the animation.
+
             % For attaching the robot, we create the graphic objects
             % Based on the joint type and size of the joint markers,
             % Specified as gMarkerSize
-            
-            % First, check that the robot argument 
-            % must have a different ID than the others. 
-            if obj.nRobots >= 1
-               for i = 1 : obj.nRobots
-                  assert( ~isequal( robot.ID, obj.Robots{ i }.ID ) )
-               end
-            end
             
             % Add the robot to the cell 
             obj.nRobots = obj.nRobots + 1;
@@ -225,64 +220,82 @@ classdef Animation < handle
             for i = 1: ( robot.nq + 1 )
                 obj.gLinks{ n }{ i } = hggroup( );
             end
-
-            % Creating the base, which can be conducted with the
-            % robot gBase's cell
-            % First check whether the base is empty or not
-            if ~isempty( robot.gBase )
-                gBase = robot.gBase{ 1 }( obj.hAxes, robot.gBase{ 2 : end } );
-                set( gBase, 'Parent', obj.gLinks{ n }{ 1 } );
-            end
-
-            % Iterating through the objects
-            for i = 1:robot.nq
-
-                % Creating the graphics
-                % The only information required is the
-                % length of the consecutive limbs.
-                % This can be calculated via H_init matrix
-
-                % First, the joint of the SnakeBot
-                % If the joint is a rev. joint
-                if robot.JointTypes( i ) == 1
-                    markerstyle = 'o';
-                    markerfacecolor = [ 0, 0.4470, 0.7410 ];
-
-                    % Else if the joint is a prism. joint.
-                else
-                    markerstyle = 's';
-                    markerfacecolor = [ 0.8500, 0.3250, 0.0980 ];
+            
+            
+            % ========================================= %
+            % ====== In case gObjects are given ======= %
+            % ========================================= %
+            if ~isempty( robot.gObjs )
+                
+                for i = 1 : robot.nq+1
+                    gPatch = patch( obj.hAxes, 'faces', robot.gObjs{ i }.f( :, 1:3 ),'vertices', robot.gObjs{ i }.v, ...
+                                   'EdgeColor', 'none', 'FaceVertexCData', robot.gObjs{ i }.f( :, 4:6 ), 'facecolor', 'flat' );
+                    set( gPatch, 'Parent', obj.gLinks{ n }{ i } );
+                end
+                
+            % =================================================== %
+            % In case the graphics should be created from scratch %
+            % =================================================== %  
+            else
+                
+                % Creating the base, which can be conducted with the
+                % robot gBase's cell
+                % First check whether the base is empty or not
+                if ~isempty( robot.gBase )
+                    gBase = robot.gBase{ 1 }( obj.hAxes, robot.gBase{ 2 : end } );
+                    set( gBase, 'Parent', obj.gLinks{ n }{ 1 } );
                 end
 
-                % Plot the Joints as a marker
-                % Note that the H_init( 1:3, 4, i ) is the initial pos.
-                % of the i-th joint.
-                gJoint = plot( robot.H_init( 1, 4, i ), robot.H_init( 2, 4, i ), ...
-                    'Marker', markerstyle,...
-                    'MarkerFaceColor', markerfacecolor, ...
-                    'MarkerEdgeColor', 'k',...
-                    'MarkerSize', robot.gMarkerSize( i ) );
+                % Iterating through the objects
+                for i = 1:robot.nq
 
-                set( gJoint, 'PickableParts', 'none' );
+                    % Creating the graphics
+                    % The only information required is the
+                    % length of the consecutive limbs.
+                    % This can be calculated via H_init matrix
 
-                % Plot the Link as a line
-                gLink = plot( squeeze( robot.H_init( 1, 4, i:i+1 ) ), ...
-                    squeeze( robot.H_init( 2, 4, i:i+1 ) ), ...
-                    'LineWidth', robot.gLineWidth, ...
-                    'Color', 'k' );
+                    % First, the joint of the SnakeBot
+                    % If the joint is a rev. joint
+                    if robot.JointTypes( i ) == 1
+                        markerstyle = 'o';
+                        markerfacecolor = [ 0, 0.4470, 0.7410 ];
 
-                % Attach the graphs
-                set( gLink , 'Parent' , obj.gLinks{ n }{ i + 1 } );
-                set( gJoint, 'Parent' , obj.gLinks{ n }{ i + 1 } );
+                        % Else if the joint is a prism. joint.
+                    else
+                        markerstyle = 's';
+                        markerfacecolor = [ 0.8500, 0.3250, 0.0980 ];
+                    end
 
-            end
+                    % Plot the Joints as a marker
+                    % Note that the H_init( 1:3, 4, i ) is the initial pos.
+                    % of the i-th joint.
+                    gJoint = plot( robot.H_init( 1, 4, i ), robot.H_init( 2, 4, i ), ...
+                        'Marker', markerstyle,...
+                        'MarkerFaceColor', markerfacecolor, ...
+                        'MarkerEdgeColor', 'k',...
+                        'MarkerSize', robot.gMarkerSize( i ) );
 
-            % Plotting the end-effector
-            if ~isempty( robot.gEE )
+                    set( gJoint, 'PickableParts', 'none' );
 
-                gEndEffector = robot.gEE{ 1 }( obj.hAxes, robot.gEE{ 2 : end } );
-                set( gEndEffector, 'Parent', obj.gLinks{ n }{ robot.nq + 1 } ) ;
+                    % Plot the Link as a line
+                    gLink = plot( squeeze( robot.H_init( 1, 4, i:i+1 ) ), ...
+                        squeeze( robot.H_init( 2, 4, i:i+1 ) ), ...
+                        'LineWidth', 3, ...
+                        'Color', 'k' );
 
+                    % Attach the graphs
+                    set(  gLink, 'Parent' , obj.gLinks{ n }{ i + 1 } );
+                    set( gJoint, 'Parent' , obj.gLinks{ n }{ i + 1 } );
+
+                end
+
+                % Plotting the end-effector
+                if ~isempty( robot.gEE )
+
+                    gEndEffector = robot.gEE{ 1 }( obj.hAxes, robot.gEE{ 2 : end } );
+                    set( gEndEffector, 'Parent', obj.gLinks{ n }{ robot.nq + 1 } ) ;
+
+                end
             end
 
             % Iterating
@@ -292,12 +305,12 @@ classdef Animation < handle
                     parent = obj.hAxes;
                     matrix = robot.H_base;
                 else
-                    tag_parent = [ prefix, num2str( robot.ID ), '_', num2str( robot.ParentID( i ) ) ];
+                    tag_parent = [ prefix, num2str( obj.nRobots ), '_', num2str( robot.ParentID( i ) ) ];
                     parent = findobj( 'Tag', tag_parent );
                     matrix = eye( 4 );
                 end
 
-                tag = [ prefix, num2str( robot.ID ) , '_' , num2str( i ) ];
+                tag = [ prefix, num2str( obj.nRobots ) , '_' , num2str( i ) ];
 
                 % hgtf for base
                 gt = hgtransform( 'Parent', parent, 'Tag', tag, 'Matrix', matrix );
@@ -329,7 +342,7 @@ classdef Animation < handle
 
                     % Tag name is usually
                     %       robot1_1, robot1_2
-                    Tag = [ prefix, num2str( obj.Robots{ i }.ID ), '_', num2str( j ) ];
+                    Tag = [ prefix, num2str( i ), '_', num2str( j ) ];
 
                     gt = findobj( obj.hAxes, 'Tag', Tag );
 
@@ -343,12 +356,10 @@ classdef Animation < handle
             end
 
             % Saving the figure if record is on
-            % You don't need to update the animation if larger than frame
-            % rate.
+            % You don't need to update the animation if larger than frame rate.
             if round( obj.t / obj.FrameUpdateTime ) >= obj.nFrame
 
                 obj.nFrame = obj.nFrame + 1;
-                % Update Figure
                 drawnow;
 
                 if obj.isSaveVideo
@@ -364,10 +375,7 @@ classdef Animation < handle
         function close( obj )
 
             if obj.isSaveVideo
-
-                % Close the video object
                 close( obj.Video );
-
             end
 
         end
