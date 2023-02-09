@@ -16,7 +16,7 @@ clear; close all; clc;
 
 % Include all the subdirectories
 func_addSubfolders( 'animation', 'helpers_geometry', 'robots', 'testzone',...
-                   'examples', 'interpolator', 'comparisons', 'utils' );
+                   'examples', 'interpolator', 'comparisons', 'utils', 'graphics' );
 
 %% Adding the RVC software to run the comparison 
 % The directories for the following two softwares will be added to path.

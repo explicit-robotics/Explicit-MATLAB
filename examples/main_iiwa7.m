@@ -17,8 +17,7 @@ t  = 0;             % The current time of simulation
 dt = 0.01;          % Time-step of simulation 
 
 % Set figure size and attach robot to simulation
-
-robot = iiwa7( 'dirname', './obj/highQuality/iiwa7' );
+robot = iiwa7( 'dirname', './graphics/highQuality/iiwa7.mat' );
 robot.init( );
 %% 
 anim = Animation( 'Dimension', 3, 'xLim', [-1,1], 'yLim', [-1,1], 'zLim', [0,2] );
@@ -26,6 +25,5 @@ anim.init( );
 anim.attachRobot( robot )  
 
 %%
-
 robot.updateKinematics( robot.q_init );
 anim.update( 0 );

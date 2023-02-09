@@ -114,6 +114,11 @@ classdef Animation < handle
                 obj.( name ) = obj.ArgParse.Results.( name );
             end
 
+            % Pass graphics from object file
+            % [TODO] [J. Lachner] [2022.02.09]
+            % Pass graphics .mat file to Animation object? Strictly, this
+            % is no robot property.
+
         end
 
         function init( obj )
@@ -226,10 +231,10 @@ classdef Animation < handle
             % ====== In case gObjects are given ======= %
             % ========================================= %
             if ~isempty( robot.gObjs )
-                
+
                 for i = 1 : robot.nq+1
-                    gPatch = patch( obj.hAxes, 'faces', robot.gObjs{ i }.f( :, 1:3 ),'vertices', robot.gObjs{ i }.v, ...
-                                   'EdgeColor', 'none', 'FaceVertexCData', robot.gObjs{ i }.f( :, 4:6 ), 'facecolor', 'flat' );
+                    gPatch = patch( obj.hAxes, 'faces', robot.gObjs.data{ i }.f( :, 1:3 ),'vertices', robot.gObjs.data{ i }.v, ...
+                                   'EdgeColor', 'none', 'FaceVertexCData', robot.gObjs.data{ i }.f( :, 4:6 ), 'facecolor', 'flat' );
                     set( gPatch, 'Parent', obj.gLinks{ n }{ i } );
                 end
                 
