@@ -81,6 +81,9 @@ classdef RobotPrimitive < handle
         % Dimension of the animation
         Dimension
 
+        % Quality of the animation
+        Quality
+
         % =================================== %
         % ======== Other Properties ========= %
         % =================================== %

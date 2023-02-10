@@ -29,7 +29,7 @@ classdef Animation < handle
         % Dimension of the robot, either 2D or 3D
         Dimension
 
-        % The time of the current simulation 
+        % The time of the current simulation
         t = 0
 
         % =================================== %
@@ -41,10 +41,10 @@ classdef Animation < handle
         Video
         VideoSpeed
         FrameUpdateTime
-            
+
         % The number of current frame
-        % This will be useful for video saving functionality 
-        nFrame = 0 
+        % This will be useful for video saving functionality
+        nFrame = 0
 
         % Handles
         hFig
@@ -114,23 +114,18 @@ classdef Animation < handle
                 obj.( name ) = obj.ArgParse.Results.( name );
             end
 
-            % Pass graphics from object file
-            % [TODO] [J. Lachner] [2022.02.09]
-            % Pass graphics .mat file to Animation object? Strictly, this
-            % is no robot property.
-
         end
 
         function init( obj )
 
-            % Saving time step 
+            % Saving time step
             obj.FrameUpdateTime = 1.0 / 30 * obj.VideoSpeed;
 
             % If Save video is on.
             if obj.isSaveVideo
                 obj.Video = VideoWriter( obj.Title, 'MPEG-4' );
 
-                % The default frame rate of the video is 30 
+                % The default frame rate of the video is 30
                 obj.Video.FrameRate = 30;
 
                 % Open the video file
@@ -139,7 +134,7 @@ classdef Animation < handle
 
             % Setting up the figure of the animation
             obj.hFig = figure( );
-            set( obj.hFig, 'Color',[1,1,1], 'Name', obj.Title, 'NumberTitle', 'off')
+            set( obj.hFig, 'Color',[ 1, 1, 1 ], 'Name', obj.Title, 'NumberTitle', 'off')
 
             % Setting up the Axes of the animation
             obj.hAxes = axes( 'parent', obj.hFig );
@@ -155,7 +150,7 @@ classdef Animation < handle
 
             % Title: simulation time
             obj.SubTitle = title( sprintf( 'Time: %2.1f sec', obj.t ) );
-            set( obj.SubTitle, 'FontSize' , 15);            
+            set( obj.SubTitle, 'FontSize' , 15);
 
             if obj.Dimension == 3
                 zlabel( obj.hAxes, 'z (m)' )
@@ -204,15 +199,15 @@ classdef Animation < handle
             % For attaching the robot, we create the graphic objects
             % Based on the joint type and size of the joint markers,
             % Specified as gMarkerSize
-            
-            % Add the robot to the cell 
+
+            % Add the robot to the cell
             obj.nRobots = obj.nRobots + 1;
-            
+
             % For notational abbreviation, set n as the current number
-            % of the robots 
+            % of the robots
             n = obj.nRobots;
             obj.Robots{ n } = robot;
-            
+
             % The initial settings of the object
             prefix = 'robot';
 
@@ -225,8 +220,8 @@ classdef Animation < handle
             for i = 1: ( robot.nq + 1 )
                 obj.gLinks{ n }{ i } = hggroup( );
             end
-            
-            
+
+
             % ========================================= %
             % ====== In case gObjects are given ======= %
             % ========================================= %
@@ -234,15 +229,15 @@ classdef Animation < handle
 
                 for i = 1 : robot.nq+1
                     gPatch = patch( obj.hAxes, 'faces', robot.gObjs.data{ i }.f( :, 1:3 ),'vertices', robot.gObjs.data{ i }.v, ...
-                                   'EdgeColor', 'none', 'FaceVertexCData', robot.gObjs.data{ i }.f( :, 4:6 ), 'facecolor', 'flat' );
+                        'EdgeColor', 'none', 'FaceVertexCData', robot.gObjs.data{ i }.f( :, 4:6 ), 'facecolor', 'flat' );
                     set( gPatch, 'Parent', obj.gLinks{ n }{ i } );
                 end
-                
-            % =================================================== %
-            % In case the graphics should be created from scratch %
-            % =================================================== %  
+
+                % =================================================== %
+                % In case the graphics should be created from scratch %
+                % =================================================== %
             else
-                
+
                 % Creating the base, which can be conducted with the
                 % robot gBase's cell
                 % First check whether the base is empty or not
@@ -329,7 +324,7 @@ classdef Animation < handle
 
         function update( obj, t )
 
-            % Update the time of the simulation 
+            % Update the time of the simulation
             obj.t = t;
 
             % The robot should NOT be empty before running update.
@@ -371,8 +366,8 @@ classdef Animation < handle
                     writeVideo( obj.Video , getframe( obj.hFig ) )
                 end
 
-                set( obj.SubTitle, 'String', sprintf( 'Time: %2.1f sec', obj.t ) );                
-
+                set( obj.SubTitle, 'String', sprintf( 'Time: %2.1f sec', obj.t ) );
+ 
             end
 
         end
