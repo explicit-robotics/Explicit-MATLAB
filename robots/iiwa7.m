@@ -38,6 +38,10 @@ classdef iiwa7 < RobotPrimitive & handle
             % Robot simulation in 3D
             obj.Dimension = 3;
 
+            % If true, .obj defines the color. Otherwise, 'FaceColors' are
+            % manually chosen
+            obj.Color = true;
+
             % ======================================================= %
             % ====== GEOMETRIC/INERTIA PROPERTIES OF THE ROBOT ====== %
             % ======================================================= %

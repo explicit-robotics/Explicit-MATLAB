@@ -84,6 +84,9 @@ classdef RobotPrimitive < handle
         % Quality of the animation
         Quality
 
+        % Color flag to assign FaceColor by hand
+        Color
+
         % =================================== %
         % ======== Other Properties ========= %
         % =================================== %

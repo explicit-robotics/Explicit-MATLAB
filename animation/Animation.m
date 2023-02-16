@@ -228,10 +228,21 @@ classdef Animation < handle
             if ~isempty( robot.gObjs )
 
                 for i = 1 : robot.nq+1
+
                     gPatch = patch( obj.hAxes, 'faces', robot.gObjs.data{ i }.f( :, 1:3 ),'vertices', robot.gObjs.data{ i }.v, ...
-                        'EdgeColor', 'none', 'FaceVertexCData', robot.gObjs.data{ i }.f( :, 4:6 ), 'facecolor', 'flat' );
+                        'EdgeColor', 'none');
                     set( gPatch, 'Parent', obj.gLinks{ n }{ i } );
+
+                    % In case robot color is defined by .obj-file;
+                    % Otherwise choose white color
+                    if robot.Color
+                        set( gPatch, 'FaceVertexCData', robot.gObjs.data{ i }.f( :, 4:6 ), 'facecolor', 'flat' );
+                    else
+                        set( gPatch, 'facecolor', [ 255/255, 255/255, 255/255 ], 'FaceAlpha', 255/255 );
+                    end
+
                 end
+
 
                 % =================================================== %
                 % In case the graphics should be created from scratch %
@@ -367,7 +378,7 @@ classdef Animation < handle
                 end
 
                 set( obj.SubTitle, 'String', sprintf( 'Time: %2.1f sec', obj.t ) );
- 
+
             end
 
         end
