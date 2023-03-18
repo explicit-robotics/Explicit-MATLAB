@@ -15,7 +15,7 @@
 clear; close all; clc;
 
 % Include all the subdirectories
-func_addSubfolders( 'animation', 'helpers_geometry', 'robots', 'testzone',...
-                   'examples', 'interpolator', 'comparisons', 'utils', 'graphics');
+func_addSubfolders( 'animation', 'helpers_geometry', 'robots',...
+                   'examples', 'interpolator', 'utils', 'graphics');
 
-fprintf( 'EXPlicit (c) Moses C. Nah & Johannes Lachner 2022-2023, https://explicit-robotics.github.io' )
+disp( 'EXPlicit (c) Moses C. Nah & Johannes Lachner 2022-2023, https://explicit-robotics.github.io' )

@@ -2,6 +2,5 @@
 *.asv
 obj
 tmp*
-rvctools
-comparisons
-testzone
+rvc*
+test*
