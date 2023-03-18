@@ -149,8 +149,8 @@ classdef Animation < handle
             ylabel( obj.hAxes, 'y (m)' )
 
             % Title: simulation time
-            obj.SubTitle = title( sprintf( 'Time: %2.1f sec', obj.t ) );
-            set( obj.SubTitle, 'FontSize' , 15);
+%             obj.SubTitle = title( sprintf( 'Time: %2.1f sec', obj.t ) );
+%             set( obj.SubTitle, 'FontSize' , 15);
 
             if obj.Dimension == 3
                 zlabel( obj.hAxes, 'z (m)' )
@@ -280,7 +280,7 @@ classdef Animation < handle
                     % Plot the Link as a line
                     gLink = plot( squeeze( robot.H_init( 1, 4, i:i+1 ) ), ...
                         squeeze( robot.H_init( 2, 4, i:i+1 ) ), ...
-                        'LineWidth', 3, ...
+                        'LineWidth', 6, ...
                         'Color', 'k' );
 
                     % Attach the graphs

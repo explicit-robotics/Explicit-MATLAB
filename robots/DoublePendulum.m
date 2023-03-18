@@ -1,17 +1,32 @@
 classdef DoublePendulum < RobotPrimitive & handle
-    
-    properties
+    % Constructs a planar 2-DOF Double Pendulum robot.
+    % The links are assumed to have uniform mass densities.
+    %
+    % :param m1: The mass (kg) of the first link.
+    % :param l1: The length (m) of the first link.
+    % :param m2: The mass (kg) of the second link.
+    % :param l2: The length (m) of the second link.
 
+    properties
+        m1 
+        l1 
+        m2 
+        l2
     end
     
     methods
-        function obj = DoublePendulum( )
+        function obj = DoublePendulum( m1, l1, m2, l2 )
 
             % ======================================================= %
             % ============ BASIC PROPERTIES OF THE ROBOT ============ %
             % ======================================================= %
             obj.Name   = 'DoublePendulum';
             obj.nq     = 2;
+
+            obj.m1 = m1;
+            obj.l1 = l1;
+            obj.m2 = m2;
+            obj.l2 = l2;
 
             obj.ParentID = 0 : 1 : 2;
             
@@ -21,17 +36,19 @@ classdef DoublePendulum < RobotPrimitive & handle
             % ======================================================= %
             % ====== GEOMETRIC/INERTIA PROPERTIES OF THE ROBOT ====== %
             % ======================================================= %
-            % The mass, length properties of the robot
-            m = 1;
-            l = 1;
-            I = 1/12 * m * l^2;
-
+           
             % The geometrical and inertia property of the Robots
-            obj.Masses      = m * ones( 1, obj.nq );
-            obj.Inertias    = repmat( I * eye( 3 ), [ 1, 1, obj.nq ] );
+            obj.Masses = [ m1, m2 ];
+            I1 = 1/12 * m1 * l1^2; 
+            I2 = 1/12 * m2 * l2^2; 
 
-            % The ineria tensor along the principal axis
-            obj.M_Mat = repmat( diag( [ m, m, m, I, I, I ] ) , [ 1, 1, obj.nq ]  );
+            obj.Inertias = [ 0, 0, I1;
+                             0, 0, I2];
+
+            % The generalized mass matrix
+            obj.M_Mat = zeros( 6, 6, 2 );
+            obj.M_Mat( :, :, 1 ) = diag( [ m1, m1, m1, 0, 0, I1 ] );
+            obj.M_Mat( :, :, 2 ) = diag( [ m2, m2, m2, 0, 0, I2 ] );
 
             % ======================================================= %
             % ============ JOINT PROPERTIES OF THE ROBOT ============ %
@@ -45,8 +62,8 @@ classdef DoublePendulum < RobotPrimitive & handle
             % We define q_i_arr which is the initial position
             % q_i_arr is sized as 3xnq
             % First, calculating the x positions of the matrix
-            obj.AxisOrigins = [ 0,  0, 0;
-                                0, -l, 0]';
+            obj.AxisOrigins = [ 0,   0, 0;
+                                0, -l1, 0]';
                                 
             % For the snake robot, the axes are along +z, (0,0,1)
             obj.AxisDirections = repmat( [ 0; 0; 1 ], 1, obj.nq );
@@ -62,22 +79,22 @@ classdef DoublePendulum < RobotPrimitive & handle
 
             % Fill-in the H_init matrix with 
             % x locations of the joint (including EE) is located at:
-            obj.H_init( 2, 4, 2 ) = -1 * l;
-            obj.H_init( 2, 4, 3 ) = -2 * l;
+            obj.H_init( 2, 4, 2 ) = -l1;
+            obj.H_init( 2, 4, 3 ) = -l1-l2;
                        
             % Get initial transformations of point on COM of each link
             % The COM of each link is located at the geometric center,
             % i.e., the half of the distance.
             % which is (l1/2, l1 + l2/2, ..., l1 + ... + l(n-1) + ln/2
             obj.H_COM_init  = repmat( eye( 4 ), [ 1, 1, obj.nq ] ); 
-            obj.H_COM_init( 2, 4, 1 ) = -0.5 * l;
-            obj.H_COM_init( 2, 4, 2 ) = -1.5 * l;             
+            obj.H_COM_init( 2, 4, 1 ) = -0.5*l1;
+            obj.H_COM_init( 2, 4, 2 ) = -l1-0.5*l2;             
             
             % ======================================================= %
             % =========== GRAPHIC PROPERTIES OF THE ROBOT =========== %
             % ======================================================= %
             % Specifying the joint marker size
-            obj.gMarkerSize = [ 12, 12 ]; 
+            obj.gMarkerSize = [ 24, 24 ]; 
             
             % For all robots, we need to specify 
             % (1) the base graphic design
@@ -89,7 +106,7 @@ classdef DoublePendulum < RobotPrimitive & handle
             % Collect all the details as a cell
             obj.gEE   = { @plot, obj.H_init( 1, 4, 3 ), obj.H_init( 2, 4, 3 ), ...
                           'o', 'MarkerFaceColor', 'k', ...
-                          'MarkerEdgeColor', 'k', 'MarkerSize', 12  };
+                          'MarkerEdgeColor', 'k', 'MarkerSize', 24  };
             
         end
 

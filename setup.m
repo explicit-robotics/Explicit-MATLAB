@@ -18,17 +18,4 @@ clear; close all; clc;
 func_addSubfolders( 'animation', 'helpers_geometry', 'robots', 'testzone',...
                    'examples', 'interpolator', 'comparisons', 'utils', 'graphics');
 
-disp( 'EXPlicit (c) Moses C. Nah & Johannes Lachner 2022-2023, https://explicit-robotics.github.io' )
-
-%% Adding the RVC software to run the comparison 
-% The directories for the following two softwares will be added to path.
-% - Robotics Toolbox MATLAB [rvc]
-% - Our software [JM, Johannes and Moses :)]
-
-% ==================================== %
-% Add the robotics toolbox MATLAB
-% ==================================== %
-% Move one directory up 
-
-addpath( './rvctools' );
-startup_rvc
+fprintf( 'EXPlicit (c) Moses C. Nah & Johannes Lachner 2022-2023, https://explicit-robotics.github.io' )

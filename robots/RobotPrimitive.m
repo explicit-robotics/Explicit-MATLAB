@@ -69,8 +69,7 @@ classdef RobotPrimitive < handle
         % ====== Animation Properties ======= %
         % =================================== %
        
-        % Graphic Objects for the Animation
-        % prefix "g" is used to refer "g"raphic objects
+        
         gBase = {};
         gEE   = {};
         gObjs = {};

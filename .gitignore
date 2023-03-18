@@ -2,3 +2,6 @@
 *.asv
 obj
 tmp*
+rvctools
+comparisons
+testzone

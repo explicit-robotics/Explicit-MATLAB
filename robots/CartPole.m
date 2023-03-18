@@ -1,18 +1,15 @@
 classdef CartPole < RobotPrimitive & handle
-    
+    % Constructs a planar 2-DOF Cart-pole robot.
+    %
+    % :param mc: The mass (kg) of the cart.
+    % :param lp: The length (m) of the pole.
+    % :param mp: The mass (kg) of the point mass attached to the pole.
     properties
-
-        % ========================================== %
-        % ======= Properties for CartPole ========== %
-        % ========================================== %
-        % For the 2DOF cartpole system, 
-        % We simply save the masses of cart/pole, and the length of the pole
         
-        mc      % Mass of the cart
-        mp      % Mass of the Pole (Point-mass)
-        lp      % Length of the Pole 
+        mc      
+        mp      
+        lp      
        
-
     end
     
     methods
@@ -91,7 +88,7 @@ classdef CartPole < RobotPrimitive & handle
             
             % For all robots, we need to specify 
             % (1) the base graphic design
-            % (2) the end-effector graphic design 
+            % (2) the end-effector   design 
             % For this robot, there is no base object
             obj.gBase = {};
             

@@ -22,12 +22,15 @@ is_anim = true;
 %% Initialize the robot
 
 % Select the robotID
-robotID = 1;
-
-robot = DoublePendulum( robotID );
+m1 = 1;
+l1 = 1;
+m2 = 1;
+l2 = 1;
+ 
+robot = DoublePendulum( m1, l1, m2, l2 );
 robot.init( )
 
-anim = Animation( 'Dimension', 2, 'xLim', [-3,3], 'yLim', [-3,3] );
+anim = Animation( 'Dimension', 2, 'xLim', [-1.5,1.5], 'yLim', [-2.5,0.5] );
 anim.init( );
 anim.attachRobot( robot )
 

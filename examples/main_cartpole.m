@@ -18,10 +18,7 @@ dt = 0.005;        % Time-step of simulation
 
 %% Initialize the robot
 
-% Select the robotID
-robotID = 1;
-
-robot = CartPole( robotID, 1, 1, 1 );
+robot = CartPole( 1, 1, 1 );
 % mc = cart's mass
 % lp = pole's length
 % mp = pole's mass
