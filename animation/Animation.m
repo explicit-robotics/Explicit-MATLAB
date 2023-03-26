@@ -61,9 +61,9 @@ classdef Animation < handle
         % =================================== %
         % ======== GRAPHIC Properties ======= %
         % =================================== %
-        gLinks = {};
-        gObjs  = {};        % Graphics from the object file.
-
+        gLinks   = {};
+        gObjs    = {};        % Graphics from the object file.
+        gPatches = {};
     end
 
     methods
@@ -228,9 +228,17 @@ classdef Animation < handle
             if ~isempty( robot.gObjs )
 
                 for i = 1 : robot.nq+1
-                    gPatch = patch( obj.hAxes, 'faces', robot.gObjs.data{ i }.f( :, 1:3 ),'vertices', robot.gObjs.data{ i }.v, ...
-                        'EdgeColor', 'none', 'FaceVertexCData', robot.gObjs.data{ i }.f( :, 4:6 ), 'facecolor', 'flat' );
-                    set( gPatch, 'Parent', obj.gLinks{ n }{ i } );
+
+                    % Check if the faces are 3 values rather than 6 values
+                    if size( robot.gObjs.data{ i }.f, 2 ) == 6
+                        obj.gPatches{ i } = patch( obj.hAxes, 'faces', robot.gObjs.data{ i }.f( :, 1:3 ),'vertices', robot.gObjs.data{ i }.v, ...
+                                        'EdgeColor', 'none', 'FaceVertexCData', robot.gObjs.data{ i }.f( :, 4:6 ), 'facecolor', 'flat' );
+                    else
+                        obj.gPatches{ i } = patch( obj.hAxes, 'faces', robot.gObjs.data{ i }.f,'vertices', robot.gObjs.data{ i }.v, ...
+                                        'EdgeColor', 'none' );
+                    end
+
+                    set( obj.gPatches{ i }, 'Parent', obj.gLinks{ n }{ i } );
                 end
 
                 % =================================================== %
@@ -270,17 +278,17 @@ classdef Animation < handle
                     % Note that the H_init( 1:3, 4, i ) is the initial pos.
                     % of the i-th joint.
                     gJoint = plot( robot.H_init( 1, 4, i ), robot.H_init( 2, 4, i ), ...
-                        'Marker', markerstyle,...
-                        'MarkerFaceColor', markerfacecolor, ...
-                        'MarkerEdgeColor', 'k',...
-                        'MarkerSize', robot.gMarkerSize( i ) );
+                                    'Marker', markerstyle,...
+                                    'MarkerFaceColor', markerfacecolor, ...
+                                    'MarkerEdgeColor', 'k',...
+                                    'MarkerSize', robot.gMarkerSize( i ) );
 
                     set( gJoint, 'PickableParts', 'none' );
 
                     % Plot the Link as a line
                     gLink = plot( squeeze( robot.H_init( 1, 4, i:i+1 ) ), ...
                         squeeze( robot.H_init( 2, 4, i:i+1 ) ), ...
-                        'LineWidth', 6, ...
+                        'LineWidth', 3, ...
                         'Color', 'k' );
 
                     % Attach the graphs

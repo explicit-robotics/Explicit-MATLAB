@@ -9,12 +9,12 @@ classdef iiwa14 < RobotPrimitive & handle
 
         % The locations
         COMs = [ 0.0, -14.0e-3, 102.0e-3;
-                 0.0, 16.0e-3, 64.0e-3;
-                 0.0, 19.0e-3, 98.0e-3;
-                 0.0, -20.0e-3, 86.0e-3;
-                 0.0, -13.0e-3, 66.0e-3;
-                 0.0, 60.0e-3, 16.0e-3;
-                 0.0, 0.0e-3, 11.0e-3 ]';
+                 0.0,  16.0e-3,  64.0e-3;
+                 0.0,  19.0e-3,  98.0e-3;
+                 0.0, -20.0e-3,  86.0e-3;
+                 0.0, -13.0e-3,  66.0e-3;
+                 0.0,  60.0e-3,  16.0e-3;
+                 0.0,   0.0e-3,  11.0e-3 ]';
 
         % End-effector origin
         AxisOriginFlange = [ 0, 0 , 31.4e-3 ]';
@@ -23,19 +23,20 @@ classdef iiwa14 < RobotPrimitive & handle
     end
 
     methods
-        function obj = iiwa14( varargin )
+        function obj = iiwa14( quality )
             % Currently, the varargin is passed to either choose ('high' or 'low' quality)
 
             % ======================================================= %
             % ============ BASIC PROPERTIES OF THE ROBOT ============ %
             % ======================================================= %
-            obj.Name   = 'iiwa14';
-            obj.nq     = 7;
+            obj.Name      = 'iiwa14';
+            obj.nq        = 7;
+            obj.ParentID  = 0:obj.nq;
+            obj.Dimension = 3;
 
-            % Parents of the object
-            obj.ParentID = 0:obj.nq;
-
-            % Robot simulation in 3D
+            % Quality of the animation should be either `high` or `low`.
+            assert( strcmp( quality, 'high' ) || strcmp( quality, 'low' ) )
+            obj.Quality = quality;
             obj.Dimension = 3;
 
             % ======================================================= %
@@ -45,22 +46,15 @@ classdef iiwa14 < RobotPrimitive & handle
             % Mass of the robot 1xnq
             obj.Masses = [ 6.404, 7.89, 2.54, 4.82, 1.76, 2.5, 0.42 ];
 
-            % The inertia matrix of the robot, nqx3
-            obj.Inertias = [ 0.069,  0.071, 0.02;
-                             0.08, 0.08, 0.01;
-                             0.02,   0.02, 0.06;
-                             0.04,  0.03, 0.01;
-                             0.01,  0.01, 0.01;
-                             0.007,  0.006, 0.005;
-                             0.0003, 0.0003, 0.0005 ]';
-
-            % The generalized mass matrix
-            obj.M_Mat = zeros( 6, 6, obj.nq );
-
-            for i = 1:obj.nq
-                obj.M_Mat( 1:3, 1:3, i ) = obj.Masses( i ) * eye( 3 );
-                obj.M_Mat( 4:6, 4:6, i ) = diag( obj.Inertias( :, i ) );
-            end
+            % The inertia matrix of the robot, nqx6
+            % Ordered in Ixx, Iyy, Izz, Ixy, Ixz, Iyz
+            obj.Inertias = [ 0.0690,  0.0710, 0.0200, 0, 0, 0;
+                             0.0800,  0.0800, 0.0100, 0, 0, 0;
+                             0.0200,  0.0200, 0.0600, 0, 0, 0;
+                             0.0400,  0.0300, 0.0100, 0, 0, 0;
+                             0.0100,  0.0100, 0.0100, 0, 0, 0;
+                             0.0070,  0.0060, 0.0050, 0, 0, 0;
+                             0.0003,  0.0003, 0.0005, 0, 0, 0 ];
 
             % ================================ %
             % ======= Joint Properties ======= %
@@ -82,7 +76,7 @@ classdef iiwa14 < RobotPrimitive & handle
             obj.ddq_min = -obj.ddq_max;
 
             % The axis origin of the robot at initial configuration
-            obj.AxisOrigins = [ 0, 0, 152.5e-3;
+            obj.AxisOrigins = [ 0,      0, 152.5e-3;
                                 0, -13e-3, 207.5e-3;
                                 0,  13e-3, 232.5e-3;
                                 0,  11e-3, 187.5e-3;
@@ -121,34 +115,9 @@ classdef iiwa14 < RobotPrimitive & handle
             % ====== Animation Properties ======= %
             % =================================== %
 
-            % varargin can be used to specify the animation quality
-            % Default is highQuality
-            obj.Quality = 'highQuality';
-            idq = find( strcmp( 'quality', varargin ) );
-            
-            if ~isempty( idq )
-                if ( strcmp( 'low', varargin{ idq + 1 } ) )
-                    obj.Quality = 'lowQuality';
-                elseif ( strcmp( 'high', varargin{ idq + 1 } ) )
-                    % kepp high quality
-                else
-                    warning( 'Only "low" and "high" quality implemented. Will keep high quality.' );
-                end
-            end
-
-            % varargin can be used as the directory to the mat file
-            % We read out fields with vertices and faces information.
-            idx = find( strcmp( 'dirname', varargin ) );
-         
-            if ~isempty( idx )
-                % If the directory exists, assign the .mat file
-                file_name = varargin{ idx + 1 };
-                obj.gObjs = load( file_name );
-            else
-                file_name = [ './graphics/', obj.Quality, '/iiwa14.mat' ];
-                obj.gObjs = load( file_name );
-            end
-
+            [ currentDir, ~, ~ ] = fileparts( mfilename('fullpath') );
+            file_name = [ currentDir, '/../graphics/', obj.Quality, 'Quality/iiwa7.mat' ];
+            obj.gObjs = load( file_name );
         end
 
 

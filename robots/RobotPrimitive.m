@@ -1,5 +1,9 @@
 classdef RobotPrimitive < handle
     % A primitive robot parent class
+    % This class is a "template" to construct a robot.
+    %
+    % 
+
     %
     % ================================ %
     % ====== Naming Conventions ====== %
@@ -81,6 +85,7 @@ classdef RobotPrimitive < handle
         Dimension
 
         % Quality of the animation
+        % This property is only used for 3D robots
         Quality
 
         % =================================== %
@@ -150,6 +155,40 @@ classdef RobotPrimitive < handle
             % init( ) function, but for the near future we will include
             % other functions.
             obj.setJointTwists( )
+            obj.setGeneralizedMassMatrix( )
+
+        end
+
+        function setGeneralizedMassMatrix( obj )
+            % Set the generalized Mass Matrix
+            % Before running this method
+            % Masses ( 1 x nq ) and Inertia ( nq x 6 ) matrices should be
+            % the same size
+            assert( all( size( obj.Masses )   == [ 1, obj.nq ] ) )
+            assert( all( size( obj.Inertias ) == [ obj.nq, 6 ] ) )
+
+            % The generalized mass matrix
+            obj.M_Mat = zeros( 6, 6, obj.nq );
+
+            % Set the Generalized Mass Matrix
+            for i = 1 : obj.nq
+                m = obj.Masses( i );
+
+                Ixx = obj.Inertias( obj.nq, 1 );
+                Iyy = obj.Inertias( obj.nq, 2 );
+                Izz = obj.Inertias( obj.nq, 3 );
+                Ixy = obj.Inertias( obj.nq, 4 );
+                Ixz = obj.Inertias( obj.nq, 5 );
+                Iyz = obj.Inertias( obj.nq, 6 );                
+
+                I_mat = [ Ixx, Ixy, Ixz; ...
+                          Ixy, Iyy, Iyz; ...
+                          Ixz, Iyz, Izz];
+
+                obj.M_Mat( :, :, i ) = [ diag( m * ones( 1, 3 ) ), zeros( 3 ); ...
+                                                       zeros( 3 ),    I_mat ];
+            end
+
 
         end
 
