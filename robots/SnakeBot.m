@@ -1,44 +1,55 @@
 classdef SnakeBot < RobotPrimitive & handle
-    
+    % Constructs a planar n-DOF Robot.
+    % 
+    % The links are assumed to have identical masses and lengths.
+    % Moreover, uniform mass density is assumed for each link.
+    % 
+    % Parameters
+    % ----------
+    %     n : int
+    %         The number of linkages for the snakebot.
+    %     m_arr : float array
+    %         The mass (kg) array of the n linkages, size of 1 x n
+    %     l_arr : float array
+    %         The length (m) array of the n linkages, size of 1 x n
+    % 
+    % Error
+    % -----
+    %    `n` must be an integer. `m_arr` and `l_arr` must all have positive values.
+
     properties
 
-        % ========================================== %
-        % ======= Properties for Snake Robot ======= %
-        % ========================================== %
         LinkLengths
-
         
     end
     
     methods
-        function obj = SnakeBot( nq )
+        function obj = SnakeBot( nq, m_arr, l_arr )
 
             % ======================================================= %
             % ============ BASIC PROPERTIES OF THE ROBOT ============ %
             % ======================================================= %
-            obj.Name   = 'SnakeBot';
-            obj.nq     = nq;
-
-            obj.ParentID = 0 : 1 : nq;
-            
-            % Robot simulation in 2D
+            obj.Name      = 'SnakeBot';
+            obj.nq        = nq;
+            obj.ParentID  = 0 : 1 : nq;
             obj.Dimension = 2;
-            
+
+            assert( all( m_arr > 0 ) && all( l_arr > 0 ) )
+            assert( all( size( m_arr ) == [ 1, obj.nq ] ) && ...
+                    all( size( l_arr ) == [ 1, obj.nq ] ) )
+
+            obj.LinkLengths = l_arr;
+
             % ======================================================= %
             % ====== GEOMETRIC/INERTIA PROPERTIES OF THE ROBOT ====== %
             % ======================================================= %
-            % The mass, length properties of the robot
-            m = 1;
-            l = 1;
-            I = 1/12 * m * l^2;
 
             % The geometrical and inertia property of the Robots
-            obj.LinkLengths = l * ones( 1, nq );
-            obj.Masses      = m * ones( 1, nq );
-            obj.Inertias    = repmat( I * eye( 3 ), [ 1, 1, nq ] );
+            obj.Masses   = m_arr;
+            obj.Inertias = zeros( obj.nq, 6 );
+            obj.Inertias( :, 3 ) = 1/12 * obj.Masses .* obj.LinkLengths.^2;
 
             % The ineria tensor along the principal axis
-            obj.M_Mat = repmat( diag( [ m, m, m, I, I, I ] ) , [ 1, 1, nq ]  );
 
             % ======================================================= %
             % ============ JOINT PROPERTIES OF THE ROBOT ============ %
@@ -84,7 +95,7 @@ classdef SnakeBot < RobotPrimitive & handle
             % ============= GRAPHIC OBJECTS OF THE ROBOT ============ %
             % ======================================================= %                                    
             % Specifying the joint marker size
-            obj.gMarkerSize = 12 * ones( 1, obj.nq );
+            obj.gMarkerSize = 18 * ones( 1, obj.nq );
             
             
             % For all robots, we need to specify 
@@ -100,7 +111,7 @@ classdef SnakeBot < RobotPrimitive & handle
             % Collect all the details as a cell
             obj.gEE   = { @plot, obj.H_init( 1, 4, obj.nq + 1 ), obj.H_init( 2, 4, obj.nq + 1 ), ...
                           'o', 'MarkerFaceColor', 'k', ...
-                          'MarkerEdgeColor', 'k', 'MarkerSize', 12  };                                    
+                          'MarkerEdgeColor', 'k', 'MarkerSize', 18 };                                    
         end
 
 

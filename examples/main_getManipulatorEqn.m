@@ -15,7 +15,7 @@ clear; close all; clc;
 % Our goal is to calculate the mass/coriolis matrices and gravity co-vector
 
 % Our robot is the CartPole
-robot = CartPole( 1, 1, 1, 1 );
+robot = CartPole( 1, 1, 1 );
 
 % Robot has to be initialized to adapt the joint twists for new robot
 robot.init( )

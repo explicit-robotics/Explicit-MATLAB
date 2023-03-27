@@ -1,9 +1,19 @@
 classdef CartPole < RobotPrimitive & handle
-    % Constructs a planar 2-DOF Cart-pole robot.
-    %
-    % :param mc: The mass (kg) of the cart.
-    % :param lp: The length (m) of the pole.
-    % :param mp: The mass (kg) of the point mass attached to the pole.
+    % Constructs a planar 2-DOF CartPole robot.
+    % 
+    % Parameters
+    % ----------
+    %     mc : float
+    %          The mass (kg) of the cart.
+    %     mp : float
+    %          The mass (kg) of the point mass suspended at the pole.
+    %     lp : float
+    %          The length (m) of the pole.
+    % 
+    % Error
+    % -----
+    %    `mc`, `mp`, `lp` must be positive values
+
     properties
         
         mc      
@@ -13,48 +23,43 @@ classdef CartPole < RobotPrimitive & handle
     end
     
     methods
-        function obj = CartPole( mc, lp, mp )
+        function obj = CartPole( mc, mp, lp )
 
             % ======================================================= %
             % ============ BASIC PROPERTIES OF THE ROBOT ============ %
             % ======================================================= %
-            obj.Name   = 'CartPole';
+            obj.Name   = 'CartPole';   
             obj.nq     = 2;
-
-            obj.ParentID = 0 : 1 : obj.nq;
-            
-            % Robot simulation in 2D
+            obj.ParentID  = 0 : 1 : obj.nq;
             obj.Dimension = 2;
             
-            % ======================================================= %
-            % ====== GEOMETRIC/INERTIA PROPERTIES OF THE ROBOT ====== %
-            % ======================================================= %
-            % The mass, length properties of the robot
+            assert( mc > 0 && mp > 0 && lp > 0 )
             obj.mc = mc;
             obj.mp = mp;
             obj.lp = lp;
+
+            % ======================================================= %
+            % ====== GEOMETRIC/INERTIA PROPERTIES OF THE ROBOT ====== %
+            % ======================================================= %    
+                       
+            % The masses of the cart-pole robot
+            obj.Masses = [ mc, mp ];   
             
-            % The mass array of the robot
-            obj.Masses = [ mc, mp ];
-            
-            % The generalized mass matrix
-            obj.M_Mat = zeros( 6, 6, 2 );
-            obj.M_Mat( :, :, 1 ) = diag( [ mc, mc, mc, 0, 0, 0 ] );
-            obj.M_Mat( :, :, 2 ) = diag( [ mp, mp, mp, 0, 0, 0 ] );
+            % Order is Ixx, Iyy, Izz, Ixy, Ixz, Iyz
+            obj.Inertias = zeros( 2, 6 );
 
             % ======================================================= %
             % ============ JOINT PROPERTIES OF THE ROBOT ============ %
             % ======================================================= %          
-            % The first one is a prismatic joint 
-            % The second one is a revolute joint
+            % Revolute (1) and Prismatic (2)
             obj.JointTypes = [ 2, 1 ];
 
-            % The initial position of the joints 
-            % For the cart/pole, it is at the same intial location
+            % The position of the point of the joint axis. 
+            % Expressed in {S} frame.
             obj.AxisOrigins = zeros( 3, 2 );
                                 
-            % Cart is along the +x axis 
-            % Pole is along the +z axis
+            % Prismatic joint is along the +x axis 
+            % Revolute  joint is along the +z axis
             obj.AxisDirections = [ 1, 0, 0;
                                    0, 0, 1]';
 
@@ -63,9 +68,9 @@ classdef CartPole < RobotPrimitive & handle
             % =========== INITIAL H MATRICES OF THE ROBOT =========== %
             % ======================================================= %    
             % Calculating the initial H array, including end-effector (EE)
-            % Since we have included the EE, size is 3 (nq + 1)
+            % Since we have included the EE, size is nq + 1
             % Construct a (4 x 4 x 3) matrix
-            obj.H_init = repmat( eye( 4 ), [ 1, 1, 3 ] ); 
+            obj.H_init = repmat( eye( 4 ), [ 1, 1, obj.nq+1 ] ); 
 
             % The tip of the pole is at -lp, reside along the y axis
             % i.e., the (2,4)th coordinate value
@@ -73,7 +78,7 @@ classdef CartPole < RobotPrimitive & handle
                        
             % Get initial transformations of point on COM of each link
             % The COM is concentrated at the tip of the pole
-            obj.H_COM_init = repmat( eye( 4 ), [ 1, 1, 2 ] ); 
+            obj.H_COM_init = repmat( eye( 4 ), [ 1, 1, obj.nq ] ); 
             obj.H_COM_init( 2, 4, 2 ) = -lp;
             
             % ======================================================= %

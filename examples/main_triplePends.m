@@ -20,11 +20,13 @@ dt = 0.01;         % Time-step of simulation
 
 % First  argument is robot ID
 % Second argument is the robot's DOF
-robot1 = SnakeBot( 1, 3 );
-robot2 = SnakeBot( 2, 3 );
-robot3 = SnakeBot( 3, 3 );
-robot4 = SnakeBot( 4, 3 );
-robot5 = SnakeBot( 5, 3 );
+m_arr = ones( 1, 3 );
+l_arr = ones( 1, 3 );
+robot1 = SnakeBot( 3, m_arr, l_arr );
+robot2 = SnakeBot( 3, m_arr, l_arr );
+robot3 = SnakeBot( 3, m_arr, l_arr );
+robot4 = SnakeBot( 3, m_arr, l_arr );
+robot5 = SnakeBot( 3, m_arr, l_arr );
 
 robot1.init( )
 robot2.init( )

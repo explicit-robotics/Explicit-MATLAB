@@ -1,4 +1,20 @@
 classdef iiwa7 < RobotPrimitive & handle
+    % Constructs KUKA LBR iiwa 7 
+    % 
+    % The robot consists of 7 linkages, constructed from the .obj files.
+    % 
+    % Parameters
+    % ----------
+    %     n : int
+    %         The number of linkages for the snakebot.
+    %     m_arr : float array
+    %         The mass (kg) array of the n linkages, size of 1 x n
+    %     l_arr : float array
+    %         The length (m) array of the n linkages, size of 1 x n
+    % 
+    % Error
+    % -----
+    %    `n` must be an integer. `m_arr` and `l_arr` must all have positive values.
 
     properties
 
@@ -7,14 +23,14 @@ classdef iiwa7 < RobotPrimitive & handle
         % ========================================== %
         q_init = [ 0 , pi/6 , 0 , -pi/3 , 0, pi/2, 0 ]';
 
-        % The locations
+        % The locations with respect to the joint location.
         COMs = [       0, -18.7e-3, 101.6e-3;
-            -0.21e-3,  25.0e-3,  82.5e-3;
-            -0.20e-3,  19.5e-3,  98.4e-3;
-            -0.21e-3, -20.1e-3,    86e-3;
-            -0.04e-3, -13.5e-3,    66e-3;
-            -0.35e-3,  51.4e-3,  17.1e-3;
-            -0.01e-3,   0.1e-3,    11e-3]';
+                -0.21e-3,  25.0e-3,  82.5e-3;
+                -0.20e-3,  19.5e-3,  98.4e-3;
+                -0.21e-3, -20.1e-3,    86e-3;
+                -0.04e-3, -13.5e-3,    66e-3;
+                -0.35e-3,  51.4e-3,  17.1e-3;
+                -0.01e-3,   0.1e-3,    11e-3]';
 
         % End-effector origin
         AxisOriginFlange = [ 0, 0 , 31.4e-3 ]';
@@ -23,20 +39,20 @@ classdef iiwa7 < RobotPrimitive & handle
     end
 
     methods
-        function obj = iiwa7( varargin )
+        function obj = iiwa7( quality )
             % Currently, the varargin is passed to either choose ('high' or 'low' quality)
 
             % ======================================================= %
             % ============ BASIC PROPERTIES OF THE ROBOT ============ %
             % ======================================================= %
-            obj.Name   = 'iiwa7';
-            obj.nq     = 7;
-
-            % Parents of the object
-            obj.ParentID = 0:obj.nq;
-
-            % Robot simulation in 3D
+            obj.Name      = 'iiwa7';
+            obj.nq        = 7;
+            obj.ParentID  = 0:obj.nq;
             obj.Dimension = 3;
+
+            % Quality of the animation should be either `high` or `low`.
+            assert( strcmp( quality, 'high' ) || strcmp( quality, 'low' ) )
+            obj.Quality = quality;
 
             % ======================================================= %
             % ====== GEOMETRIC/INERTIA PROPERTIES OF THE ROBOT ====== %
@@ -45,22 +61,15 @@ classdef iiwa7 < RobotPrimitive & handle
             % Mass of the robot 1xnq
             obj.Masses = [ 2.7426, 4.9464, 2.5451, 4.6376, 1.7140, 2.4272, 0.4219 ];
 
-            % The inertia matrix of the robot, nqx3
-            obj.Inertias = [  0.24,  0.024, 0.0128;
-                0.0468, 0.0282, 0.0101;
-                0.02,   0.02, 0.0600;
-                0.04,  0.027, 0.0100;
-                0.019,  0.016, 0.0120;
-                0.007,  0.006, 0.0050;
-                0.0003, 0.0003, 0.0005 ]';
-
-            % The generalized mass matrix
-            obj.M_Mat = zeros( 6, 6, obj.nq );
-
-            for i = 1:obj.nq
-                obj.M_Mat( 1:3, 1:3, i ) = obj.Masses( i ) * eye( 3 );
-                obj.M_Mat( 4:6, 4:6, i ) = diag( obj.Inertias( :, i ) );
-            end
+            % The inertia matrix of the robot, nqx6
+            % Ordered in Ixx, Iyy, Izz, Ixy, Ixz, Iyz
+            obj.Inertias = [  0.2400,  0.0240, 0.0128, 0, 0, 0;
+                              0.0468,  0.0282, 0.0101, 0, 0, 0;
+                              0.0200,  0.0200, 0.0600, 0, 0, 0;
+                              0.0400,  0.0270, 0.0100, 0, 0, 0;
+                              0.0190,  0.0160, 0.0120, 0, 0, 0;
+                              0.0070,  0.0060, 0.0050, 0, 0, 0;
+                              0.0003,  0.0003, 0.0005, 0, 0, 0 ];
 
             % ================================ %
             % ======= Joint Properties ======= %
@@ -83,24 +92,24 @@ classdef iiwa7 < RobotPrimitive & handle
 
             % The axis origin of the robot at initial configuration
             obj.AxisOrigins = [ 0,      0, 152.5e-3;
-                0, -11e-3, 187.5e-3;
-                0,  11e-3, 212.5e-3;
-                0,  11e-3, 187.5e-3;
-                0, -11e-3, 212.5e-3;
-                0, -62e-3, 187.5e-3;
-                0,  62e-3,  79.6e-3 ]';
+                                0, -11e-3, 187.5e-3;
+                                0,  11e-3, 212.5e-3;
+                                0,  11e-3, 187.5e-3;
+                                0, -11e-3, 212.5e-3;
+                                0, -62e-3, 187.5e-3;
+                                0,  62e-3,  79.6e-3 ]';
 
             % We conduct a cumsum to get the Axis Origin
             obj.AxisOrigins = cumsum( obj.AxisOrigins, 2 );
 
             % Axis Direction
             obj.AxisDirections = [ 0,  0, 1;
-                0,  1, 0;
-                0,  0, 1;
-                0, -1, 0;
-                0,  0, 1;
-                0,  1, 0;
-                0,  0, 1 ]';
+                                   0,  1, 0;
+                                   0,  0, 1;
+                                   0, -1, 0;
+                                   0,  0, 1;
+                                   0,  1, 0;
+                                   0,  0, 1 ]';
 
             % ======================================================= %
             % =========== INITIAL H MATRICES OF THE ROBOT =========== %
@@ -120,34 +129,14 @@ classdef iiwa7 < RobotPrimitive & handle
             % =================================== %
             % ====== Animation Properties ======= %
             % =================================== %
-
-            % varargin can be used to specify the animation quality
-            % Default is highQuality
-            obj.Quality = 'highQuality';
-            idq = find( strcmp( 'quality', varargin ) );
             
-            if ~isempty( idq )
-                if ( strcmp( 'low', varargin{ idq + 1 } ) )
-                    obj.Quality = 'lowQuality';
-                elseif ( strcmp( 'high', varargin{ idq + 1 } ) )
-                    % kepp high quality
-                else
-                    warning( 'Only "low" and "high" quality implemented. Will keep high quality.' );
-                end
-            end
-
-            % varargin can be used as the directory to the mat file
-            % We read out fields with vertices and faces information.
-            idx = find( strcmp( 'dirname', varargin ) );
-         
-            if ~isempty( idx )
-                % If the directory exists, assign the .mat file
-                file_name = varargin{ idx + 1 };
-                obj.gObjs = load( file_name );
-            else
-                file_name = [ './graphics/', obj.Quality, '/iiwa7.mat' ];
-                obj.gObjs = load( file_name );
-            end
+            % Read the .mat file
+            % We simply use the relative directory to this .m file
+            % This will allow us to run the iiwa7 file from anywhere 
+            % Get the directory containing the script
+            [ currentDir, ~, ~ ] = fileparts( mfilename('fullpath') );
+            file_name = [ currentDir, '/../graphics/', obj.Quality, 'Quality/iiwa7.mat' ];
+            obj.gObjs = load( file_name );
 
         end
 

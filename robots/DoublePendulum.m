@@ -1,11 +1,23 @@
 classdef DoublePendulum < RobotPrimitive & handle
     % Constructs a planar 2-DOF Double Pendulum robot.
-    % The links are assumed to have uniform mass densities.
-    %
-    % :param m1: The mass (kg) of the first link.
-    % :param l1: The length (m) of the first link.
-    % :param m2: The mass (kg) of the second link.
-    % :param l2: The length (m) of the second link.
+    % 
+    % The links are assumed to have uniform mass densities. 
+    % 
+    % Parameters
+    % ----------
+    %     m1 : float
+    %          The mass (kg) of the first link.
+    %     m2 : float
+    %          The mass (kg) of the second link.
+    %     l1 : float
+    %          The length (m) of the first link.
+    %     l2 : float
+    %          The length (m) of the second link.  
+    % 
+    % 
+    % Error
+    % -----
+    %    `m1`, `m2`, `l1`, `l2` must be positive values
 
     properties
         m1 
@@ -15,23 +27,22 @@ classdef DoublePendulum < RobotPrimitive & handle
     end
     
     methods
-        function obj = DoublePendulum( m1, l1, m2, l2 )
-
+        function obj = DoublePendulum( m1, m2, l1, l2 )
+            
             % ======================================================= %
             % ============ BASIC PROPERTIES OF THE ROBOT ============ %
             % ======================================================= %
-            obj.Name   = 'DoublePendulum';
-            obj.nq     = 2;
-
-            obj.m1 = m1;
-            obj.l1 = l1;
-            obj.m2 = m2;
-            obj.l2 = l2;
-
-            obj.ParentID = 0 : 1 : 2;
-            
-            % Robot simulation in 2D
+            obj.Name      = 'DoublePendulum';
+            obj.nq        = 2;
+            obj.ParentID  = 0 : 1 : 2;
             obj.Dimension = 2;
+
+
+            assert( m1 > 0 && m2 > 0 && l1 > 0 && l2 > 0 )
+            obj.m1 = m1;
+            obj.m2 = m2;
+            obj.l1 = l1;
+            obj.l2 = l2;
             
             % ======================================================= %
             % ====== GEOMETRIC/INERTIA PROPERTIES OF THE ROBOT ====== %
@@ -39,16 +50,10 @@ classdef DoublePendulum < RobotPrimitive & handle
            
             % The geometrical and inertia property of the Robots
             obj.Masses = [ m1, m2 ];
-            I1 = 1/12 * m1 * l1^2; 
-            I2 = 1/12 * m2 * l2^2; 
 
-            obj.Inertias = [ 0, 0, I1;
-                             0, 0, I2];
-
-            % The generalized mass matrix
-            obj.M_Mat = zeros( 6, 6, 2 );
-            obj.M_Mat( :, :, 1 ) = diag( [ m1, m1, m1, 0, 0, I1 ] );
-            obj.M_Mat( :, :, 2 ) = diag( [ m2, m2, m2, 0, 0, I2 ] );
+            % Order is Ixx, Iyy, Izz, Ixy, Ixz, Iyz
+            obj.Inertias = [ 0, 0, 1/12 * m1 * l1^2, 0, 0, 0;
+                             0, 0, 1/12 * m2 * l2^2, 0, 0, 0];
 
             % ======================================================= %
             % ============ JOINT PROPERTIES OF THE ROBOT ============ %

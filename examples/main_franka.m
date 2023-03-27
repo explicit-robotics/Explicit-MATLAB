@@ -17,7 +17,7 @@ t  = 0;             % The current time of simulation
 dt = 0.01;          % Time-step of simulation 
 
 % Set figure size and attach robot to simulation
-robot = iiwa7( 'high' );
+robot = franka( );
 robot.init( );
 
 %% Create animation

@@ -14,15 +14,15 @@ clear; close all; clc;
 % Simulation settings
 simTime = 5;       % Total simulation time
 t  = 0;            % The current time of simulation   
-dt = 0.005;        % Time-step of simulation 
+dt = 0.01;      % Time-step of simulation 
 
 %% Initialize the robot
 
-robot = CartPole( 1, 1, 1 );
-% mc = cart's mass
-% lp = pole's length
-% mp = pole's mass
+mc = 1;
+mp = 1;
+lp = 1;
 
+robot = CartPole( mc, mp, lp );
 robot.init( )
 
 anim = Animation( 'Dimension', 2, 'xLim', [-1.5,1.5], 'yLim', [-1.5,1.5], 'isSaveVideo', true, 'VideoSpeed', 0.5 );

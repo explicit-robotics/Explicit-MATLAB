@@ -16,57 +16,57 @@ simTime = 6;        % Total simulation time
 t  = 0;             % The current time of simulation
 dt = 0.01;          % Time-step of simulation
 
-% Flag for turning on/off the animation
-is_anim = true;
 
 %% Initialize the robots
 
 % Our robot is the CartPole
-robot = CartPole( 1, 1, 1, 1 );
+robot = CartPole( 1, 1, 1 );
 
 % We want to add an DoublePendulum with two DOF
-extKin = DoublePendulum( 1 );
-robot.addKinematics( extKin )
+extKin = DoublePendulum( 1, 1, 1, 1 );
+
+robot.init( );
+extKin.init( );
+
+new_robot = robot.addKinematics( extKin );
 
 % Robot has to be initialized to adapt the joint twists for new robot
-robot.init( )
+new_robot.init( );
 
 %% Initialization of Animation
 
 % Set figure size and attach robot to simulation
-if is_anim
-    anim = Animation( 'Dimension', 2, 'xLim', [ -3 , 3 ], 'yLim', [ -5 , 1 ] );
-    anim.init( )
-    anim.attachRobot( robot )
-end
+
+anim = Animation( 'Dimension', 2, 'xLim', [ -3 , 3 ], 'yLim', [ -5 , 1 ] );
+anim.init( )
+anim.attachRobot( new_robot )
 
 % Initial Condition of the Robot
 q_deg = [ 0 , -20, 20, 15 ]';
 
 % DO NOT CHANGE
 % Changing the degrees to radian
-q  = func_deg2rad( q_deg, robot.JointTypes );
+q  = func_deg2rad( q_deg, new_robot.JointTypes );
 
-dq    = zeros( robot.nq, 1 );
-ddq   = zeros( robot.nq, 1 );
+dq    = zeros( new_robot.nq, 1 );
+ddq   = zeros( new_robot.nq, 1 );
 
 % Update robot kinematics
-robot.updateKinematics( q );
+new_robot.updateKinematics( q );
 
 % Update animation to initial configuration
-if is_anim
-    anim.update( 0 );
-end
+anim.update( 0 );
+
 
 %% Get initial robot transformation for both tasks
 
 % Initial transformation and position of end-effector
-H_ee_ini = robot.getForwardKinematics( q );
+H_ee_ini = new_robot.getForwardKinematics( q );
 p_ee_ini = H_ee_ini( 1:3 , 4 );
 
 % Initial transformation and position of joint 3
 bodyID_3 = 3;
-H_j3_ini = robot.getForwardKinematics( q, 'bodyID', bodyID_3 , 'position', [0,0,0]');
+H_j3_ini = new_robot.getForwardKinematics( q, 'bodyID', bodyID_3 , 'position', [0,0,0]');
 x_j3_ini = H_j3_ini( 1:3 , 4 );
 
 %% Draw equilibrium points for poth tasks
@@ -89,23 +89,23 @@ while t <= simTime
     % ============================ %
 
     % Get the position on end-effector body
-    H_ee = robot.getForwardKinematics( q );
+    H_ee = new_robot.getForwardKinematics( q );
     p_ee = H_ee( 1:3 , 4 );
 
     % Get the position on joint 3
-    H_j3 = robot.getForwardKinematics( q, 'bodyID', bodyID_3, 'position', [0,0,0]');
+    H_j3 = new_robot.getForwardKinematics( q, 'bodyID', bodyID_3, 'position', [0,0,0]');
     x_j3 = H_j3( 1:3 , 4 );
 
     % Get the mass matrix of the robot
-    M = robot.getMassMatrix( q );
+    M = new_robot.getMassMatrix( q );
     M_inv = M\eye( size( M ) );
 
     % Get Hybrid Jacobian of point on end-effector
-    JH_ee = robot.getHybridJacobian( q );
+    JH_ee = new_robot.getHybridJacobian( q );
     JH_ee = JH_ee( 1:3 , : );
 
     % Get Hybrid Jacobian of point on joint 3
-    JH_j3 = robot.getHybridJacobian( q, 'bodyID', bodyID_3 );
+    JH_j3 = new_robot.getHybridJacobian( q, 'bodyID', bodyID_3 );
     JH_j3 = JH_j3( 1:3 , : );
 
     % ============================ %
@@ -146,7 +146,7 @@ while t <= simTime
     tau_j3 = JH_j3' * ( K_j3 * ( x_j3_0 - x_j3 ) - B_j3 * dp_3 );
 
     % Add joint damping
-    B_ns = 0.1 * eye( robot.nq );
+    B_ns = 0.1 * eye( new_robot.nq );
     tau_ns = -B_ns * dq;
 
     % Superposition of torques
@@ -165,11 +165,10 @@ while t <= simTime
     dq = dq1;
 
     % Update the linkage plot
-    robot.updateKinematics( q );
+    new_robot.updateKinematics( q );
 
-    if is_anim
-        anim.update( t );
-    end
+    anim.update( t );
+
 
     % Proceed one time step
     t = t + dt;

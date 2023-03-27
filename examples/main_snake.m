@@ -16,23 +16,25 @@ simTime = 5;        % Total simulation time
 t  = 0;             % The current time of simulation   
 dt = 0.01;          % Time-step of simulation 
 
-% Flag for turning on/off animation
-is_anim = true;
-
 %% Initialize the robot
 
-% Select the robotID
-robotID = 1;
+% Geometric and Inertial Parameters of SnakeBot
+nq = 5;         % The number of linkages of the Snakebot
+m  = 1;         % The   mass of the each link
+l  = 1;         % The length of the each link
 
-nq = 5;
-robot = SnakeBot( robotID, nq );
+m_arr = m * ones( 1, nq );  % The mass   array to construct SnakeBot
+l_arr = l * ones( 1, nq );  % The length array to construct SnakeBot 
+
+% Construct a 5-DOF SnakeBot
+robot = SnakeBot( nq, m_arr, l_arr );
 robot.init( )
 
-if is_anim
-    anim = Animation( 'Dimension', 2, 'xLim', [-4,6], 'yLim', [-4, 6] );
-    anim.init( );
-    anim.attachRobot( robot )    
-end
+% Attach the 5-DOF SnakeBot to animation for visualization
+anim = Animation( 'Dimension', 2, 'xLim', [-1.5,6.5], 'yLim', [-4,4], 'isSaveVideo', true, 'VideoSpeed', 0.5 );
+anim.init( )
+anim.attachRobot( robot )    
+
 
 %% Initialization of Animation
 
@@ -51,9 +53,7 @@ H_EE = robot.getForwardKinematics( q );
 H_ini = H_EE;
 
 % Update animation
-if is_anim
-    anim.update( 0 );            
-end
+anim.update( 0 );            
 
 
 %% Running the main-loop of simulation 
@@ -118,11 +118,10 @@ while t <= simTime
 
     % Update the linkage plot
     robot.updateKinematics( q );
-    
-    if is_anim
-        anim.update( t );    
-    end
-    
+        
+    anim.update( t );    
+
+   
     % Get the forward kinematics of the EE
     H_EE = robot.getForwardKinematics( q );
     t = t + dt;                                                                
