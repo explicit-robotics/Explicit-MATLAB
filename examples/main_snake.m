@@ -53,9 +53,7 @@ H_EE = robot.getForwardKinematics( q );
 H_ini = H_EE;
 
 % Update animation
-if is_anim
-    anim.update( 0 );            
-end
+anim.update( 0 );            
 
 
 %% Running the main-loop of simulation 
@@ -120,11 +118,10 @@ while t <= simTime
 
     % Update the linkage plot
     robot.updateKinematics( q );
-    
-    if is_anim
-        anim.update( t );    
-    end
-    
+        
+    anim.update( t );    
+
+   
     % Get the forward kinematics of the EE
     H_EE = robot.getForwardKinematics( q );
     t = t + dt;                                                                

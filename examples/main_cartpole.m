@@ -14,7 +14,7 @@ clear; close all; clc;
 % Simulation settings
 simTime = 5;       % Total simulation time
 t  = 0;            % The current time of simulation   
-dt = 0.00001;      % Time-step of simulation 
+dt = 0.01;      % Time-step of simulation 
 
 %% Initialize the robot
 

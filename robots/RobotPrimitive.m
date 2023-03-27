@@ -646,7 +646,7 @@ classdef RobotPrimitive < handle
             % ===== Inertial Properties ====== %
             % ================================ %
             robot_new.Masses   = horzcat(  obj.Masses, robot2add.Masses   );
-            robot_new.Inertias = cat( 3, obj.Inertias, robot2add.Inertias );
+            robot_new.Inertias = cat( 1, obj.Inertias, robot2add.Inertias );
             robot_new.M_Mat    = cat( 3, obj.M_Mat   , robot2add.M_Mat    );
             
             % =================================== %

@@ -18,10 +18,7 @@ dt = 0.01;          % Time-step of simulation
 
 %% Initialize the robot
 
-% Select the robotID
-robotID = 1;
-
-robot = SnakeBot( robotID, 3 );
+robot = SnakeBot( 3, ones( 1, 3 ), ones( 1, 3 ) );
 robot.init( )
 
 anim = Animation( 'Dimension', 2, 'xLim', [-5,5], 'yLim', [-5,5] );
@@ -45,7 +42,7 @@ dq = zeros( robot.nq, 1 );
 robot.updateKinematics( q );
 
 % Update animation to initial configuration
-anim.update( );            
+anim.update( 0 );            
 
 % Title: simulation time
 titleString = sprintf( 'Time: %2.1f sec', 0 );
@@ -82,7 +79,7 @@ while t <= simTime
     % Update the linkage plot
     robot.updateKinematics( q );
     
-    anim.update(  );    
+    anim.update( t  );    
 
     % Get the forward kinematics of the EE
     t = t + dt;                                                                

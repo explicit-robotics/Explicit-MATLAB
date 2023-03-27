@@ -15,7 +15,7 @@ clear; close all; clc;
 
 % Our robot is the CartPole
 robot     = CartPole( 1, 1, 1 );
-kinematic = DoublePendulum( );
+kinematic = DoublePendulum( 1, 1, 1, 1 );
 new_robot = robot.addKinematics( kinematic );
 
 % Robot has to be initialized to adapt the joint twists for new robot
