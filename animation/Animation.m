@@ -155,8 +155,10 @@ classdef Animation < handle
             if obj.Dimension == 3
                 zlabel( obj.hAxes, 'z (m)' )
                 lighting gouraud;
-                camlight
-                view( 135, 30 );
+                camlight('headlight');
+                light("Style","local","Position",[0.9, 0, 0.5]);
+                light("Style","local","Position",[0, 0.4, 0.5]);
+                view( 135, 10 );
             end
 
             % Setting up the further details of the axes
@@ -185,7 +187,7 @@ classdef Animation < handle
 
             end
 
-            set( tracePlot , 'Color', 'k', 'LineStyle', '-', 'Parent' , obj.hAxes, 'tag', 'tracePlot'   );
+            set( tracePlot , 'Color', 'm', 'LineStyle', '-', 'Parent' , obj.hAxes, 'tag', 'tracePlot'   );
             set( fAPlot    , 'Color', 'r', 'LineStyle', '-', 'Parent' , obj.hAxes, 'tag', 'fAPlot'      );
             set( fCurPlot  , 'Color', 'g', 'LineStyle', '-', 'Parent' , obj.hAxes, 'tag', 'fCurPlot'    );
             set( ftestPlot , 'Color', 'b', 'LineStyle', ':', 'Parent' , obj.hAxes, 'tag', 'ftestPlot'   );

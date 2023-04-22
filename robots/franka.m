@@ -13,7 +13,8 @@ classdef franka < RobotPrimitive & handle
         % =================================================== %
 
         
-        q_init = zeros(7,1); % The initial configuration q_init = [ 0 , pi/6 , 0 , -pi/3 , 0, pi/2, 0 ]';
+        % The initial configuration 
+        q_init = deg2rad([ 0 , -30 , 0 , 90 , 0, -120, 0 ]');
 
         % The locations
         % Note that for Franka robot, the COM is the position 
@@ -23,10 +24,7 @@ classdef franka < RobotPrimitive & handle
                   0.2394,  0.3618, 0.5825,  0.7534,  0.9946, 1.0189, 0.9339 ];
 
         % End-effector origin
-        % [TODO] [2023.03.25]
-        % Currently, there is no tool attached to the robot.
-        % Hence, we simply set as a zero array
-        AxisOriginFlange = [ 0, 0, 0 ]';   
+        AxisOriginFlange = [ 0, 0, -0.107 ]';   
         
     end
 
