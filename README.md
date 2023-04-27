@@ -7,5 +7,5 @@ This software was developed by [Moses Chong-ook Nah](https://mosesnah-shared.git
 # Documentation of the Software 
 Detailed documentation of the software can be [checked here](https://explicit-robotics.github.io/).
 
-# Documentation of the Software 
+# Licence 
 The software is licenced by MIT under Case No. 24812 and and it's intended use is for academic and/or non-profit internal research purposes. The licence can be found in our repository. 
