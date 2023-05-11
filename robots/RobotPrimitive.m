@@ -681,7 +681,7 @@ classdef RobotPrimitive < handle
            % Modify the following equation
            L_mat = eye( 6 * obj.nq );
            for i = 2:obj.nq
-              W_mati = W_mat( 6* (i-1)+1:6*i, 6* (i-2)+1:6*(i-1) ); 
+              W_mati = W_mat( 6*(i-1)+1:6*i, 6* (i-2)+1:6*(i-1) ); 
               L_mat( 6*(i-1)+1:6*i, 1:6*(i-1) ) = W_mati * L_mat( 6*(i-2)+1:6*(i-1), 1:6*(i-1) );
            end 
            
@@ -707,8 +707,7 @@ classdef RobotPrimitive < handle
                tmpA3( 1:3, 4:6 ) = func_skewSym( Vi( 1:3 ) );              
                Aaa_mat( 6*(i-1)+1:6*i,6*(i-1)+1:6*i ) = tmpA3;
            end
-           
-           C_mat = - A_mat' * L_mat' * ( G_mat * L_mat * Aa_mat * W_mat + Aaa_mat' * G_mat ) * L_mat * A_mat ;
+           C_mat = -A_mat' * L_mat' * ( G_mat * L_mat * Aa_mat * W_mat + Aaa_mat' * G_mat ) * L_mat * A_mat;
           
         end        
         

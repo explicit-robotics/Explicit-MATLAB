@@ -104,7 +104,7 @@ end
 
 %% Get the Coriolis Vector, Snakebot
 
-n_arr  = [ 2,5,10,20,30,40,50,60,80, 100 ];
+n_arr  = [ 3,5,10,20,30,40,50,60,80, 100 ];
 % n_arr  = 100;
 
 i = 1; 
@@ -125,11 +125,10 @@ for n = n_arr
     t2 = toc;
     
     t_arr2( i ) = t2;
-    
-    
+        
     fprintf( "%f vs. %f\n", t1, t2 );
     i = i + 1;
 
-    assert( abs( max( max( C1 - C2 ) ) ) < 1e-9 )
+    assert( abs( max( max( C1 * dq_tmp' - C2 * dq_tmp' ) ) ) < 1e-9 )
     
 end
