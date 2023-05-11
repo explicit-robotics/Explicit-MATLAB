@@ -424,6 +424,73 @@ classdef RobotPrimitive < handle
             end
 
         end
+        
+        function M = getMassMatrix2( obj, q_arr )
+           % Using the equation from Section 8.3.2 of Modern Robotics.
+           % Define the A matrix 
+           
+           A_mat = zeros( 6 * obj.nq, obj.nq );
+           for i = 1 : obj.nq
+              A_mat( 6 * (i - 1) + 1 :  6 * i, i ) = func_getInvAdjointMatrix( obj.H_COM_init( :, :, i ) ) * obj.JointTwists( :, i );
+           end
+           
+           
+           G_mat = zeros( 6 * obj.nq, 6 * obj.nq );
+           for i = 1 : obj.nq
+              G_mat(  6 * (i - 1) + 1 :  6 * i, 6 * (i - 1) + 1 :  6 * i ) = obj.M_Mat( :, :, i );
+           end
+           
+           W_mat = zeros( 6 * obj.nq, 6 * obj.nq );
+           
+           % Create a temporary array
+           for i = 2:obj.nq
+               A_i = A_mat( 6 * (i - 1) + 1 :  6 * i, i );               
+               W_mat( 6* (i-1)+1:6*i, 6* (i-2)+1:6*(i-1) ) = func_getAdjointMatrix( func_getExponential_T( -A_i, q_arr( i ) ) * ( obj.H_COM_init( :, :, i ) )^-1 * obj.H_COM_init( :, :, i-1 ) );
+           end
+           
+           % Modify the following equation
+           L_mat = eye( 6 * obj.nq );
+           for i = 1:obj.nq-1
+               L_mat = L_mat + W_mat^i;
+           end           
+          
+           M = A_mat' * L_mat' * G_mat * L_mat * A_mat;
+            
+        end
+        
+        function M = getMassMatrix3( obj, q_arr )
+           % Using the equation from Section 8.3.2 of Modern Robotics.
+           % Define the A matrix 
+           
+           A_mat = zeros( 6 * obj.nq, obj.nq );
+           for i = 1 : obj.nq
+              A_mat( 6 * (i - 1) + 1 :  6 * i, i ) = func_getInvAdjointMatrix( obj.H_COM_init( :, :, i ) ) * obj.JointTwists( :, i );
+           end
+           
+           
+           G_mat = zeros( 6 * obj.nq, 6 * obj.nq );
+           for i = 1 : obj.nq
+              G_mat(  6 * (i - 1) + 1 :  6 * i, 6 * (i - 1) + 1 :  6 * i ) = obj.M_Mat( :, :, i );
+           end
+           
+           W_mat = zeros( 6 * obj.nq, 6 * obj.nq );
+           
+           % Create a temporary array
+           for i = 2:obj.nq
+               A_i = A_mat( 6 * (i - 1) + 1 :  6 * i, i );               
+               W_mat( 6* (i-1)+1:6*i, 6* (i-2)+1:6*(i-1) ) = func_getAdjointMatrix( func_getExponential_T( -A_i, q_arr( i ) ) * ( obj.H_COM_init( :, :, i ) )^-1 * obj.H_COM_init( :, :, i-1 ) );
+           end
+           
+           % Modify the following equation
+           L_mat = eye( 6 * obj.nq );
+           for i = 2:obj.nq
+              W_mati = W_mat( 6* (i-1)+1:6*i, 6* (i-2)+1:6*(i-1) ); 
+              L_mat( 6*(i-1)+1:6*i, 1:6*(i-1) ) = W_mati * L_mat( 6*(i-2)+1:6*(i-1), 1:6*(i-1) );
+           end
+
+           M = A_mat' * L_mat' * G_mat * L_mat * A_mat;
+            
+        end        
 
         function G = getGravityVector( obj, q_arr )
             % Gravity Co-vector
@@ -453,6 +520,49 @@ classdef RobotPrimitive < handle
             end
 
         end
+        
+        function G = getGravityVector2( obj, q_arr )
+
+           A_mat = zeros( 6 * obj.nq, obj.nq );
+           for i = 1 : obj.nq
+              A_mat( 6 * (i - 1) + 1 :  6 * i, i ) = func_getInvAdjointMatrix( obj.H_COM_init( :, :, i ) ) * obj.JointTwists( :, i );
+           end
+           
+           
+           G_mat = zeros( 6 * obj.nq, 6 * obj.nq );
+           for i = 1 : obj.nq
+              G_mat(  6 * (i - 1) + 1 :  6 * i, 6 * (i - 1) + 1 :  6 * i ) = obj.M_Mat( :, :, i );
+           end
+           
+           W_mat = zeros( 6 * obj.nq, 6 * obj.nq );
+           
+           % Create a temporary array
+           for i = 2:obj.nq
+               A_i = A_mat( 6 * (i - 1) + 1 :  6 * i, i );               
+               W_mat( 6* (i-1)+1:6*i, 6* (i-2)+1:6*(i-1) ) = func_getAdjointMatrix( func_getExponential_T( -A_i, q_arr( i ) ) * ( obj.H_COM_init( :, :, i ) )^-1 * obj.H_COM_init( :, :, i-1 ) );
+           end
+           
+           % Modify the following equation
+           L_mat = eye( 6 * obj.nq );
+           for i = 2:obj.nq
+              W_mati = W_mat( 6* (i-1)+1:6*i, 6* (i-2)+1:6*(i-1) ); 
+              L_mat( 6*(i-1)+1:6*i, 1:6*(i-1) ) = W_mati * L_mat( 6*(i-2)+1:6*(i-1), 1:6*(i-1) );
+           end
+
+           dVbase = zeros( 6 * obj.nq );
+           A1 = A_mat( 1:6, 1 );               
+           
+           
+           tmp1 = func_getExponential_T( -A1, q_arr( 1 ) ) * ( obj.H_COM_init( :, :, 1 ) )^-1;
+           if obj.Dimension == 2
+              dVbase( 1: 6 ) = func_getAdjointMatrix( tmp1 ) * [ 0;obj.Grav;0;0;0;0 ];
+           else
+              dVbase( 1: 6 ) = func_getAdjointMatrix( tmp1 ) * [ 0;0;obj.Grav;0;0;0 ];
+           end
+           
+           G = A_mat' * L_mat' * G_mat * L_mat * dVbase;
+           G = G( :, 1);
+        end        
         
         function C_mat = getCoriolisMatrix( obj, q_arr, dq_arr )
             % Calculating the Coriolis-Centrifugal Term of the Robot
@@ -546,6 +656,61 @@ classdef RobotPrimitive < handle
             end
           
         end
+        
+        function C_mat = getCoriolisMatrix2( obj, q_arr, dq_arr )
+            
+           A_mat = zeros( 6 * obj.nq, obj.nq );
+           for i = 1 : obj.nq
+              A_mat( 6 * (i - 1) + 1 :  6 * i, i ) = func_getInvAdjointMatrix( obj.H_COM_init( :, :, i ) ) * obj.JointTwists( :, i );
+           end
+           
+           
+           G_mat = zeros( 6 * obj.nq, 6 * obj.nq );
+           for i = 1 : obj.nq
+              G_mat(  6 * (i - 1) + 1 :  6 * i, 6 * (i - 1) + 1 :  6 * i ) = obj.M_Mat( :, :, i );
+           end
+           
+           W_mat = zeros( 6 * obj.nq, 6 * obj.nq );
+           
+           % Create a temporary array
+           for i = 2:obj.nq
+               A_i = A_mat( 6 * (i - 1) + 1 :  6 * i, i );               
+               W_mat( 6* (i-1)+1:6*i, 6* (i-2)+1:6*(i-1) ) = func_getAdjointMatrix( func_getExponential_T( -A_i, q_arr( i ) ) * ( obj.H_COM_init( :, :, i ) )^-1 * obj.H_COM_init( :, :, i-1 ) );
+           end
+           
+           % Modify the following equation
+           L_mat = eye( 6 * obj.nq );
+           for i = 2:obj.nq
+              W_mati = W_mat( 6* (i-1)+1:6*i, 6* (i-2)+1:6*(i-1) ); 
+              L_mat( 6*(i-1)+1:6*i, 1:6*(i-1) ) = W_mati * L_mat( 6*(i-2)+1:6*(i-1), 1:6*(i-1) );
+           end 
+           
+           Aa_mat = zeros( 6 * obj.nq, 6 * obj.nq );
+           
+           % Equation 8.63
+           for i = 1 : obj.nq
+               Ai = func_getInvAdjointMatrix( obj.H_COM_init( :, :, i ) ) * obj.JointTwists( :, i );
+               tmpA2 = zeros( 6, 6 );
+               tmpA2( 1:3, 1:3 ) = func_skewSym( Ai( 4:6 ) * dq_arr( i ) );
+               tmpA2( 4:6, 4:6 ) = func_skewSym( Ai( 4:6 ) * dq_arr( i ) );
+               tmpA2( 1:3, 4:6 ) = func_skewSym( Ai( 1:3 ) * dq_arr( i ) );
+               Aa_mat( 6*(i-1)+1:6*i,6*(i-1)+1:6*i ) = tmpA2;
+           end
+           
+           Aaa_mat = zeros( 6 * obj.nq, 6 * obj.nq );
+           
+           for i = 1 : obj.nq
+               Vi = obj.getBodyJacobian( q_arr, i, "COM" ) * dq_arr';
+               tmpA3 = zeros( 6, 6 );
+               tmpA3( 1:3, 1:3 ) = func_skewSym( Vi( 4:6 ) );
+               tmpA3( 4:6, 4:6 ) = func_skewSym( Vi( 4:6 ) );
+               tmpA3( 1:3, 4:6 ) = func_skewSym( Vi( 1:3 ) );              
+               Aaa_mat( 6*(i-1)+1:6*i,6*(i-1)+1:6*i ) = tmpA3;
+           end
+           
+           C_mat = - A_mat' * L_mat' * ( G_mat * L_mat * Aa_mat * W_mat + Aaa_mat' * G_mat ) * L_mat * A_mat ;
+          
+        end        
         
         function updateKinematics( obj, q_arr )
             % Updating the kinematics of the robot, with the q_deg array

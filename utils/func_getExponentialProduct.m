@@ -1,4 +1,4 @@
-function exp_T = func_getExponentialProducts( exp_T_arr )
+function exp_T = func_getExponentialProduct( exp_T_arr )
 % ========================================================================
 % func_getExponentialProducts: 
 %   - An utility function that calculates the product of exponential 
