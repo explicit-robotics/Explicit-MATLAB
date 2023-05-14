@@ -75,7 +75,9 @@ classdef RobotPrimitive < handle
         % ================================ %
         % ===== Additional Matrices ====== %
         % ================================ %
-        A_Mat                   % (6nq x nq) array, Eq. 8.60 of Modern Robotics
+        A_Mat1                  % (6   x nq) array, stacking it horizontally.
+        A_Mat2                  % (6nq x nq) array, Eq. 8.60 of Modern Robotics.
+                                % A full-array respresntation of A_Mat1
                     
 
         % =================================== %
@@ -200,6 +202,7 @@ classdef RobotPrimitive < handle
                 obj.M_Mat( :, :, i ) = [ diag( m * ones( 1, 3 ) ), zeros( 3 ); ...
                                                        zeros( 3 ),    I_mat ];
                 
+                % Positioning M_Mat diagonally.\
                 obj.M_Mat2( 6*(i-1)+1:6*i, 6*(i-1)+1:6*i ) = obj.M_Mat( :, :, i );
 
             end
@@ -248,10 +251,14 @@ classdef RobotPrimitive < handle
 
             % Once the joint twists are defined, define the A matrix
             % Each A matrix is Ai, which is defined by Section 8.3.1.
-            obj.A_Mat = zeros( 6*obj.nq, obj.nq );            
+            % This is a constant matrix, hence saving it separately
+            obj.A_Mat1 = zeros(        6, obj.nq );            
+            obj.A_Mat2 = zeros( 6*obj.nq, obj.nq );            
 
             for i = 1:obj.nq
-               obj.A_Mat( 6*(i-1)+1:6*i, i ) = func_getInvAdjointMatrix( obj.H_COM_init( :, :, i ) ) * obj.JointTwists( :, i );
+               Ai = func_getInvAdjointMatrix( obj.H_COM_init( :, :, i ) ) * obj.JointTwists( :, i );
+               obj.A_Mat1( :, i ) = Ai;
+               obj.A_Mat2( 6*(i-1)+1:6*i, i ) = Ai;
             end
 
         end
@@ -450,28 +457,10 @@ classdef RobotPrimitive < handle
         
         function M = getMassMatrix2( obj, q_arr )
 
-           % Using equation 8.64 from Section 8.4 of Modern Robotics.
-           W_Mat = zeros( 6*obj.nq, 6*obj.nq );
-           
-           for i = 2:obj.nq
-               Ai = obj.A_Mat( 6*(i-1)+1: 6*i, i );               
-               Hi = obj.H_COM_init( :, :, i   );
-               Hj = obj.H_COM_init( :, :, i-1 );
-               
-               % Using the definition from 8.3.1, 3rd equation.
-               W_Mat ( 6*(i-1)+1:6*i, 6*(i-2)+1:6*(i-1) ) = func_getAdjointMatrix( func_getExponential_T( -Ai, q_arr( i ) ) * Hi^-1 * Hj );
-           end
-           
-           % Define the L matrix, which is Eq. 8.72
-           L_Mat = eye( 6 * obj.nq );
+           % Get the L_matrix
+           [L_Mat, ~] = func_getLW( obj.A_Mat1, obj.H_COM_init, q_arr );
 
-           % The i-th off diagonal term is simply W_mat^i.
-           for i = 2:obj.nq
-              tmp = W_Mat( 6* (i-1)+1:6*i, 6* (i-2)+1:6*(i-1) ); 
-              L_Mat( 6*(i-1)+1:6*i, 1:6*(i-1) ) = tmp * L_Mat( 6*(i-2)+1:6*(i-1), 1:6*(i-1) );
-           end
-
-           M = obj.A_Mat' * L_Mat' * obj.M_Mat2 * L_Mat * obj.A_Mat;
+           M = obj.A_Mat2' * L_Mat' * obj.M_Mat2 * L_Mat * obj.A_Mat2;
             
         end        
 
@@ -506,39 +495,24 @@ classdef RobotPrimitive < handle
         
         function G = getGravityVector2( obj, q_arr )
 
-           % Using equation 8.64 from Section 8.4 of Modern Robotics.
-           W_Mat = zeros( 6*obj.nq, 6*obj.nq );
-           
-           for i = 2:obj.nq
-               Ai = obj.A_Mat( 6*(i-1)+1: 6*i, i );               
-               Hi = obj.H_COM_init( :, :, i   );
-               Hj = obj.H_COM_init( :, :, i-1 );
-               
-               % Using the definition from 8.3.1, 3rd equation.
-               W_Mat ( 6*(i-1)+1:6*i, 6*(i-2)+1:6*(i-1) ) = func_getAdjointMatrix( func_getExponential_T( -Ai, q_arr( i ) ) * Hi^-1 * Hj );
-           end
-           
-           % Define the L matrix, which is Eq. 8.72
-           L_Mat = eye( 6 * obj.nq );
+           % Get the L_matrix
+           [L_Mat, ~] = func_getLW( obj.A_Mat1, obj.H_COM_init, q_arr );
 
-           % The i-th off diagonal term is simply W_mat^i.
-           for i = 2:obj.nq
-              tmp = W_Mat( 6* (i-1)+1:6*i, 6* (i-2)+1:6*(i-1) ); 
-              L_Mat( 6*(i-1)+1:6*i, 1:6*(i-1) ) = tmp * L_Mat( 6*(i-2)+1:6*(i-1), 1:6*(i-1) );
-           end
-
-           % Defining dVbase, from Section 8.3.2.
+           % Defining dVbase, from Section 8.3.2 of Modern Robotics
            dVbase = zeros( 6 * obj.nq );
-           A1     = obj.A_Mat( 1:6, 1 );               
-           tmp    = func_getExponential_T( -A1, q_arr( 1 ) ) * ( obj.H_COM_init( :, :, 1 ) )^-1;
+           A1     = obj.A_Mat1( 1:6, 1 );               
+           tmp    = func_getAdjointMatrix( func_getExponential_T( -A1, q_arr( 1 ) ) * ( obj.H_COM_init( :, :, 1 ) )^-1 );
+           
+           % For 2D case, gravity is along y direction
            if obj.Dimension == 2
-              dVbase( 1: 6 ) = func_getAdjointMatrix( tmp ) * [ 0;obj.Grav;0;0;0;0 ];
+              tmp_grav = [ 0; obj.Grav; 0; 0; 0; 0 ];
            else
-              dVbase( 1: 6 ) = func_getAdjointMatrix( tmp ) * [ 0;0;obj.Grav;0;0;0 ];
+              tmp_grav = [ 0; 0; obj.Grav; 0; 0; 0 ];
            end
            
-           G = obj.A_Mat' * L_Mat' * obj.M_Mat2 * L_Mat * dVbase;
-           G = G( :, 1);
+           dVbase( 1: 6 ) = tmp * tmp_grav;
+           G = obj.A_Mat2' * L_Mat' * obj.M_Mat2 * L_Mat * dVbase;
+           G = G( :, 1 );
 
         end        
         
@@ -637,50 +611,24 @@ classdef RobotPrimitive < handle
         
         function C_mat = getCoriolisMatrix2( obj, q_arr, dq_arr )
             
-           % Using equation 8.64 from Section 8.4 of Modern Robotics.
-           W_Mat = zeros( 6*obj.nq, 6*obj.nq );
-           
-           for i = 2:obj.nq
-               Ai = obj.A_Mat( 6*(i-1)+1: 6*i, i );               
-               Hi = obj.H_COM_init( :, :, i   );
-               Hj = obj.H_COM_init( :, :, i-1 );
-               
-               % Using the definition from 8.3.1, 3rd equation.
-               W_Mat ( 6*(i-1)+1:6*i, 6*(i-2)+1:6*(i-1) ) = func_getAdjointMatrix( func_getExponential_T( -Ai, q_arr( i ) ) * Hi^-1 * Hj );
-           end
-           
-           % Define the L matrix, which is Eq. 8.72
-           L_Mat = eye( 6 * obj.nq );
+           % Get the L and W matrices
+           [L_Mat, W_Mat ] = func_getLW( obj.A_Mat1, obj.H_COM_init, q_arr );
 
-           % The i-th off diagonal term is simply W_mat^i.
-           for i = 2:obj.nq
-              tmp = W_Mat( 6* (i-1)+1:6*i, 6* (i-2)+1:6*(i-1) ); 
-              L_Mat( 6*(i-1)+1:6*i, 1:6*(i-1) ) = tmp * L_Mat( 6*(i-2)+1:6*(i-1), 1:6*(i-1) );
-           end
-           
-           Aa_mat = zeros( 6 * obj.nq, 6 * obj.nq );
-           
-           % Equation 8.63
-           for i = 1 : obj.nq
-               Ai = func_getInvAdjointMatrix( obj.H_COM_init( :, :, i ) ) * obj.JointTwists( :, i );
-               tmpA2 = zeros( 6, 6 );
-               tmpA2( 1:3, 1:3 ) = func_skewSym( Ai( 4:6 ) * dq_arr( i ) );
-               tmpA2( 4:6, 4:6 ) = func_skewSym( Ai( 4:6 ) * dq_arr( i ) );
-               tmpA2( 1:3, 4:6 ) = func_skewSym( Ai( 1:3 ) * dq_arr( i ) );
-               Aa_mat( 6*(i-1)+1:6*i,6*(i-1)+1:6*i ) = tmpA2;
-           end
-           
+           Aa_mat  = zeros( 6 * obj.nq, 6 * obj.nq );
            Aaa_mat = zeros( 6 * obj.nq, 6 * obj.nq );
            
            for i = 1 : obj.nq
-               Vi = obj.getBodyJacobian( q_arr, i, "COM" ) * dq_arr';
-               tmpA3 = zeros( 6, 6 );
-               tmpA3( 1:3, 1:3 ) = func_skewSym( Vi( 4:6 ) );
-               tmpA3( 4:6, 4:6 ) = func_skewSym( Vi( 4:6 ) );
-               tmpA3( 1:3, 4:6 ) = func_skewSym( Vi( 1:3 ) );              
-               Aaa_mat( 6*(i-1)+1:6*i,6*(i-1)+1:6*i ) = tmpA3;
+               
+               % Equation 8.63
+               Ai = obj.A_Mat1( :, i );
+               Aa_mat( 6*(i-1)+1:6*i,6*(i-1)+1:6*i ) = func_vec2adj( Ai * dq_arr( i ) );
+               
+               % Equation 8.62
+               Vi = obj.getBodyJacobian( q_arr, i, "COM" ) * dq_arr';            
+               Aaa_mat( 6*(i-1)+1:6*i,6*(i-1)+1:6*i ) = func_vec2adj( Vi );               
            end
-           C_mat = - obj.A_Mat' * L_Mat' * ( obj.M_Mat2* L_Mat * Aa_mat * W_Mat + Aaa_mat' * obj.M_Mat2 ) * L_Mat * obj.A_Mat;
+           
+           C_mat = - obj.A_Mat2' * L_Mat' * ( obj.M_Mat2* L_Mat * Aa_mat * W_Mat + Aaa_mat' * obj.M_Mat2 ) * L_Mat * obj.A_Mat2;
           
         end        
         
