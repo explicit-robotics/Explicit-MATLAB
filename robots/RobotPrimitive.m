@@ -624,7 +624,7 @@ classdef RobotPrimitive < handle
                Aa_mat( 6*(i-1)+1:6*i,6*(i-1)+1:6*i ) = func_vec2adj( Ai * dq_arr( i ) );
                
                % Equation 8.62
-               Vi = obj.getBodyJacobian( q_arr, i, "COM" ) * dq_arr';            
+               Vi = obj.getBodyJacobian( q_arr, i, "COM" ) * dq_arr;            
                Aaa_mat( 6*(i-1)+1:6*i,6*(i-1)+1:6*i ) = func_vec2adj( Vi );               
            end
            

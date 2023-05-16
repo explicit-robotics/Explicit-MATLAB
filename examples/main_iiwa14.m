@@ -1,4 +1,4 @@
-% [Project]        Robot Simulator - Snake
+% [Project]        Robot Simulator - iiwa14
 % Authors                       Email
 %   [1] Johannes Lachner        jlachner@mit.edu
 %   [2] Moses C. Nah            mosesnah@mit.edu
