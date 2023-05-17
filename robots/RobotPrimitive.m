@@ -188,12 +188,12 @@ classdef RobotPrimitive < handle
             for i = 1 : obj.nq
                 m = obj.Masses( i );
 
-                Ixx = obj.Inertias( obj.nq, 1 );
-                Iyy = obj.Inertias( obj.nq, 2 );
-                Izz = obj.Inertias( obj.nq, 3 );
-                Ixy = obj.Inertias( obj.nq, 4 );
-                Ixz = obj.Inertias( obj.nq, 5 );
-                Iyz = obj.Inertias( obj.nq, 6 );                
+                Ixx = obj.Inertias( i, 1 );
+                Iyy = obj.Inertias( i, 2 );
+                Izz = obj.Inertias( i, 3 );
+                Ixy = obj.Inertias( i, 4 );
+                Ixz = obj.Inertias( i, 5 );
+                Iyz = obj.Inertias( i, 6 );                
 
                 I_mat = [ Ixx, Ixy, Ixz; ...
                           Ixy, Iyy, Iyz; ...
@@ -450,6 +450,7 @@ classdef RobotPrimitive < handle
                 JB = obj.getBodyJacobian( q_arr, i, "COM" );
 
                 % Summing over the mass matrix
+                
                 M = M + JB.' *  obj.M_Mat( :, :, i ) * JB;
             end
 

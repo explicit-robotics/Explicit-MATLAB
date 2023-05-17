@@ -1,4 +1,4 @@
-% [Project]        Robot Simulator - iiwa14, joint space impedance
+% [Project]        Robot Simulator - iiwa14, task space impedance
 % Authors                       Email
 %   [1] Johannes Lachner        jlachner@mit.edu
 %   [2] Moses C. Nah            mosesnah@mit.edu
@@ -12,7 +12,7 @@
 clear; close all; clc;
 
 % Simulation settings
-simTime = 10;        % Total simulation time
+simTime = 5;        % Total simulation time
 t  = 0;             % The current time of simulation   
 dt = 0.001;         % Time-step of simulation 
 
@@ -21,7 +21,7 @@ robot = iiwa14( 'high' );
 robot.init( );
 
 % Create animation
-anim = Animation( 'Dimension', 3, 'xLim', [-0.7,0.7], 'yLim', [-0.7,0.7], 'zLim', [0,1.4], 'isSaveVideo', true );
+anim = Animation( 'Dimension', 3, 'xLim', [-0.9,0.9], 'yLim', [-0.9,0.9], 'zLim', [0,1.8], 'isSaveVideo', true );
 anim.init( );
 anim.attachRobot( robot ) 
 
@@ -37,43 +37,56 @@ set( mytitle, 'FontSize' , 15);
 % Point-to-point Joint Space Impedance Controller
 % Using Minimum-jerk trajectory as the virtual trajectory 
 
-% Initial 
-qi  = robot.q_init;
-q   = qi;
-
-% Final Posture 
-qf  = qi + [ 0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ]';
-
-% Initial velocity of the robot
+% Initial joint posture and velocity
+q  = robot.q_init;
 dq = zeros( robot.nq, 1 );
+
+% The initial end-effector position 
+Hi = robot.getForwardKinematics( q );
+pi = Hi( 1:3, 4 );
+
+% Desired final posture 
+pf = pi + [0.; 0.4; 0];
 
 % Time step for the simulation
 ns = 0;
 
-Kq = diag( [ 5.0, 2.0, 2.0, 0.4, 0.4, 0.4, 0.4 ] );
-Bq = diag( [ 5.0, 1.5, 1.5, 0.5, 0.5, 0.5, 0.5 ] );
+% End-effector task-space impedances
+Kp = 400 * eye( 3 );
+Bp = 0.1 * Kp;
+
+Bq = 0.5 * eye( robot.nq );
 
 t0 = 0.1;
 D  = 0.8;
 
-
-
 while t <= simTime
     
     % Get the mass matrix of the Acrobot
-    M = robot.getMassMatrix2( q );
+    M2 = robot.getMassMatrix2( q );
+%     M1 = robot.getMassMatrix( q );
     
     % Get the Coriolis term of the robot
     C = robot.getCoriolisMatrix2( q, dq );
     
     % Get the Gravity term of the robot
     G = robot.getGravityVector2( q );
+
+    % Get the Hybrid Jacobian 
+    JH = robot.getHybridJacobian( q );
     
     % The joint-space impedance controller
-    [ q_ref, dq_ref, ~ ] = min_jerk_traj( t0, t, D, qi, qf );
+    [ p_ref, dp_ref, ~ ] = min_jerk_traj( t0, t, D, pi, pf );
+
+    % Get the end-effector position and velocity 
+    dp = JH( 1:3, : ) * dq;
     
-    tau = Kq * ( q_ref - q ) + Bq * ( dq_ref - dq );
-    rhs = M\( tau ); 
+    % The initial end-effector position 
+    H = robot.getForwardKinematics( q );
+    p = H( 1:3, 4 );
+
+    tau = JH( 1:3, : )' * ( Kp * ( p_ref - p ) + Bp * ( dp_ref - dp ) ) - Bq * dq;
+    rhs = M2\( -C * dq + tau ); 
 
 %     rhs = zeros( robot.nq, 1 );
     
@@ -93,14 +106,11 @@ while t <= simTime
         anim.update( t );    
         ns = ns + 1;
         
-        q_ref_arr( ns, : ) = q_ref;
-        dq_ref_arr( ns, : ) = dq_ref;
-        q_arr( ns,  : ) = q;
-        dq_arr( ns,  : ) = dq;
+        p_arr( ns, : ) = p;
+        p_ref_arr( ns, : ) = p_ref;
         
         % Set animation title
         set( mytitle, 'String', sprintf( 'Time: %2.1f sec', t ) );
-    
         
     end
 
