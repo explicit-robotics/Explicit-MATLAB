@@ -17,7 +17,8 @@ classdef iiwa14 < RobotPrimitive & handle
                  0.0,   0.0e-3,  11.0e-3 ]';
 
         % End-effector origin
-        AxisOriginFlange = [ 0, 0 , 31.4e-3 ]';
+        % AxisOriginFlange = [ 0, 0 , 31.4e-3 ]';
+        AxisOriginFlange = [ 0, 0 , 0 ]';
 
 
     end

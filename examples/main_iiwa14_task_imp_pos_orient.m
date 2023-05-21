@@ -25,6 +25,8 @@ anim = Animation( 'Dimension', 3, 'xLim', [-0.9,0.9], 'yLim', [-0.9,0.9], 'zLim'
 anim.init( );
 anim.attachRobot( robot ) 
 
+set( anim.hFig, 'units','normalized','outerposition',[0 0 1 1] )
+
 % Update kinematics
 robot.updateKinematics( robot.q_init );
 anim.update( 0 );
@@ -41,9 +43,12 @@ set( mytitle, 'FontSize' , 15);
 q  = robot.q_init;
 dq = zeros( robot.nq, 1 );
 
-% The initial end-effector position 
+% The initial end-effector position.
 Hi = robot.getForwardKinematics( q );
 pi = Hi( 1:3, 4 );
+
+% Get the current SO(3) orientation matrix. 
+Rinit = Hi( 1:3, 1:3 ); 
 
 % Desired final posture 
 pf = pi + [0.; 0.4; 0];
@@ -59,6 +64,9 @@ Bq = 0.5 * eye( robot.nq );
 
 t0 = 0.1;
 D  = 0.8;
+
+% Draw the 3D marker
+pEE_mark = scatter3( anim.hAxes, pi( 1 ), pi( 2 ), pi( 3 ), 'filled', 'markeredgecolor', [ 0., 0. 0. ], 'markerfacecolor', 'b' );
 
 while t <= simTime
     
@@ -79,13 +87,23 @@ while t <= simTime
     [ p_ref, dp_ref, ~ ] = min_jerk_traj( t0, t, D, pi, pf );
 
     % Get the end-effector position and velocity 
-    dp = JH( 1:3, : ) * dq;
+    JHp = JH( 1:3, : );     % Hybrid Jacobian, end-effector position
+    JHr = JH( 4:6, : );     % Hybrid Jacobian, end-effector orientation
+    dp = JHp * dq;
     
-    % The initial end-effector position 
+    % The initial end-effector position and orientation 
     H = robot.getForwardKinematics( q );
     p = H( 1:3, 4 );
+    Rcurr = H( 1:3, 1:3 );
 
-    tau = JH( 1:3, : )' * ( Kp * ( p_ref - p ) + Bp * ( dp_ref - dp ) ) - Bq * dq;
+    % Get the angle between Rcurr and Rinit
+    Rdel = ( Rcurr )^-1 * Rinit;
+    theta = acos( ( trace( Rdel ) - 1 )/2 );
+
+
+    set( pEE_mark, 'XData', p( 1 ), 'YData', p( 2 ), 'ZData', p( 3 ) )
+
+    tau = JHp' * ( Kp * ( p_ref - p ) + Bp * ( dp_ref - dp ) ) - Bq * dq;
     rhs = M2\( -C * dq + tau ); 
 
 %     rhs = zeros( robot.nq, 1 );
