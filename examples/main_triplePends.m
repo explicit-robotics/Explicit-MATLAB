@@ -34,7 +34,7 @@ robot3.init( )
 robot4.init( )
 robot5.init( )
 
-anim = Animation( 'Dimension', 2, 'xLim', [-5,5], 'yLim', [-5,5], 'isSaveVideo', true );
+anim = Animation( 'Dimension', 2, 'xLim', [-5,5], 'yLim', [-5,5], 'isSaveVideo', false );
 anim.init( )
 anim.attachRobot( robot1 )    
 anim.attachRobot( robot2 )    
@@ -46,11 +46,7 @@ anim.attachRobot( robot5 )
 %% Initialization of Animation
 
 % Initial configuration of the Robot
-q_deg = [0, 50, 50]';
-
-% DO NOT CHANGE
-% Changing the degrees to radian
-q  = func_deg2rad( q_deg, robot1.JointTypes );
+q  = [0, 0.5, 0.5]';
 q1 = q;
 q2 = q1 + [ 0, 0, 0.01 ]';
 q3 = q1 + [ 0, 0, 0.02 ]';
@@ -97,7 +93,7 @@ while t <= simTime
 
         % Get the Gravity term of the robot
         G = anim.Robots{ i }.getGravityVector( q );
-        rhs = M\( -C * dq -G);  
+        rhs = M\( -C * dq - G);  
 
         % We compare the C matrices with the matrices provided from Eq.9
         % The default values of our Acrobot geometrical/inertial parameters are as follows:

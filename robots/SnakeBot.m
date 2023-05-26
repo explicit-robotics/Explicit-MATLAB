@@ -46,8 +46,8 @@ classdef SnakeBot < RobotPrimitive & handle
 
             % The geometrical and inertia property of the Robots
             obj.Masses   = m_arr;
-            obj.Inertias = zeros( obj.nq, 6 );
-            obj.Inertias( :, 3 ) = 1/12 * obj.Masses .* obj.LinkLengths.^2;
+            obj.Inertias = zeros( 6, obj.nq );
+            obj.Inertias( 3, : ) = 1/12 * obj.Masses .* obj.LinkLengths.^2;
 
             % The ineria tensor along the principal axis
 

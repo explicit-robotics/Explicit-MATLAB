@@ -27,12 +27,9 @@ anim.attachRobot( robot )
 
 %% Initialization of Animation
 
-% Initial configuration of the Robot
-q_deg = [0, 50, 50]';
 
-% DO NOT CHANGE
 % Changing the degrees to radian
-q  = func_deg2rad( q_deg, robot.JointTypes );
+q  = [ 0., 0.8, 0.8]';
 
 % Initial velocity of the robot
 dq = zeros( robot.nq, 1 );
@@ -43,11 +40,6 @@ robot.updateKinematics( q );
 
 % Update animation to initial configuration
 anim.update( 0 );            
-
-% Title: simulation time
-titleString = sprintf( 'Time: %2.1f sec', 0 );
-mytitle = title( titleString );
-set( mytitle, 'FontSize' , 15);
 
 
 %% Running the main-loop of simulation 
@@ -83,14 +75,8 @@ while t <= simTime
 
     % Get the forward kinematics of the EE
     t = t + dt;                                                                
-    
-    % Set animation title
-    set( mytitle, 'String', sprintf( 'Time: %2.1f sec', t ) );
-    
-    % do not go faster than real time
-    while toc < dt
-        % do nothing
-    end
+
+
 end
 
 anim.close( )

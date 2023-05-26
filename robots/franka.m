@@ -50,18 +50,16 @@ classdef franka < RobotPrimitive & handle
             %                  Inertial Properties of the Robot Body Schema
             obj.Masses = [ 2.7426, 4.9464, 2.5451, 4.6376, 1.7140, 2.4272, 0.4219 ];
 
-            % The inertia matrix of the robot, nqx6
+            % The inertia matrix of the robot, 6xnq
             % Ordered in Ixx, Iyy, Izz, Ixy, Ixz, Iyz
-            obj.Inertias = [  0.7470    0.7503    0.0092   -0.0002    0.0086    0.0201;
-                              0.0085    0.0265    0.0281    0.0103    0.0040   -0.0008;
-                              0.0565    0.0529    0.0182   -0.0082   -0.0055   -0.0044;
-                              0.0677    0.0776    0.0324   -0.0039    0.0277    0.0016;
-                              0.0394    0.0315    0.0109   -0.0015   -0.0046    0.0022;
-                              0.0025    0.0118    0.0106    0.0001    0.0015   -0.0001;
-                              0.0308    0.0284    0.0067   -0.0004    0.0007   -0.0005 ];
+            obj.Inertias = [  0.7470,  0.7503,  0.0092, -0.0002,  0.0086,  0.0201;
+                              0.0085,  0.0265,  0.0281,  0.0103,  0.0040, -0.0008;
+                              0.0565,  0.0529,  0.0182, -0.0082, -0.0055, -0.0044;
+                              0.0677,  0.0776,  0.0324, -0.0039,  0.0277,  0.0016;
+                              0.0394,  0.0315,  0.0109, -0.0015, -0.0046,  0.0022;
+                              0.0025,  0.0118,  0.0106,  0.0001,  0.0015, -0.0001;
+                              0.0308,  0.0284,  0.0067, -0.0004,  0.0007, -0.0005 ]';
 
-
-            
             % ================================ %
             % ======= Joint Properties ======= %
             % ================================ %
@@ -70,11 +68,11 @@ classdef franka < RobotPrimitive & handle
             obj.JointTypes = ones( 1, obj.nq );
 
             % max/min of q array robot
-            obj.q_max  = [ 2.8973; 1.7628; 2.8973; -0.0698; 2.8973; 3.7525; 2.8973 ];
+            obj.q_max  =  [ 2.8973, 1.7628, 2.8973, -0.0698, 2.8973, 3.7525, 2.8973 ];
             obj.q_min  = -obj.q_max;
 
             % max/min of dq array robot
-            obj.dq_max =  [ 2.1750; 2.1750; 2.1750; 2.1750; 2.6100; 2.6100; 2.6100 ];
+            obj.dq_max =  [ 2.1750, 2.1750, 2.1750,  2.1750, 2.6100, 2.6100, 2.6100 ];
             obj.dq_min = -obj.dq_max;
 
             % max/min of ddq array robot
@@ -82,7 +80,7 @@ classdef franka < RobotPrimitive & handle
             obj.ddq_max = [ 15; 7.5; 10; 12.5; 15; 20; 20 ];
             obj.ddq_min = -obj.ddq_max;
 
-            % The axis origin of the robot at initial configuration
+            % The (3xnq) axis origin of the robot at initial configuration
             obj.AxisOrigins = [ 0.0000, 0, 0.000;
                                 0.0000, 0, 0.333;
                                 0.0000, 0, 0.316;

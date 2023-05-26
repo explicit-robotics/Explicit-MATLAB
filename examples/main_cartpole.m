@@ -14,7 +14,7 @@ clear; close all; clc;
 % Simulation settings
 simTime = 5;       % Total simulation time
 t  = 0;            % The current time of simulation   
-dt = 0.01;      % Time-step of simulation 
+dt = 0.001;        % Time-step of simulation 
 
 %% Initialize the robot
 
@@ -25,20 +25,14 @@ lp = 1;
 robot = CartPole( mc, mp, lp );
 robot.init( )
 
-anim = Animation( 'Dimension', 2, 'xLim', [-1.5,1.5], 'yLim', [-1.5,1.5], 'isSaveVideo', true, 'VideoSpeed', 0.5 );
+anim = Animation( 'Dimension', 2, 'xLim', [-1.5,1.5], 'yLim', [-1.5,1.5], 'isSaveVideo', true, 'VideoSpeed', 1.0 );
 anim.init( )
 anim.attachRobot( robot )    
 
 %% Initialization of Animation
 
 % Initial configuration of the Robot
-q_deg = [0, 90]';
-
-% DO NOT CHANGE
-% Changing the degrees to radian
-q  = func_deg2rad( q_deg, robot.JointTypes );
-
-% Initial velocity of the robot
+q  = [0, 90]' * pi/180;
 dq = zeros( 2, 1 );
 
 % Update robot kinematics with q_deg array

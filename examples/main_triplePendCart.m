@@ -41,12 +41,9 @@ anim = Animation( 'Dimension', 2, 'xLim', [ -3 , 3 ], 'yLim', [ -5 , 1 ] );
 anim.init( )
 anim.attachRobot( new_robot )
 
-% Initial Condition of the Robot
-q_deg = [ 0 , -20, 20, 15 ]';
 
-% DO NOT CHANGE
 % Changing the degrees to radian
-q  = func_deg2rad( q_deg, new_robot.JointTypes );
+q  = [ 0, 0.1,0.1,0.2 ]';
 
 dq    = zeros( new_robot.nq, 1 );
 ddq   = zeros( new_robot.nq, 1 );

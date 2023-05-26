@@ -1,7 +1,7 @@
-function [ q1, dq1 ] = func_symplecticEuler( q0, dq0, rhs_of_ddq0 , dt )
+function [ q1, dq1 ] = func_symplecticEuler( q0, dq0, ddq0 , dt )
 % ===========================================================================
 % func_symplecticEuler - Semi-implicit Euler method for forward simulation
-% [ q1, q1Dot ] = func_symplecticEuler( q0, q0Dot, rhs_of_q0DotDot, dt )
+% [ q1, q1Dot ] = func_symplecticEuler( q0, dq0, ddq0, dt )
 %
 % Authors                       Email                   Created 
 %   [1] Johannes Lachner        jlachner@mit.edu        2019
@@ -17,13 +17,13 @@ function [ q1, dq1 ] = func_symplecticEuler( q0, dq0, rhs_of_ddq0 , dt )
 % [REF 3] Claude Lacoursière, 2007, Ghosts and Machines: Regularized Variational Methods for Interactive Simulations of Multibodies with Dry Frictional Contacts
 %
 % Input 
-%   [1] q0  - The  q array of the current time step (0) 
+%   [1] q0   - The  q array of the current time step (0) 
 %
-%   [2] dq0 - The dq array of the current time step (0) 
+%   [2] dq0  - The dq array of the current time step (0) 
 %
-%   [3] rhs_of_ddq0 - The ddq array of the current time step (0) 
+%   [3] ddq0 - The ddq array of the current time step (0) 
 %
-%   [4] dt - The time-step for the forward integration
+%   [4] dt   - The time-step for the forward integration
 %
 % Output 
 %   [1] q1  - The  q array of the next time step (1) after integration
@@ -32,8 +32,11 @@ function [ q1, dq1 ] = func_symplecticEuler( q0, dq0, rhs_of_ddq0 , dt )
 %
 %  ===========================================================================
 
+% Check that the size of the arr are the same
+
+
 % Calculate the dq term from the rhs_of_ddq0 term
-dq1 = dq0 + rhs_of_ddq0 * dt;
+dq1 = dq0 + ddq0 * dt;
 
 % Calculate the q term from the rhs_of_ddq0 term
 q1  = q0  + dq1 * dt;

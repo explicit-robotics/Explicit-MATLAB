@@ -1,7 +1,7 @@
-function [ L_Mat, W_Mat ] = func_getLW( A_arr, H_COMs, q_arr )
+function [ L_Mat, W_Mat ] = LW_Mat( A_arr, H_COMs, q_arr )
 % ============================================================================== 
-% func_getLW - A function for calculating the L and W matrix
-% [ L_Mat, W_Mat ] = func_getLW( A_arr, H_COMs, q_arr )
+% LW_Mat - A function for calculating the L and W matrix
+% [ L_Mat, W_Mat ] = LW_Mat( A_arr, H_COMs, q_arr )
 %
 % Authors                         Email
 %   Johannes Lachner              jlachner@mit.edu
@@ -26,7 +26,10 @@ function [ L_Mat, W_Mat ] = func_getLW( A_arr, H_COMs, q_arr )
 % ==============================================================================
 
 % Check whether the input values are in appropriate size
-% Get the length of q_arr 
+% q_arr must be a vector 
+assert( isvector( q_arr ) );
+
+% Once it is clear it is a vector, get the length to use it as an assertion
 n = length( q_arr );
 assert( isequal(  size( A_arr ), [ 6, n ]    ) , 'First  Input must be a 6-nq matrix')
 assert( isequal( size( H_COMs ), [ 4, 4, n ] ) , 'Second Input must be a 4-by-4-by-nq matrix')
@@ -35,13 +38,19 @@ assert( isequal( size( H_COMs ), [ 4, 4, n ] ) , 'Second Input must be a 4-by-4-
 W_Mat = zeros( 6*n, 6*n );
 L_Mat = eye( 6*n );
 
+% Wrapper of Symbolic form
+if isa( q_arr, 'sym' )
+    W_Mat = sym( W_Mat );
+    L_Mat = sym( L_Mat );
+end
+
 for i = 2:n
    Ai = A_arr( :, i );               
    Hi = H_COMs( :, :, i   );
    Hj = H_COMs( :, :, i-1 );
 
    % Using the definition from 8.3.1, 3rd equation of [REF]
-   Wi = func_getAdjointMatrix( func_getExponential_T( -Ai, q_arr( i ) ) * Hi^-1 * Hj );
+   Wi = H_to_Adj( expSE3( -Ai, q_arr( i ) ) * Hi^-1 * Hj );
    
    % A slight trick is used for the computation
    W_Mat( 6*(i-1)+1:6*i, 6*(i-2)+1:6*(i-1) ) = Wi;

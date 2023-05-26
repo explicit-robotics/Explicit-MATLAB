@@ -1,9 +1,9 @@
-function exp_T = func_getExponentialProduct( exp_T_arr )
+function exp_T = getExpProd( exp_T_arr )
 % ========================================================================
-% func_getExponentialProducts: 
+% getExpProd: 
 %   - An utility function that calculates the product of exponential 
 %     formulas
-%   exp_T = func_getExponentialProducts( exp_T_arr )
+%   exp_T = getExpProd( exp_T_arr )
 %
 % Authors                         Email
 %   Johannes Lachner              jlachner@mit.edu
