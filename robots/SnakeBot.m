@@ -109,9 +109,9 @@ classdef SnakeBot < RobotPrimitive & handle
             
             % The end-effector will be a marker with same size of others
             % Collect all the details as a cell
-            obj.gEE   = { @plot, obj.H_init( 1, 4, obj.nq + 1 ), obj.H_init( 2, 4, obj.nq + 1 ), ...
+            obj.gEE   = { @scatter, obj.H_init( 1, 4, obj.nq + 1 ), obj.H_init( 2, 4, obj.nq + 1 ), 180, ...
                           'o', 'MarkerFaceColor', 'k', ...
-                          'MarkerEdgeColor', 'k', 'MarkerSize', 18 };                                    
+                          'MarkerEdgeColor', 'k' };                                    
         end
 
 

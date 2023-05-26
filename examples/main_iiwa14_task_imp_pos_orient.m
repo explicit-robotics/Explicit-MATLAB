@@ -36,6 +36,7 @@ titleString = sprintf( 'Time: %2.1f sec', 0 );
 mytitle = title( titleString );
 set( mytitle, 'FontSize' , 15);
 
+view( 90, 0 );
 % Point-to-point Joint Space Impedance Controller
 % Using Minimum-jerk trajectory as the virtual trajectory 
 
@@ -65,6 +66,8 @@ Bq = 0.5 * eye( robot.nq );
 t0 = 0.1;
 D  = 0.8;
 
+kr = 3;
+br = 0.1*kr;
 % Draw the 3D marker
 pEE_mark = scatter3( anim.hAxes, pi( 1 ), pi( 2 ), pi( 3 ), 'filled', 'markeredgecolor', [ 0., 0. 0. ], 'markerfacecolor', 'b' );
 
@@ -100,10 +103,21 @@ while t <= simTime
     Rdel = ( Rcurr )^-1 * Rinit;
     theta = acos( ( trace( Rdel ) - 1 )/2 );
 
+    % Get the axis
+    if theta ~= 0
+        w_mat = ( Rdel - Rdel' ) / ( 2 * sin( theta ) ); 
+    else
+        w_mat = zeros( 3, 3 );
+    end
+
+    w = [ -w_mat( 2,3 ), w_mat( 1,3 ), -w_mat( 1,2 ) ]';
 
     set( pEE_mark, 'XData', p( 1 ), 'YData', p( 2 ), 'ZData', p( 3 ) )
 
-    tau = JHp' * ( Kp * ( p_ref - p ) + Bp * ( dp_ref - dp ) ) - Bq * dq;
+    tau1 = JHp' * ( Kp * ( p_ref - p ) + Bp * ( dp_ref - dp ) );
+    tau2 = JHr' * ( kr * Rcurr * w * theta - br * JHr * dq );
+
+    tau = tau1 + tau2 - Bq * dq;
     rhs = M2\( -C * dq + tau ); 
 
 %     rhs = zeros( robot.nq, 1 );
