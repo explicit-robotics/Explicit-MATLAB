@@ -16,6 +16,6 @@ clear; close all; clc;
 
 % Include all the subdirectories
 func_addSubfolders( 'animation', 'helpers_geometry', 'robots',...
-                   'examples', 'interpolator', 'utils', 'graphics');
+                   'examples', 'interpolator', 'utils', 'graphics', 'obj');
 
 disp( 'EXPlicit (c) Moses C. Nah & Johannes Lachner 2022-2023, https://explicit-robotics.github.io' )

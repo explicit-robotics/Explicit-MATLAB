@@ -155,12 +155,11 @@ classdef Animation < handle
             if obj.Dimension == 3
                 zlabel( obj.hAxes, 'z (m)' )
                 lighting gouraud;
-                camlight
-                view( 135, 30 );
+                camlight('headlight');
+                light("Style","local","Position",[0.9, 0, 0.5]);
+                light("Style","local","Position",[0, 0.4, 0.5]);
+                view( 135, 10 );
             end
-
-        
-
         end
 
         function attachRobot( obj, robot, varargin )
