@@ -6,7 +6,7 @@
 %
 % The code is heavily commented. A famous quote says:
 % "Code is read more often than it is written"
-%  - Guido Van Rossum, the Creator of Python
+%  - Guido Vanw Rossum, the Creator of Python
 
 %% Cleaning up + Environment setup
 clear; close all; clc;

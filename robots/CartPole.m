@@ -46,7 +46,7 @@ classdef CartPole < RobotPrimitive & handle
             obj.Masses = [ mc, mp ];   
             
             % Order is Ixx, Iyy, Izz, Ixy, Ixz, Iyz
-            obj.Inertias = zeros( 2, 6 );
+            obj.Inertias = zeros( 6, 2 );
 
             % ======================================================= %
             % ============ JOINT PROPERTIES OF THE ROBOT ============ %
@@ -99,9 +99,9 @@ classdef CartPole < RobotPrimitive & handle
             
             % The end-effector will be a marker with same size of others
             % Collect all the details as a cell
-            obj.gEE   = { @plot, obj.H_init( 1, 4, 3 ), obj.H_init( 2, 4, 3 ), ...
+            obj.gEE   = { @scatter, obj.H_init( 1, 4, 3 ), obj.H_init( 2, 4, 3 ), 180, ...
                           'o', 'MarkerFaceColor', 'k', ...
-                          'MarkerEdgeColor', 'k', 'MarkerSize', 12  };            
+                          'MarkerEdgeColor', 'k'  };            
             
         end
 

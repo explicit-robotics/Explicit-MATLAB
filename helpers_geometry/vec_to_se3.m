@@ -1,6 +1,6 @@
-function T_matrix = func_getTwistMatrixForm( T )
-% func_getTwistMatrixForm - Convert a 6D twist array to a 4x4 matrix
-% T_matrix = func_getTwistMatrixForm( T )
+function T_matrix = vec_to_se3( T )
+% vec_to_se3 - Convert a 6D twist array to a 4x4 matrix
+% T_matrix = vec_to_se3( T )
 %
 % Authors                         Email
 %   Johannes Lachner              jlachner@mit.edu
@@ -20,21 +20,23 @@ function T_matrix = func_getTwistMatrixForm( T )
 
 
 % The input should be a 1x6 or 6x1 array
-assert( isequal( size( T ), [ 6, 1 ] ), 'An input must be a 6-by-1 array')
+assert( isequal( size( T ), [ 6, 1 ] ) || isequal( size( T ), [ 1, 6 ] ), ...
+            'An input to this function must be a 6-by-1 or 1-by-6 array' )
 
 % Extracting the vectors v and w 
 v = T( 1 : 3 );
-w = T( 4 : 6 );                                 % [TODO] WE HAVE TO CHECK IF WE WANT TO KEEP "v" FOR THIS VARIABLE
+w = T( 4 : 6 );                                 
 
-% Initializing the 4-by-4 T matrix with some random matrix 
-T_matrix = zeros( 4,4 );
+% Initializing the 4-by-4 T matrix
+T_matrix = zeros( 4, 4 );
 
+% Wrapper of "sym" in case if the argument is symbolic form.
 if isa( T, 'sym' )
     T_matrix = sym( T_matrix );
 end
 
 % Setting up the T_matrix
-T_matrix( 1:3, 1:3 ) = func_skewSym( w );
+T_matrix( 1:3, 1:3 ) = vec_to_so3( w );
 T_matrix( 1:3,   4 ) = v;
 
 end

@@ -17,7 +17,8 @@ classdef iiwa14 < RobotPrimitive & handle
                  0.0,   0.0e-3,  11.0e-3 ]';
 
         % End-effector origin
-        AxisOriginFlange = [ 0, 0 , 31.4e-3 ]';
+        % AxisOriginFlange = [ 0, 0 , 31.4e-3 ]';
+        AxisOriginFlange = [ 0, 0 , 0 ]';
 
 
     end
@@ -46,7 +47,7 @@ classdef iiwa14 < RobotPrimitive & handle
             % Mass of the robot 1xnq
             obj.Masses = [ 6.404, 7.89, 2.54, 4.82, 1.76, 2.5, 0.42 ];
 
-            % The inertia matrix of the robot, nqx6
+            % The inertia matrix of the robot, 6xnq
             % Ordered in Ixx, Iyy, Izz, Ixy, Ixz, Iyz
             obj.Inertias = [ 0.0690,  0.0710, 0.0200, 0, 0, 0;
                              0.0800,  0.0800, 0.0100, 0, 0, 0;
@@ -54,7 +55,7 @@ classdef iiwa14 < RobotPrimitive & handle
                              0.0400,  0.0300, 0.0100, 0, 0, 0;
                              0.0100,  0.0100, 0.0100, 0, 0, 0;
                              0.0070,  0.0060, 0.0050, 0, 0, 0;
-                             0.0003,  0.0003, 0.0005, 0, 0, 0 ];
+                             0.0003,  0.0003, 0.0005, 0, 0, 0 ]';
 
             % ================================ %
             % ======= Joint Properties ======= %
@@ -64,15 +65,15 @@ classdef iiwa14 < RobotPrimitive & handle
             obj.JointTypes = ones( 1, obj.nq );
 
             % max/min of q array robot
-            obj.q_max  =  func_deg2rad( [ 163; 113; 163; 115; 160; 110; 165 ], obj.JointTypes );
+            obj.q_max  =  [ 163; 113; 163; 115; 160; 110; 165 ] * pi/180;
             obj.q_min  = -obj.q_max;
 
             % max/min of dq array robot
-            obj.dq_max =  func_deg2rad( [ 150; 150; 150; 150; 150; 150; 150 ], obj.JointTypes );
+            obj.dq_max =  [ 150; 150; 150; 150; 150; 150; 150 ] * pi/180;
             obj.dq_min = -obj.dq_max;
 
             % max/min of ddq array robot
-            obj.ddq_max = deg2rad( 300 ) * ones( obj.nq, 1 );
+            obj.ddq_max = 300 * ones( obj.nq, 1 ) * pi/180;
             obj.ddq_min = -obj.ddq_max;
 
             % The axis origin of the robot at initial configuration

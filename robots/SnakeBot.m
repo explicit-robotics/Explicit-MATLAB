@@ -46,8 +46,8 @@ classdef SnakeBot < RobotPrimitive & handle
 
             % The geometrical and inertia property of the Robots
             obj.Masses   = m_arr;
-            obj.Inertias = zeros( obj.nq, 6 );
-            obj.Inertias( :, 3 ) = 1/12 * obj.Masses .* obj.LinkLengths.^2;
+            obj.Inertias = zeros( 6, obj.nq );
+            obj.Inertias( 3, : ) = 1/12 * obj.Masses .* obj.LinkLengths.^2;
 
             % The ineria tensor along the principal axis
 
@@ -109,9 +109,9 @@ classdef SnakeBot < RobotPrimitive & handle
             
             % The end-effector will be a marker with same size of others
             % Collect all the details as a cell
-            obj.gEE   = { @plot, obj.H_init( 1, 4, obj.nq + 1 ), obj.H_init( 2, 4, obj.nq + 1 ), ...
+            obj.gEE   = { @scatter, obj.H_init( 1, 4, obj.nq + 1 ), obj.H_init( 2, 4, obj.nq + 1 ), 180, ...
                           'o', 'MarkerFaceColor', 'k', ...
-                          'MarkerEdgeColor', 'k', 'MarkerSize', 18 };                                    
+                          'MarkerEdgeColor', 'k' };                                    
         end
 
 

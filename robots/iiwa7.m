@@ -61,7 +61,7 @@ classdef iiwa7 < RobotPrimitive & handle
             % Mass of the robot 1xnq
             obj.Masses = [ 2.7426, 4.9464, 2.5451, 4.6376, 1.7140, 2.4272, 0.4219 ];
 
-            % The inertia matrix of the robot, nqx6
+            % The (6 x nq) inertia matrix of the robot
             % Ordered in Ixx, Iyy, Izz, Ixy, Ixz, Iyz
             obj.Inertias = [  0.2400,  0.0240, 0.0128, 0, 0, 0;
                               0.0468,  0.0282, 0.0101, 0, 0, 0;
@@ -69,7 +69,7 @@ classdef iiwa7 < RobotPrimitive & handle
                               0.0400,  0.0270, 0.0100, 0, 0, 0;
                               0.0190,  0.0160, 0.0120, 0, 0, 0;
                               0.0070,  0.0060, 0.0050, 0, 0, 0;
-                              0.0003,  0.0003, 0.0005, 0, 0, 0 ];
+                              0.0003,  0.0003, 0.0005, 0, 0, 0 ]';
 
             % ================================ %
             % ======= Joint Properties ======= %
@@ -79,18 +79,21 @@ classdef iiwa7 < RobotPrimitive & handle
             obj.JointTypes = ones( 1, obj.nq );
 
             % max/min of q array robot
-            obj.q_max  =  func_deg2rad( [ 170; 120; 170; 120; 170; 120; 175 ], obj.JointTypes );
+            obj.q_max  =  [ 170; 120; 170; 120; 170; 120; 175 ] * pi/180;
             obj.q_min  = -obj.q_max;
 
             % max/min of dq array robot
-            obj.dq_max =  func_deg2rad( [ 100; 110; 100; 130; 130; 180; 180 ], obj.JointTypes );
+            obj.dq_max =  [ 100; 110; 100; 130; 130; 180; 180 ] * pi/180;
             obj.dq_min = -obj.dq_max;
 
             % max/min of ddq array robot
-            obj.ddq_max = deg2rad( 300 ) * ones( obj.nq, 1 );
+            obj.ddq_max = 300 * ones( obj.nq, 1 ) * pi/180;
             obj.ddq_min = -obj.ddq_max;
 
-            % The axis origin of the robot at initial configuration
+            % The (3xnq) axis origins of the robot at initial configuration
+            % Each column array expresses the position of {i+1}-th joint
+            % with respect to {i}-th joint, w.r.t. frame {S} attached at 
+            % the base of the robot.
             obj.AxisOrigins = [ 0,      0, 152.5e-3;
                                 0, -11e-3, 187.5e-3;
                                 0,  11e-3, 212.5e-3;
@@ -99,10 +102,10 @@ classdef iiwa7 < RobotPrimitive & handle
                                 0, -62e-3, 187.5e-3;
                                 0,  62e-3,  79.6e-3 ]';
 
-            % We conduct a cumsum to get the Axis Origin
+            % We conduct a cumsum along the 2nd-dimension 
             obj.AxisOrigins = cumsum( obj.AxisOrigins, 2 );
 
-            % Axis Direction
+            % Axis Direction (3xnq)
             obj.AxisDirections = [ 0,  0, 1;
                                    0,  1, 0;
                                    0,  0, 1;

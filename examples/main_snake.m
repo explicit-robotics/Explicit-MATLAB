@@ -38,14 +38,10 @@ anim.attachRobot( robot )
 
 %% Initialization of Animation
 
-% Initial Condition of the Robot
-q_deg = [30,22,-45,-34,13]';
-dq    = zeros( nq, 1 );
-
 % DO NOT CHANGE
 % Changing the degrees to radian
-q  = func_deg2rad( q_deg, robot.JointTypes );
-
+q  = [30,22,-45,-34,13]' * pi/180;
+dq = zeros( nq, 1 );
 % Update robot kinematics with q_deg array
 % Also get the end-effector's H matrix
 robot.updateKinematics( q );

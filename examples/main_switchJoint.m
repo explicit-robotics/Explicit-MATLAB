@@ -13,11 +13,8 @@ clear; close all; clc;
 
 %% Initialize Robot 1, which is only filled with Rotational Joints
 
-% Select the robotID
-robotID = 1;
-
 nq = 4;
-robot1 = SnakeBot( robotID, nq );
+robot1 = SnakeBot( nq, ones( 1, nq ), ones( 1, nq ) );
 robot1.init( )
 
 anim1 = Animation( 'Dimension', 2, 'xLim', [-6,6], 'yLim', [-6,6] );
@@ -26,11 +23,8 @@ anim1.attachRobot( robot1 )
 
 
 %% Initialize Robot 2, where the 3rd joint is Prismatic
-
-robotID = 2;
-
 nq = 4;
-robot2 = SnakeBot( robotID, nq );
+robot2 = SnakeBot( nq, ones( 1, nq ), ones( 1, nq ) );
 robot2.init( )
 
 robot2.switchJoint( 3, 2, [ 1; 0; 0] );
@@ -39,18 +33,12 @@ anim2 = Animation( 'Dimension', 2, 'xLim', [-6,6], 'yLim', [-6,6] );
 anim2.init( )
 anim2.attachRobot( robot2 )    
 
-set( anim1.hAxes, 'fontsize', 20, 'linewidth', 1 );
-set( anim2.hAxes, 'fontsize', 20, 'linewidth', 1 );
 
 %% Playing with the robots!
 
-% Initial Condition of the Robot
-q_deg1 = [30,22,-45,0]';
-q_deg2 = [10,10,0.3,0]';
-
 % Change the degree to radian for revolute joints
-q1 = func_deg2rad( q_deg1, robot1.JointTypes );
-q2 = func_deg2rad( q_deg2, robot2.JointTypes );
+q1 = [0.4, 0.3, 0.2, 0.1]';
+q2 = [0.4, 0.3, 0.2, 0.1]';
 
 % Update robot kinematics with q_deg array
 % Also get the end-effector's H matrix

@@ -2,9 +2,6 @@ classdef RobotPrimitive < handle
     % A primitive robot parent class
     % This class is a "template" to construct a robot.
     %
-    % 
-
-    %
     % ================================ %
     % ====== Naming Conventions ====== %
     % ================================ %
@@ -17,6 +14,15 @@ classdef RobotPrimitive < handle
     % Homogenous Matrix H, making the name as "HInit" is dislikeable.
     % Rather than "CamelCase", we use "H_init".
     %
+    % ================================ %
+    % ======= Array Conventions ====== %
+    % ================================ %
+    % For all arrays, the values are stacked horizontally, 
+    % i.e., stacked columnwise.
+    % Consider m arrays with n size, then, the resulting matrix is m x n
+    % For vector, both column/row work.
+    
+    
     % For Class Methods, use "CamelCase" Naming convention
 
     properties
@@ -66,8 +72,19 @@ classdef RobotPrimitive < handle
         % ================================ %
 
         Masses                  % (1 x nq) array
-        Inertias                % (3 x nq) array, along principal axis.
+        Inertias                % (6 x nq) array, Ixx, Iyy, Izz, Ixy, Ixz, Iyz
         M_Mat                   % The (6 x 6) generalized inertia matrix.
+        M_Mat2                  % The (6nq x 6nq) matrix, which is simply
+                                % the diagonal collection of M_Mat
+                                % Eq. 8.61 of Modern Robotics
+
+        % ================================ %
+        % ===== Additional Matrices ====== %
+        % ================================ %
+        A_Mat1                  % (6   x nq) array, stacking it horizontally.
+        A_Mat2                  % (6nq x nq) array, Eq. 8.60 of Modern Robotics.
+                                % A full-array respresntation of A_Mat1
+                    
 
         % =================================== %
         % ====== Animation Properties ======= %
@@ -115,13 +132,13 @@ classdef RobotPrimitive < handle
             % Parsing the bodyID
             idx = find( strcmp( 'bodyID', varargin ) );
 
-            % If there is a value, then take its value pair
+            % If bodyID is passed, take its value pair
             if ~isempty( idx )
 
-                % Getting its pair.
+                % The value pair of bodyID.
                 bodyID = varargin{ idx + 1 };
 
-                % BodyID must be ranged between 1 <= bodyID <= nq
+                % bodyID must be ranged between 1 <= bodyID <= nq
                 assert( 1 <= bodyID && bodyID <= obj.nq )
 
                 % If set correctly, then save the value.
@@ -131,29 +148,32 @@ classdef RobotPrimitive < handle
             % Parsing the position
             idx = find( strcmp( 'position', varargin ) );
 
-
+            % If position is passed, take its value pair
             if ~isempty( idx )
                 pos = varargin{ idx + 1 };
 
                 % position must be either "COM" or 3D vector
-                assert( strcmp( 'COM', pos ) || isequal( size( pos ), [ 3, 1 ] ) );
+                assert( strcmp( 'COM', pos ) || isequal( size( pos ), [ 3, 1 ] ) || isequal( size( pos ), [ 1, 3 ] ) );
 
+                % If the position is a 3D row vector, then change it to a column vector.
+                if( isequal( size( pos ), [ 1,3 ] ) )
+                    pos = pos.';
+                end
+                
                 % If all correct, save the position
                 args.position = pos;
             end
 
-            % Assert that either argument should NOT be empty.
+            % Assert that either "position" or "bodyID" argument should NOT be empty.
             assert( ~isempty( args.bodyID ) || ~isempty( args.position ) );
 
         end
 
-
         function init( obj )
             % Initialization of the robot
-            % [TODO] [2022.09.02] [Moses C. Nah]
-            % Currently, we only have setJointTwists in this
-            % init( ) function, but for the near future we will include
-            % other functions.
+            % A separate init function is required, since the joint-twists
+            % and generalized mass matrix must be calculated AFTER
+            % the subclass object is constructed.
             obj.setJointTwists( )
             obj.setGeneralizedMassMatrix( )
 
@@ -161,32 +181,36 @@ classdef RobotPrimitive < handle
 
         function setGeneralizedMassMatrix( obj )
             % Set the generalized Mass Matrix
-            % Before running this method
-            % Masses ( 1 x nq ) and Inertia ( nq x 6 ) matrices should be
-            % the same size
-            assert( all( size( obj.Masses )   == [ 1, obj.nq ] ) )
-            assert( all( size( obj.Inertias ) == [ obj.nq, 6 ] ) )
+            % The size of Masses and Inertias must be as follows:
+            assert( isequal( size( obj.Masses    ), [ 1, obj.nq ] ) || isequal( size( obj.Masses ), [ obj.nq, 1 ] ) );
+            assert( isequal( size( obj.Inertias  ), [ 6, obj.nq ] ) );
 
-            % The generalized mass matrix
-            obj.M_Mat = zeros( 6, 6, obj.nq );
+            % The generalized mass matrix, two types:
+            obj.M_Mat  = zeros( 6, 6, obj.nq );
+            obj.M_Mat2 = zeros( 6 * obj.nq, 6 * obj.nq );
 
             % Set the Generalized Mass Matrix
             for i = 1 : obj.nq
                 m = obj.Masses( i );
 
-                Ixx = obj.Inertias( obj.nq, 1 );
-                Iyy = obj.Inertias( obj.nq, 2 );
-                Izz = obj.Inertias( obj.nq, 3 );
-                Ixy = obj.Inertias( obj.nq, 4 );
-                Ixz = obj.Inertias( obj.nq, 5 );
-                Iyz = obj.Inertias( obj.nq, 6 );                
+                Ixx = obj.Inertias( 1, i );
+                Iyy = obj.Inertias( 2, i );
+                Izz = obj.Inertias( 3, i );
+                Ixy = obj.Inertias( 4, i );
+                Ixz = obj.Inertias( 5, i );
+                Iyz = obj.Inertias( 6, i );                
 
                 I_mat = [ Ixx, Ixy, Ixz; ...
                           Ixy, Iyy, Iyz; ...
                           Ixz, Iyz, Izz];
 
+                % Positioning M_Mat, as a 3D array
                 obj.M_Mat( :, :, i ) = [ diag( m * ones( 1, 3 ) ), zeros( 3 ); ...
                                                        zeros( 3 ),    I_mat ];
+                
+                % Positioning M_Mat diagonally.
+                obj.M_Mat2( 6*(i-1)+1:6*i, 6*(i-1)+1:6*i ) = obj.M_Mat( :, :, i );
+
             end
 
 
@@ -200,7 +224,7 @@ classdef RobotPrimitive < handle
             % Before running this method,
             % AxisOrigins, AxisDirections should not be empty 
             % And nq (DOF of the robot) should be positive
-            assert( ~isempty( obj.AxisOrigins ) )
+            assert( ~isempty( obj.AxisOrigins    ) )
             assert( ~isempty( obj.AxisDirections ) )
             assert( ~isempty( obj.nq ) && obj.nq >= 1 )
 
@@ -220,7 +244,7 @@ classdef RobotPrimitive < handle
                 % If the joint is rev. (i.e., idx == 1)
                 if idx == 1
                     w_i = obj.AxisDirections( :, i );
-                    obj.JointTwists( 1:3, i ) = -func_skewSym( w_i ) * obj.AxisOrigins( :, i );
+                    obj.JointTwists( 1:3, i ) = -vec_to_so3( w_i ) * obj.AxisOrigins( :, i );
                     obj.JointTwists( 4:6, i ) = w_i;
 
                 % If the joint is prism. (i.e., idx == 2)
@@ -229,6 +253,19 @@ classdef RobotPrimitive < handle
                     obj.JointTwists( 4:6, i ) = [ 0, 0, 0 ];
                 end
 
+            end
+
+            % Once the joint twists are defined, define the A matrix
+            % Each A matrix is Ai, which is defined by Section 8.3.1.
+            % in Modern Robotics (2017), Frank Park and Kevin Lynch.
+            % This is a constant matrix, hence saving it separately
+            obj.A_Mat1 = zeros(        6, obj.nq );            
+            obj.A_Mat2 = zeros( 6*obj.nq, obj.nq );            
+
+            for i = 1:obj.nq
+               Ai = H_to_invAdj( obj.H_COM_init( :, :, i ) ) * obj.JointTwists( :, i );
+               obj.A_Mat1( :, i ) = Ai;
+               obj.A_Mat2( 6*(i-1)+1:6*i, i ) = Ai;
             end
 
         end
@@ -269,16 +306,11 @@ classdef RobotPrimitive < handle
                 % If not empty
                 else
                     % If special character "COM" is passed, then
-                    % Set the H Matrix as the COM of the bodyID-th
-                    % segment.
+                    % Set the H Matrix as the COM of the bodyID-th segment.
                     if strcmp( args.position, "COM" )
                         H = obj.H_COM_init( :, :, n );
 
                     else
-                        % If not, add the position from the joint's H matrix
-                        % Position must be a (3 x 1) array
-                        assert( isequal( size( args.position ), [ 3, 1 ] ) )
-
                         % Add the position array
                         H = obj.H_init( :, :, n );
                         H( 1:3, 4 ) = H( 1:3, 4 ) + args.position;
@@ -288,19 +320,20 @@ classdef RobotPrimitive < handle
             end
 
             % Conduct mutliplication of T01 T12 T23 ... T(n-1)n
-            % Initialization of the exponential product matrix    
+            % Initialization of the exponential product matrix   
             exp_T_arr = zeros( 4, 4, n );
-
+            
+            % Wrapper to use symbolic form.
             if isa( q_arr , 'sym' )
                 exp_T_arr = sym( exp_T_arr );
             end
 
             for i = 1:n
-                exp_T_arr( : , :, i ) = func_getExponential_T( obj.JointTwists( :, i ), q_arr( i ) );
+                exp_T_arr( : , :, i ) = expSE3( obj.JointTwists( :, i ), q_arr( i ) );
             end
 
             % Multiply the exponential product with the initial H matrix
-            H_FK = func_getExponentialProduct( exp_T_arr ) * H;
+            H_FK = getExpProd( exp_T_arr ) * H;
 
         end
 
@@ -329,22 +362,23 @@ classdef RobotPrimitive < handle
             % [Advanced Users]
             % In case if the q_arr is symbolic, then 
             % Covering the matrix with             
-            JS = zeros( 6, obj.nq ) ;
+            JS = zeros( 6, obj.nq );
             exp_T_arr = repmat( eye( 4 ), [ 1, 1, obj.nq ] );
             
+            % If symbolic, wrap the variable as symbolic.
             if isa( q_arr , 'sym' )
-                JS = sym( JS );
+                JS        = sym( JS );
                 exp_T_arr = sym( exp_T_arr );
             end    
 
             for i = 2:n
-               exp_T_arr( : , :, i ) = func_getExponential_T( obj.JointTwists( :, i - 1 ), q_arr( i - 1 ) );
+               exp_T_arr( : , :, i ) = expSE3( obj.JointTwists( :, i - 1 ), q_arr( i - 1 ) );
             end
             
             for i = 1:n
                 % Set the Spatial Jacobian and save the exponential product
-                exp_prod = func_getExponentialProduct( exp_T_arr( :, :, 1 : i ) ); 
-                JS( :, i ) = func_getAdjointMatrix( exp_prod ) * obj.JointTwists( :, i );
+                exp_prod = getExpProd( exp_T_arr( :, :, 1 : i ) ); 
+                JS( :, i ) = H_to_Adj( exp_prod ) * obj.JointTwists( :, i );
             end
 
 
@@ -371,7 +405,7 @@ classdef RobotPrimitive < handle
                 A = sym( A );
             end
 
-            p_tilde = func_skewSym( H( 1:3, 4 ) );
+            p_tilde = vec_to_so3( H( 1:3, 4 ) );
             A( 1:3,4:6 ) = -p_tilde;
 
             JH = A * JS;
@@ -397,155 +431,76 @@ classdef RobotPrimitive < handle
 
             else
                 % [TODO] For More Advanced Users
-                H = obj.getForwardKinematics( q_arr, 'bodyID', bodyID, varargin{ : });
+                H = obj.getForwardKinematics( q_arr, 'bodyID', bodyID, varargin{ : } );
             end
 
             JS = obj.getSpatialJacobian( q_arr, 'bodyID', bodyID );
-            JB = func_getInvAdjointMatrix( H ) * JS;
+            JB = H_to_invAdj( H ) * JS;
 
         end
 
-
+        
         function M = getMassMatrix( obj, q_arr )
-            % generalized inertia tensor
-            % Eq. 4.19 from
-            % [REF] A mathematical introduction to robotic manipulation. (2017)
 
-            M = zeros( obj.nq, obj.nq );
+           % Get the L_matrix
+           [ L_Mat, ~ ] = LW_Mat( obj.A_Mat1, obj.H_COM_init, q_arr );
+           M = obj.A_Mat2.' * L_Mat.' * obj.M_Mat2 * L_Mat * obj.A_Mat2;
+            
+        end        
 
-            % Conduct JT M J
-            % Iterating over each segment
-            for i = 1:obj.nq
-
-                JB = obj.getBodyJacobian( q_arr, i, "COM" );
-
-                % Summing over the mass matrix
-                M = M + JB.' *  obj.M_Mat( :, :, i ) * JB;
-            end
-
-        end
-
+        
         function G = getGravityVector( obj, q_arr )
-            % Gravity Co-vector
-            % Simply getting it from tau = J^T (F)
-            % where F = mg
-            g = obj.Grav;
-            G = zeros( obj.nq, 1 );
 
-            if isa( q_arr, 'sym' )
-                G = sym( G );
-            end
+           % Get the L_matrix
+           [L_Mat, ~] = LW_Mat( obj.A_Mat1, obj.H_COM_init, q_arr );
 
-            % Iterating through the COMs of the robot
-            for i = 1 : obj.nq
+           % Defining dVbase, from Section 8.3.2 of Modern Robotics
+           dVbase = zeros( 6 * obj.nq );
+           A1     = obj.A_Mat1( 1:6, 1 );               
+           tmp    = H_to_Adj( expSE3( -A1, q_arr( 1 ) ) * ( obj.H_COM_init( :, :, 1 ) )^-1 );
+           
+           % For 2D case, gravity is along y direction
+           if obj.Dimension == 2
+              tmp_grav = [ 0; obj.Grav; 0; 0; 0; 0 ];
+           else
+              tmp_grav = [ 0; 0; obj.Grav; 0; 0; 0 ];
+           end
+           
+           dVbase( 1: 6 ) = tmp * tmp_grav;
+           G = obj.A_Mat2.' * L_Mat.' * obj.M_Mat2 * L_Mat * dVbase;
+           G = G( :, 1 );
 
-                % The force acting upon the COM
-                % If object dimension 2D, then force vector is along y axis
-                if obj.Dimension == 2
-                    F = [ 0; -obj.Masses( i ) * g; 0; ];
-                else
-                    F = [ 0; 0; -obj.Masses( i ) * g ];
-                end
-
-                % Getting the Hybrid Jacobian of the robot
-                JH = obj.getHybridJacobian( q_arr, 'bodyID', i, 'position', 'COM' );
-                G = G - JH( 1:3, : ).' * F;
-            end
-
-        end
+        end        
+       
         
         function C_mat = getCoriolisMatrix( obj, q_arr, dq_arr )
-            % Calculating the Coriolis-Centrifugal Term of the Robot
-            % Based on equation 4.30 of REF
-            % [REF] A mathematical introduction to robotic manipulation. (2017)
-            % Calculating all of the \partial Mij/\partial thetak values
-            % Ordered in i, j, k order
             
-            C_mat = zeros( obj.nq, obj.nq );
-            B_mat = zeros( obj.nq, obj.nq, obj.nq );
-            
-            % To speed up the calculation, we need to define the 
-            % A matrices before hand
-            % A matrix is a 2D( (4xnq)x(4xnq) matrix)
-            % First, define the A matrix 
-            A_mat = kron( eye( 6 ), eye( obj.nq ) );
-            
-            % Next, we define a 3D matrix to save the exponential array vals
-            % We don't need the first one hence neglecting it.
-            exp_T_arr = repmat( eye( 4 ), [ 1, 1, obj.nq - 1 ] );            
-            
-            if isa( q_arr , 'sym' )
-                B_mat = sym( B_mat );
-                A_mat = sym( A_mat );
-                exp_T_arr = sym( exp_T_arr );
-            end
-            
-            % Conduct mutliplication of T01 T12 T23 ... T(n-1)n
-            % Initialization of the exponential product matrix
-            for i = 1 : obj.nq-1
-                exp_T_arr( : , :, i ) = func_getExponential_T( obj.JointTwists( :, i + 1 ), q_arr( i + 1 ) );
-            end
-            
-            % Define the A Matrices 
-            for i = 1 : obj.nq - 1
-                for j = 1 : obj.nq - i
-                    idx1 = (6 * i) + 6 * (j - 1);
-                    idx2 = idx1 - 6 * ( i ); 
-                    H = func_getExponentialProduct( exp_T_arr( :, :, j : (i + j - 1) ) );
-                    A_mat( idx1 + 1: idx1 + 6, idx2 + 1 : idx2 + 6 ) = func_getInvAdjointMatrix( H );
-                end
-            end
+           % Get the L and W matrices
+           [L_Mat, W_Mat ] = LW_Mat( obj.A_Mat1, obj.H_COM_init, q_arr );
 
-            for i = 1: obj.nq
-                for j = 1 : obj.nq
-                    for k = 1 : obj.nq 
-                        
-                        % The joint twists
-                        t_i = obj.JointTwists( :, i );
-                        t_j = obj.JointTwists( :, j );
-                        t_k = obj.JointTwists( :, k );
-                        
-                        % Initializing the value to sum over
-                        val = 0;
-
-                        for l = max( i , j ) : obj.nq
-
-                            % Get the mass matrix comma (Ml) (Eq. 4.28) (Ibid)
-                            tmp = func_getInvAdjointMatrix( obj.H_COM_init( :, :, l ) );
-                            Ml  = tmp' * obj.M_Mat( :, :, l ) * tmp;
-
-                            % Calculating the necessary A matrices (Eq. 4.27) (Ibid)
-                            % To do, getA method was separately implemented,
-                            % due to the potential usage of getA in the
-                            % near future.
-                            Aki = A_mat( 6*( k - 1 ) + 1 : 6*k, 6*( i - 1 ) + 1 : 6*i );
-                            Akj = A_mat( 6*( k - 1 ) + 1 : 6*k, 6*( j - 1 ) + 1 : 6*j );
-                            Alk = A_mat( 6*( l - 1 ) + 1 : 6*l, 6*( k - 1 ) + 1 : 6*k );
-                            Alj = A_mat( 6*( l - 1 ) + 1 : 6*l, 6*( j - 1 ) + 1 : 6*j );                            
-                            Ali = A_mat( 6*( l - 1 ) + 1 : 6*l, 6*( i - 1 ) + 1 : 6*i );                                                        
-
-                            % Calculation (Eq. 4.28) (Ibid)
-                            % func_LieBracket was implemented
-                            val = val + func_LieBracket( Aki * t_i, t_k ).' * Alk.' * Ml * Alj * t_j + ...
-                                        t_i.' * Ali.' * Ml * Alk * func_LieBracket( Akj * t_j, t_k );
-                           
-                        end
-                        
-                        % Savethe \partial Mij/\partial thetak value
-                        B_mat( i, j, k ) = val;
-                    end
-                    
-                end
-            end
-            
-            gamma = 1/2 * ( B_mat + permute( B_mat, [ 1, 3, 2 ] ) - permute( B_mat, [ 3, 2, 1 ] ) );
-            
-            % [REF] https://www.mathworks.com/matlabcentral/answers/609866-multiply-an-array-of-scalars-by-a-3d-matrix
-            for i = 1 : obj.nq
-                C_mat = C_mat + gamma( :, :, i ) * dq_arr( i );
-            end
+           Aa_mat  = zeros( 6 * obj.nq, 6 * obj.nq );
+           Aaa_mat = zeros( 6 * obj.nq, 6 * obj.nq );
+           
+           % If q_arr or dq_arr are symbolic arguments, wrap the function as sym
+           if ( isa( q_arr, 'sym' ) || isa( dq_arr, 'sym' ) )
+               Aa_mat  = sym( Aa_mat  );
+               Aaa_mat = sym( Aaa_mat );
+           end
+           
+           for i = 1 : obj.nq
+               
+               % Equation 8.63
+               Ai = obj.A_Mat1( :, i );
+               Aa_mat( 6*(i-1)+1:6*i,6*(i-1)+1:6*i ) = vec_to_adj( Ai * dq_arr( i ) );
+               
+               % Equation 8.62
+               Vi = obj.getBodyJacobian( q_arr, i, "COM" ) * dq_arr;            
+               Aaa_mat( 6*(i-1)+1:6*i,6*(i-1)+1:6*i ) = vec_to_adj( Vi );               
+           end
+           
+           C_mat = - obj.A_Mat2.' * L_Mat.' * ( obj.M_Mat2* L_Mat * Aa_mat * W_Mat + Aaa_mat.' * obj.M_Mat2 ) * L_Mat * obj.A_Mat2;
           
-        end
+        end        
         
         function updateKinematics( obj, q_arr )
             % Updating the kinematics of the robot, with the q_deg array
@@ -566,7 +521,7 @@ classdef RobotPrimitive < handle
                 H_ini( 1:3, 1:3 ) = obj.H_init( 1:3, 1:3, i );
 
                 % The two consecutive transformation
-                obj.H_ij( :, :, i ) = func_getExponential_T( joint_twist, q_arr( i ) ) * H_ini;
+                obj.H_ij( :, :, i ) = expSE3( joint_twist, q_arr( i ) ) * H_ini;
             end
 
             % Save the current q array to robot object
@@ -584,9 +539,10 @@ classdef RobotPrimitive < handle
             % Joint type should either 1 (rev.) or 2 (prism.)
             assert( idx_type == 1 || idx_type == 2 )
 
-            % The axis direction should be (3 x 1) array
-            assert( isequal( size( axis_direction ), [ 3, 1 ] ) )
+            % The axis direction should be a 3D array
+            assert( isequal( size( axis_direction ), [ 3, 1 ] ) || isequal( size( axis_direction ), [ 1, 3 ] ) )
 
+            
             % Normalize the axis_direction array
             % Before that, we need assert that the axis_direction array
             % is not a zero vector
@@ -604,10 +560,16 @@ classdef RobotPrimitive < handle
         end
 
         function robot_new = addKinematics( obj, robot2add, varargin )
+            
+            % Before Adding, the robot dimension should match each other
+            assert( obj.Dimension == robot2add.Dimension );
+            
+            
             % Extend the robot!
             % For the extension, we create a new robot
             robot_new = RobotPrimitive( );
-
+            robot_new.Dimension = obj.Dimension;
+            
             % ================================ %
             % ======= Basic Properties ======= %
             % ================================ %
@@ -621,11 +583,17 @@ classdef RobotPrimitive < handle
             % ================================ %
             % Defining the joint properties of the new robot
             % Extending the joint types
+            % Make sure that the JointTypes are row-vector            
+            assert( size( obj.JointTypes, 1 ) == 1 && size( robot2add.JointTypes, 1 ) == 1  );
             robot_new.JointTypes = horzcat( obj.JointTypes , robot2add.JointTypes  );
 
             % Extending the axis origins and directions
             % For that, we get the end-effector position
             pEE = obj.H_init( 1 : 3 , 4, end );
+            
+            % The row-length should match before horzcat
+            assert( size( obj.AxisOrigins   , 1 ) == 3 && size( robot2add.AxisOrigins   , 1 ) == 3  );
+            assert( size( obj.AxisDirections, 1 ) == 3 && size( robot2add.AxisDirections, 1 ) == 3  );
             
             robot_new.AxisOrigins    = horzcat( obj.AxisOrigins   , pEE + robot2add.AxisOrigins    );
             robot_new.AxisDirections = horzcat( obj.AxisDirections,       robot2add.AxisDirections );
@@ -635,8 +603,8 @@ classdef RobotPrimitive < handle
             % =================================== %            
             % Setting the H_init of the COM and the robot's joints
             % ----------------------------------------Excluding EE -----
-            robot_new.H_init     = cat( 3, obj.H_init( :, :, 1:end - 1 ), robot2add.H_init );
-            robot_new.H_COM_init = cat( 3, obj.H_COM_init               , robot2add.H_init );
+            robot_new.H_init     = cat( 3, obj.H_init( :, :, 1:end - 1 ), robot2add.H_init     );
+            robot_new.H_COM_init = cat( 3, obj.H_COM_init               , robot2add.H_COM_init );
 
             % Adding pEE for robot2's H_init
             robot_new.H_init(     1 : 3, 4, obj.nq + 1: end ) = pEE + robot_new.H_init(     1 : 3, 4, obj.nq + 1: end );
@@ -645,9 +613,12 @@ classdef RobotPrimitive < handle
             % ================================ %
             % ===== Inertial Properties ====== %
             % ================================ %
-            robot_new.Masses   = horzcat(  obj.Masses, robot2add.Masses   );
-            robot_new.Inertias = cat( 1, obj.Inertias, robot2add.Inertias );
-            robot_new.M_Mat    = cat( 3, obj.M_Mat   , robot2add.M_Mat    );
+            assert( size( obj.Masses  , 1 ) == 1 && size( robot2add.Masses  , 1 ) == 1 );
+            assert( size( obj.Inertias, 1 ) == 6 && size( robot2add.Inertias, 1 ) == 6 );
+            
+            robot_new.Masses   = horzcat(  obj.Masses,   robot2add.Masses   );
+            robot_new.Inertias = horzcat(  obj.Inertias, robot2add.Inertias );
+            robot_new.M_Mat    =     cat( 3, obj.M_Mat, robot2add.M_Mat    );
             
             % =================================== %
             % ====== Animation Properties ======= %
@@ -661,8 +632,13 @@ classdef RobotPrimitive < handle
             gEE_new = robot2add.gEE;
 
             % Change the x (2) and y (3) location 
-            gEE_new{ 2 } = robot_new.H_init( 1, 4, end );
-            gEE_new{ 3 } = robot_new.H_init( 2, 4, end );
+            if robot_new.Dimension == 2 
+                gEE_new{ 2 } = robot_new.H_init( 1, 4, end );
+                gEE_new{ 3 } = robot_new.H_init( 2, 4, end );
+            else
+                % 3D Case is not yet implemented
+            end
+            
             robot_new.gEE = gEE_new;
             
             % Give a new name

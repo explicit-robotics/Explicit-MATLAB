@@ -53,7 +53,7 @@ classdef DoublePendulum < RobotPrimitive & handle
 
             % Order is Ixx, Iyy, Izz, Ixy, Ixz, Iyz
             obj.Inertias = [ 0, 0, 1/12 * m1 * l1^2, 0, 0, 0;
-                             0, 0, 1/12 * m2 * l2^2, 0, 0, 0];
+                             0, 0, 1/12 * m2 * l2^2, 0, 0, 0]';
 
             % ======================================================= %
             % ============ JOINT PROPERTIES OF THE ROBOT ============ %
@@ -109,9 +109,9 @@ classdef DoublePendulum < RobotPrimitive & handle
             
             % The end-effector will be a marker with same size of others
             % Collect all the details as a cell
-            obj.gEE   = { @plot, obj.H_init( 1, 4, 3 ), obj.H_init( 2, 4, 3 ), ...
+            obj.gEE   = { @scatter, obj.H_init( 1, 4, 3 ), obj.H_init( 2, 4, 3 ), 180, ...
                           'o', 'MarkerFaceColor', 'k', ...
-                          'MarkerEdgeColor', 'k', 'MarkerSize', 24  };
+                          'MarkerEdgeColor', 'k'  };
             
         end
 

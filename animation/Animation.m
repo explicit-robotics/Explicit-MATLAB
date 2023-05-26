@@ -149,8 +149,8 @@ classdef Animation < handle
             ylabel( obj.hAxes, 'y (m)' )
 
             % Title: simulation time
-%             obj.SubTitle = title( sprintf( 'Time: %2.1f sec', obj.t ) );
-%             set( obj.SubTitle, 'FontSize' , 15);
+            obj.SubTitle = title( sprintf( 'Time: %2.1f sec', obj.t ) );
+            set( obj.SubTitle, 'FontSize' , 15);
 
             if obj.Dimension == 3
                 zlabel( obj.hAxes, 'z (m)' )
@@ -160,39 +160,6 @@ classdef Animation < handle
                 light("Style","local","Position",[0, 0.4, 0.5]);
                 view( 135, 10 );
             end
-
-            % Setting up the further details of the axes
-            if obj.Dimension == 2
-                tracePlot = plot( NaN, NaN );
-                fAPlot    = plot( NaN, NaN );
-                fCurPlot  = plot( NaN, NaN );
-                ftestPlot = plot( NaN, NaN );
-
-                set( tracePlot , 'XData', [ ], 'YData', [ ] );
-                set( fAPlot    , 'XData', [ ], 'YData', [ ] );
-                set( fCurPlot  , 'XData', [ ], 'YData', [ ] );
-                set( ftestPlot , 'XData', [ ], 'YData', [ ] );
-
-            else
-
-                tracePlot = plot3( NaN, NaN, NaN );
-                fAPlot    = plot3( NaN, NaN, NaN );
-                fCurPlot  = plot3( NaN, NaN, NaN );
-                ftestPlot = plot3( NaN, NaN, NaN );
-
-                set( tracePlot , 'XData', [ ], 'YData', [ ], 'ZData', [ ] );
-                set( fAPlot    , 'XData', [ ], 'YData', [ ], 'ZData', [ ] );
-                set( fCurPlot  , 'XData', [ ], 'YData', [ ], 'ZData', [ ] );
-                set( ftestPlot , 'XData', [ ], 'YData', [ ], 'ZData', [ ] );
-
-            end
-
-            set( tracePlot , 'Color', 'm', 'LineStyle', '-', 'Parent' , obj.hAxes, 'tag', 'tracePlot'   );
-            set( fAPlot    , 'Color', 'r', 'LineStyle', '-', 'Parent' , obj.hAxes, 'tag', 'fAPlot'      );
-            set( fCurPlot  , 'Color', 'g', 'LineStyle', '-', 'Parent' , obj.hAxes, 'tag', 'fCurPlot'    );
-            set( ftestPlot , 'Color', 'b', 'LineStyle', ':', 'Parent' , obj.hAxes, 'tag', 'ftestPlot'   );
-
-
         end
 
         function attachRobot( obj, robot, varargin )
@@ -279,11 +246,10 @@ classdef Animation < handle
                     % Plot the Joints as a marker
                     % Note that the H_init( 1:3, 4, i ) is the initial pos.
                     % of the i-th joint.
-                    gJoint = plot( robot.H_init( 1, 4, i ), robot.H_init( 2, 4, i ), ...
+                    gJoint = scatter( robot.H_init( 1, 4, i ), robot.H_init( 2, 4, i ), 10*robot.gMarkerSize( i ), ...
                                     'Marker', markerstyle,...
                                     'MarkerFaceColor', markerfacecolor, ...
-                                    'MarkerEdgeColor', 'k',...
-                                    'MarkerSize', robot.gMarkerSize( i ) );
+                                    'MarkerEdgeColor', 'k' );
 
                     set( gJoint, 'PickableParts', 'none' );
 
@@ -315,13 +281,12 @@ classdef Animation < handle
                     parent = obj.hAxes;
                     matrix = robot.H_base;
                 else
-                    tag_parent = [ prefix, num2str( obj.nRobots ), '_', num2str( robot.ParentID( i ) ) ];
+                    tag_parent = [ prefix, num2str( obj.hFig.Number), '_', num2str( obj.nRobots ), '_', num2str( robot.ParentID( i ) ) ];
                     parent = findobj( 'Tag', tag_parent );
                     matrix = eye( 4 );
                 end
 
-                tag = [ prefix, num2str( obj.nRobots ) , '_' , num2str( i ) ];
-
+                tag = [ prefix, num2str( obj.hFig.Number), '_', num2str( obj.nRobots ) , '_' , num2str( i ) ];
                 % hgtf for base
                 gt = hgtransform( 'Parent', parent, 'Tag', tag, 'Matrix', matrix );
                 set( obj.gLinks{ n }{ i+1 } , 'parent', gt );
@@ -352,8 +317,8 @@ classdef Animation < handle
 
                     % Tag name is usually
                     %       robot1_1, robot1_2
-                    Tag = [ prefix, num2str( i ), '_', num2str( j ) ];
-
+                    Tag = [ prefix,  num2str( obj.hFig.Number), '_',  num2str( i ), '_', num2str( j ) ];
+                    
                     gt = findobj( obj.hAxes, 'Tag', Tag );
 
                     if isempty( gt )
@@ -377,7 +342,8 @@ classdef Animation < handle
                 end
 
                 set( obj.SubTitle, 'String', sprintf( 'Time: %2.1f sec', obj.t ) );
- 
+                obj.t
+                               
             end
 
         end

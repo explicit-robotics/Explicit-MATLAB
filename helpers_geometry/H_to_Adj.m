@@ -1,7 +1,8 @@
-function Adj_H = func_getAdjointMatrix( H )
+function Adj_H = H_to_Adj( H )
 % ============================================================================== 
-% func_getAdjointMatrix - A 6x6 adjoint matrix to map between se(3)-vectors
-% Adj_H = func_getAdjointMatrix( H )
+% H_to_Adj - Getting the Adjoint Matrix representation of the Homogeneous Transformation Matrix H,
+%            which is an element of SE(3)
+% Adj_H = H_to_Adj( H )
 %
 % Authors                         Email
 %   Johannes Lachner              jlachner@mit.edu
@@ -29,20 +30,17 @@ assert( isequal( size( H ), [ 4, 4 ] ) , 'Input must be a 4-by-4 matrix')
 R = H( 1:3 , 1:3 );
 p = H( 1:3 , 4   );
 
-% Check whether R and p are valid values
-% assert( isequal( R * R', eye( 3 ) ) && ( det( R ) == 1 ), ...
-%         'Inappropriate Rotation Matrix R is given. Please check R matrix')
-
 % Initialize the 6x6 adjoint matrix
+Adj_H = zeros( 6,6 );
+
+% Wrapper if symbolic form
 if isa( H, 'sym' )
-    Adj_H = sym( zeros( 6,6 ) );
-else
-    Adj_H = zeros( 6,6 );
+    Adj_H = sym( Adj_H  );
 end
 
 Adj_H( 1:3, 1:3 ) = R;
 Adj_H( 4:6, 4:6 ) = R;
-Adj_H( 1:3, 4:6 ) = func_skewSym( p ) * R;
+Adj_H( 1:3, 4:6 ) = vec_to_so3( p ) * R;
 
 end
 

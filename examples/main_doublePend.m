@@ -37,11 +37,10 @@ anim.attachRobot( robot )
 
 % Initial Position of the Robot
 % The unit of q is degrees for revolute, and meters for prismatic.
-q_deg = [50, 90]';
 
 % DO NOT CHANGE
 % Changing the degrees to radian
-q  = func_deg2rad( q_deg, robot.JointTypes );
+q  = [ 50, 90 ]' * pi/180;
 
 % Initial velocity of the robot
 dq = zeros( 2, 1 );
@@ -66,9 +65,9 @@ while t <= simTime
 
     % Get the Gravity term of the robot
     G = robot.getGravityVector( q );
-    rhs = M\(-C * dq - G);
+    ddq = M\(-C * dq - G);
 
-    [ q1, dq1 ] = func_symplecticEuler( q, dq, rhs, dt);
+    [ q1, dq1 ] = func_symplecticEuler( q, dq, ddq, dt);
     q  =  q1;
     dq = dq1;
 
@@ -78,7 +77,7 @@ while t <= simTime
     anim.update( t );
 
     % Get the forward kinematics of the EE
-    H_EE = robot.getForwardKinematics( q_deg );
+    H_EE = robot.getForwardKinematics( q );
     t = t + dt;
 end
 
