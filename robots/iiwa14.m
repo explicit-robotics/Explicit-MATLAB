@@ -85,6 +85,7 @@ classdef iiwa14 < RobotPrimitive & handle
                                 0, -62e-3, 187.5e-3;
                                 0,  62e-3,  79.6e-3 ]';
 
+                                                    
             % We conduct a cumsum to get the Axis Origin
             obj.AxisOrigins = cumsum( obj.AxisOrigins, 2 );
 
@@ -117,7 +118,7 @@ classdef iiwa14 < RobotPrimitive & handle
             % =================================== %
 
             [ currentDir, ~, ~ ] = fileparts( mfilename('fullpath') );
-            file_name = [ currentDir, '/../graphics/', obj.Quality, 'Quality/iiwa7.mat' ];
+            file_name = [ currentDir, '/../graphics/', obj.Quality, 'Quality/iiwa14.mat' ];
             obj.gObjs = load( file_name );
         end
 
