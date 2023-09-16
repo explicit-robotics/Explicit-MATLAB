@@ -8,13 +8,16 @@ classdef iiwa14 < RobotPrimitive & handle
         q_init = [ 0 , pi/6 , 0 , -pi/3 , 0, pi/2, 0 ]';
 
         % The locations
-        COMs = [ 0.0, -14.0e-3, 102.0e-3;
-                 0.0,  16.0e-3,  64.0e-3;
-                 0.0,  19.0e-3,  98.0e-3;
-                 0.0, -20.0e-3,  86.0e-3;
-                 0.0, -13.0e-3,  66.0e-3;
-                 0.0,  60.0e-3,  16.0e-3;
-                 0.0,   0.0e-3,  11.0e-3 ]';
+        % Data from the open Github repository of 
+        % Toyota Research Institute:
+        % [REF] https://github.com/RobotLocomotion/drake/blob/master/manipulation/models/iiwa_description/urdf/iiwa14_spheres_dense_collision.urdf
+        COMs = [ 0.0000, -0.0300, 0.1200;
+                 0.0003,  0.0590, 0.0420;
+                 0.0000,  0.0300, 0.1300;
+                 0.0000,  0.0670, 0.0340;
+                 0.0001,  0.0210, 0.0760;
+                 0.0000,  0.0006, 0.0004;
+                 0.0000,  0.0000, 0.0200]';
 
         % End-effector origin
         % AxisOriginFlange = [ 0, 0 , 31.4e-3 ]';
@@ -48,14 +51,16 @@ classdef iiwa14 < RobotPrimitive & handle
             obj.Masses = [ 6.404, 7.89, 2.54, 4.82, 1.76, 2.5, 0.42 ];
 
             % The inertia matrix of the robot, 6xnq
-            % Ordered in Ixx, Iyy, Izz, Ixy, Ixz, Iyz
-            obj.Inertias = [ 0.0690,  0.0710, 0.0200, 0, 0, 0;
-                             0.0800,  0.0800, 0.0100, 0, 0, 0;
-                             0.0200,  0.0200, 0.0600, 0, 0, 0;
-                             0.0400,  0.0300, 0.0100, 0, 0, 0;
-                             0.0100,  0.0100, 0.0100, 0, 0, 0;
-                             0.0070,  0.0060, 0.0050, 0, 0, 0;
-                             0.0003,  0.0003, 0.0005, 0, 0, 0 ]';
+            % Ordered in Ixx, Iyy, Izz, Ixy, Ixz, Iyz            
+            % Data from the open Github repository of 
+            % Toyota Research Institute:
+            % [REF] https://github.com/RobotLocomotion/drake/blob/master/manipulation/models/iiwa_description/urdf/iiwa14_spheres_dense_collision.urdf
+            obj.Inertias = [ 0.0330, 0.0305, 0.0250, 0.0170, 0.0100, 0.0049, 0.0010;
+                             0.0333, 0.0304, 0.0238, 0.0164, 0.0087, 0.0036, 0.0010;
+                             0.0123, 0.0110, 0.0076, 0.0060, 0.0045, 0.0047, 0.0010;
+                             0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000;
+                             0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000;
+                             0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000]';
 
             % ================================ %
             % ======= Joint Properties ======= %
