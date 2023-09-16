@@ -26,9 +26,9 @@ q = robot.q_init;
 dq = zeros( robot.nq, 1 );
 
 %% Create animation
-anim = Animation( 'Dimension', 3, 'xLim', [-0.5,1], 'yLim', [-0.5,0.5], 'zLim', [0,1] );
+anim = Animation( 'Dimension', 3, 'xLim', [-0.5,1], 'yLim', [-0.5,0.5], 'zLim', [0,0.8] );
 anim.init( );
-anim.attachRobot( robot )
+anim.attachRobot( robot );
 
 % Get traceplot to plot robot trajectory
 tracePlot = findobj( 'tag', 'tracePlot' );
@@ -39,15 +39,27 @@ tracePlot = findobj( 'tag', 'tracePlot' );
 H_ee_ini = robot.getForwardKinematics( q );
 p_ee_ini = H_ee_ini( 1:3, 4 );
 
-% Get initial point on elbow
-H_eb_ini = robot.getForwardKinematics( q, 'bodyID', 4  );
-p_eb_ini = H_ee_ini( 1:3, 4 );
-
 % Amplitute of circular trajectory
 A = 0.07;
 
+% Plot circular end-effector path
+for i = 1 : ( simTime / 2 ) / dt
+    p_ee_pl(1:3, i) = func_circularInterp( p_ee_ini, A , t, simTime/2, 2 );
+    t = t + dt;
+end
+t = 0;
+plot3( p_ee_pl( 1, : ), p_ee_pl( 2, : ), p_ee_pl( 3, : ), 'LineWidth', 2.5, 'LineStyle', '-', 'Color', 'm' );
+
+% Get initial point on elbow
+H_eb_ini = robot.getForwardKinematics( q, 'bodyID', 4, 'position', [-0.07,0,0] );
+p_eb_ini = H_eb_ini( 1:3, 4 );
+
+% Plot initial elbow point (desired position)
+plot_eb = plot3( p_eb_ini( 1 ), p_eb_ini( 2 ), p_eb_ini( 3 ), '-o', 'Color', 'm', 'MarkerSize', 16, ...
+    'MarkerFaceColor', 'm' );
+
 %% Cyclic code starts here
-while t <= simTime
+while t <= 4.8
     tic
 
     % ========================== %
@@ -59,7 +71,7 @@ while t <= simTime
     p_ee = H_ee( 1:3, 4 );
 
     % Get current robot transformation matrix of point on elbow
-    H_eb = robot.getForwardKinematics( q, 'bodyID', 4  );
+    H_eb = robot.getForwardKinematics( q, 'bodyID', 4, 'position', [-0.07,0,0] );
     p_eb = H_eb( 1:3, 4 );
 
     % Get Hybrid Jacobian of a point on end-effector
@@ -67,7 +79,7 @@ while t <= simTime
     J_ee_v = J_ee( 1:3, : );
 
     % Get Hybrid Jacobian of elbow
-    J_eb = robot.getHybridJacobian( q, 'bodyID', 4 );
+    J_eb = robot.getHybridJacobian( q, 'bodyID', 4, 'position', [-0.07,0,0] );
     J_eb_v = J_eb( 1:3, : );
 
     % Get mass matrix of robot
@@ -77,20 +89,20 @@ while t <= simTime
     % ======== Controller   ====== %
     % ============================ %
 
-    % Get 
+    % Get circular trajectory
     p_ee_0 = func_circularInterp( p_ee_ini, A , t, simTime/2, 2 );
 
     % End-effector control: Move along negative x-axis
-    k_ee_l = 200;
-    b_ee_l = 20;
+    k_ee_l = 350;
+    b_ee_l = 30;
     dp_ee = J_ee_v * dq;
     F_ee = k_ee_l * ( p_ee_0 - p_ee ) - b_ee_l * dp_ee;
 
     tau_ee = J_ee_v' * F_ee;
 
     % Hold elbow position
-    k_eb = 0;
-    b_eb = 0;
+    k_eb = 200;
+    b_eb = 25;
     dp_eb = J_eb_v * dq;
     F_eb = k_eb * ( p_eb_ini - p_eb ) - b_eb * dp_eb;
 
@@ -104,7 +116,7 @@ while t <= simTime
     % ====== Control torque ====== %
     % ============================ %
 
-    tau = tau_ee + tau_q;
+    tau = tau_ee + tau_eb + tau_q;
 
 
     % ============================================= %
