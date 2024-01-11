@@ -26,5 +26,9 @@ anim.init( );
 anim.attachRobot( robot )  
 
 %% Update kinematics
-robot.updateKinematics( robot.q_init );
+tmp = robot.q_init;
+tmp( 1 ) = tmp( 1 ) - 0.3;
+tmp( 2 ) = tmp( 2 ) + 0.3;
+tmp( 5 ) = tmp( 5 ) + 0.8;
+robot.updateKinematics( tmp );
 anim.update( 0 );
