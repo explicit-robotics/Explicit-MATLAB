@@ -88,7 +88,7 @@ classdef CartPole < RobotPrimitive & handle
             % Saving the size of the marker
             % The size of the cart and the revolute joint 
             % Attached to it
-            obj.gMarkerSize = [ 24, 12 ];
+            obj.gMarkerSize = [ 144, 72 ];
       
             
             % For all robots, we need to specify 
@@ -99,7 +99,7 @@ classdef CartPole < RobotPrimitive & handle
             
             % The end-effector will be a marker with same size of others
             % Collect all the details as a cell
-            obj.gEE   = { @scatter, obj.H_init( 1, 4, 3 ), obj.H_init( 2, 4, 3 ), 180, ...
+            obj.gEE   = { @scatter, obj.H_init( 1, 4, 3 ), obj.H_init( 2, 4, 3 ), 360, ...
                           'o', 'MarkerFaceColor', 'k', ...
                           'MarkerEdgeColor', 'k'  };            
             
