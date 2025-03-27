@@ -200,14 +200,14 @@ classdef Animation < handle
 
                     % Check if the faces are 3 values rather than 6 values
                     if size( robot.gObjs.data{ i }.f, 2 ) == 6
-                        obj.gPatches{ i } = patch( obj.hAxes, 'faces', robot.gObjs.data{ i }.f( :, 1:3 ),'vertices', robot.gObjs.data{ i }.v, ...
+                        obj.gPatches{ n }{ i } = patch( obj.hAxes, 'faces', robot.gObjs.data{ i }.f( :, 1:3 ),'vertices', robot.gObjs.data{ i }.v, ...
                                         'EdgeColor', 'none', 'FaceVertexCData', robot.gObjs.data{ i }.f( :, 4:6 ), 'facecolor', 'flat' );
                     else
-                        obj.gPatches{ i } = patch( obj.hAxes, 'faces', robot.gObjs.data{ i }.f,'vertices', robot.gObjs.data{ i }.v, ...
+                        obj.gPatches{ n }{ i } = patch( obj.hAxes, 'faces', robot.gObjs.data{ i }.f,'vertices', robot.gObjs.data{ i }.v, ...
                                         'EdgeColor', 'none' );
                     end
 
-                    set( obj.gPatches{ i }, 'Parent', obj.gLinks{ n }{ i } );
+                    set( obj.gPatches{ n }{ i }, 'Parent', obj.gLinks{ n }{ i } );
                 end
 
                 % =================================================== %
